@@ -1,4 +1,4 @@
-# global_template
+# Global Template (null-safety version)
 
 Global Template Support null-safety
 
