@@ -3,11 +3,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
-import 'package:global_template/global_template.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:global_template/global_template.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 enum TimeFormat { jam, jamMenit, jamMenitDetik, menit, menitDetik, detik }
@@ -15,6 +14,8 @@ enum ToastPositioned { bottom, center, top }
 enum ToastType { success, error, normal }
 enum TypeWeek { isWeekend, isWeekday }
 enum TypeDateTotal { month, year }
+enum SnackBarType { success, error, warning, info, normal }
+enum SnackBarShape { rounded, normal }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
@@ -382,64 +383,90 @@ class GlobalFunction {
     return date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
   }
 
-  ///* Memunculkan Toast
+  ///* Memunculkan snackbar
 
-  static Future<void> showToast({
-    required String message,
-    bool isLongDuration = false,
-    Color? backgroungColor,
-    Color? textColor,
-    double fontSize = 16.0,
-    ToastPositioned? toastPositioned,
-    ToastType toastType = ToastType.normal,
-  }) async {
-    ToastGravity positioned;
-    Color? toastColor;
-    Color? toastTextColor;
+  static showSnackBar(
+    BuildContext ctx, {
+    required Widget content,
+    bool hideWithAnimation = true,
+    SnackBarAction? action,
+    Animation<double>? animation,
+    Color? backgroundColor,
+    SnackBarBehavior? behaviour,
+    Duration duration = const Duration(seconds: 4),
+    double? elevation,
 
-    switch (toastPositioned) {
-      case ToastPositioned.top:
-        positioned = ToastGravity.TOP;
+    /// If margin not null , set default behaviour = SnackBarBehaviour.floating
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    ShapeBorder? shape,
+    double? width,
+    SnackBarType snackBarType = SnackBarType.normal,
+    SnackBarShape snackBarShape = SnackBarShape.normal,
+  }) {
+    var scaffoldMessager = ScaffoldMessenger.of(ctx);
+
+    if (hideWithAnimation) {
+      scaffoldMessager.hideCurrentSnackBar();
+    } else {
+      scaffoldMessager.removeCurrentSnackBar();
+    }
+
+    if (margin != null) {
+      behaviour = SnackBarBehavior.floating;
+    }
+
+    switch (snackBarType) {
+      case SnackBarType.success:
+        backgroundColor = colorPallete.success;
         break;
-      case ToastPositioned.center:
-        positioned = ToastGravity.CENTER;
+
+      case SnackBarType.error:
+        backgroundColor = colorPallete.error;
         break;
+
+      case SnackBarType.warning:
+        backgroundColor = colorPallete.warning;
+        break;
+
+      case SnackBarType.info:
+        backgroundColor = colorPallete.info;
+        break;
+
       default:
-        positioned = ToastGravity.BOTTOM;
+        backgroundColor = colorPallete.primaryColor;
         break;
     }
-    switch (toastType) {
-      case ToastType.error:
-        toastColor = Colors.red;
-        toastTextColor = Colors.white;
-        break;
-      case ToastType.success:
-        toastColor = Colors.green;
-        toastTextColor = Colors.white;
+
+    switch (snackBarShape) {
+      case SnackBarShape.rounded:
+        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(15));
         break;
       default:
-        toastColor = backgroungColor;
-        toastTextColor = textColor;
+        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(0));
         break;
     }
-    await Fluttertoast.showToast(
-      msg: message.toString(),
-      backgroundColor: toastColor,
-      webShowClose: true,
-      webPosition: 'center',
-      textColor: toastTextColor,
-      fontSize: fontSize,
-      toastLength: isLongDuration ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
-      gravity: positioned,
+
+    scaffoldMessager.showSnackBar(
+      SnackBar(
+        content: content,
+        action: action,
+        animation: animation,
+        backgroundColor: backgroundColor,
+        behavior: behaviour,
+        duration: duration,
+        elevation: elevation,
+        margin: margin,
+        padding: padding,
+        shape: shape,
+        width: width,
+      ),
     );
-  }
-
-  static Future<void> cancelToast() async {
-    await Fluttertoast.cancel();
   }
 
   ///* Ketuk 2 Kali Untuk Keluar
   static Future<bool> doubleTapToExit({
+    required BuildContext ctx,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) async {
     DateTime? _currentBackPressTime;
@@ -447,8 +474,7 @@ class GlobalFunction {
     if (_currentBackPressTime == null ||
         now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
-      await GlobalFunction.showToast(message: 'Tekan Sekali Lagi Untuk Keluar Aplikasi');
-      // print('Press Again To Close Application');
+      GlobalFunction.showSnackBar(ctx, content: Text('Tekan kembali untuk keluar aplikasi'));
       return Future.value(false);
     } else {
       return Future.value(true);
