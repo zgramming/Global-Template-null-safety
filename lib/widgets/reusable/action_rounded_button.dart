@@ -64,9 +64,8 @@ class ActionRoundedButton extends StatelessWidget {
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: appTheme
-                        .caption(context)!
-                        .copyWith(color: foregroundColor ?? colorPallete.black),
+                    style:
+                        appTheme.caption(context)!.copyWith(color: foregroundColor ?? Colors.black),
                   ),
                 ]
               ],

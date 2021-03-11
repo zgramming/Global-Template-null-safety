@@ -240,14 +240,14 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                     onPressed: () => _onClickSkip(),
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
-                        color: colorPallete.white!,
+                        color: Colors.white,
                       ),
                     ),
                     child: Text(
                       'Skip',
                       style: GoogleFonts.openSans(
                         fontSize: 12,
-                        color: colorPallete.white,
+                        color: Colors.white,
                       ),
                     ),
                   ),

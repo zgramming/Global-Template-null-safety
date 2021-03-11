@@ -38,7 +38,7 @@ class _LiveClockState extends State<LiveClock> {
           return RichText(
             text: TextSpan(
               text: GlobalFunction.formatYMDS(DateTime.now()),
-              style: widget.textStyle ?? TextStyle(color: colorPallete.black),
+              style: widget.textStyle ?? TextStyle(color: Colors.black),
               children: [
                 TextSpan(text: ' ${GlobalFunction.formatHMS(result)}'),
               ],

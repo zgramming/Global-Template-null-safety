@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:global_template/global_template.dart';
 
 class ConfirmationDeleteDialog extends StatelessWidget {
   final VoidCallback? onCancel;
@@ -40,7 +39,7 @@ class ConfirmationDeleteDialog extends StatelessWidget {
               Navigator.popUntil(context, (route) => totalPop++ == totalNavigatorPop);
             });
           },
-          style: ElevatedButton.styleFrom(primary: colorPallete.red),
+          style: ElevatedButton.styleFrom(primary: Colors.red),
           child: Text(deleteText ?? 'Hapus'),
         )
       ],
