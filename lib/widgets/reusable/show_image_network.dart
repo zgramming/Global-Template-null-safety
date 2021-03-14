@@ -10,7 +10,7 @@ class ShowImageNetwork extends StatelessWidget {
     this.isCircle = false,
     this.imageCircleRadius = 35,
     this.imageCircleElevation = 0,
-    this.imageBorderRadius = 0,
+    this.imageBorderRadius,
     this.padding = const EdgeInsets.all(0),
     this.alignment = Alignment.center,
     this.fit,
@@ -33,7 +33,7 @@ class ShowImageNetwork extends StatelessWidget {
   final double imageCircleElevation;
 
   ///! Setting Image Border Radius
-  final double imageBorderRadius;
+  final BorderRadius? imageBorderRadius;
 
   ///! Setting Padding Image
   final EdgeInsetsGeometry padding;
@@ -48,14 +48,15 @@ class ShowImageNetwork extends StatelessWidget {
   final Widget Function(BuildContext context, String url, dynamic error)? onErrorImage;
 
   ///! Handle when image loading
-  final Widget Function(BuildContext, String)? loadingBuilder;
+  final Widget Function(BuildContext context, String imageUrl)? loadingBuilder;
   @override
   Widget build(BuildContext context) {
     final image = Padding(
       padding: padding,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(imageBorderRadius),
+        borderRadius: imageBorderRadius ?? BorderRadius.zero,
         child: CachedNetworkImage(
+          colorBlendMode: BlendMode.saturation,
           imageUrl: imageUrl,
           height: sizes.height(context) / (imageSize),
           width: sizes.width(context) / (imageSize),
@@ -71,7 +72,10 @@ class ShowImageNetwork extends StatelessWidget {
                   ),
                 );
               },
-          placeholder: loadingBuilder,
+          placeholder: loadingBuilder ??
+              (ctx, url) => CircularProgressIndicator(
+                    backgroundColor: colorPallete.accentColor,
+                  ),
           fit: fit,
           alignment: alignment as Alignment,
         ),
@@ -82,6 +86,7 @@ class ShowImageNetwork extends StatelessWidget {
       return Padding(
         padding: padding,
         child: Card(
+          margin: EdgeInsets.zero,
           shape: const CircleBorder(),
           elevation: imageCircleElevation,
           clipBehavior: Clip.antiAlias,
