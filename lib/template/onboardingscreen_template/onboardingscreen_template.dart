@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:global_template/global_template.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'widgets/onboarding_item.dart';
 
@@ -243,13 +242,7 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                         color: Colors.white,
                       ),
                     ),
-                    child: Text(
-                      'Skip',
-                      style: GoogleFonts.openSans(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: Text('Skip'),
                   ),
             ),
           ),
