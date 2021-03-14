@@ -6,13 +6,11 @@ homepage: https://zeffry.devatbase.com/
 
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
-  flutter: ">=2.0.1"
 
 dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.0.0-nullsafety
-  google_fonts: ^2.0.0
   intl: ^0.17.0
   package_info: ^2.0.0
 
