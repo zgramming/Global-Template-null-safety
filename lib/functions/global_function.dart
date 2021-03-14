@@ -16,6 +16,7 @@ enum TypeWeek { isWeekend, isWeekday }
 enum TypeDateTotal { month, year }
 enum SnackBarType { success, error, warning, info, normal }
 enum SnackBarShape { rounded, normal }
+enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
@@ -434,7 +435,7 @@ class GlobalFunction {
         break;
 
       default:
-        backgroundColor = colorPallete.primaryColor;
+        backgroundColor = backgroundColor;
         break;
     }
 
@@ -545,5 +546,132 @@ class InputNumberFormat extends TextInputFormatter {
     } else {
       return newValue;
     }
+  }
+}
+
+class RouteAnimation {
+  PageRouteBuilder rotationTransition({
+    required Widget Function(
+      BuildContext ctx,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    )
+        screen,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
+  }) {
+    var begin = 0.0;
+    var end = 1.0;
+    var tween = Tween(begin: begin, end: end);
+    return PageRouteBuilder(
+      pageBuilder: screen,
+      transitionDuration: transitionDuration,
+      reverseTransitionDuration: reverseTransitionDuration,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var rotationAnimation = animation.drive(tween);
+        return RotationTransition(turns: rotationAnimation, child: child);
+        // return FadeTransition();
+      },
+    );
+  }
+
+  PageRouteBuilder scaleTransition({
+    required Widget Function(
+      BuildContext ctx,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    )
+        screen,
+    Alignment alignment = Alignment.bottomLeft,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
+  }) {
+    var begin = 0.0;
+    var end = 1.0;
+    var tween = Tween(begin: begin, end: end);
+
+    return PageRouteBuilder(
+      pageBuilder: screen,
+      transitionDuration: transitionDuration,
+      reverseTransitionDuration: reverseTransitionDuration,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var scaleAnimation = animation.drive(tween);
+        return ScaleTransition(
+          scale: scaleAnimation,
+          alignment: alignment,
+          child: child,
+        );
+        // return FadeTransition();
+      },
+    );
+  }
+
+  PageRouteBuilder fadeTransition({
+    required Widget Function(
+      BuildContext ctx,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    )
+        screen,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
+  }) {
+    var begin = 0.0;
+    var end = 1.0;
+    var tween = Tween(begin: begin, end: end);
+    return PageRouteBuilder(
+      pageBuilder: screen,
+      transitionDuration: transitionDuration,
+      reverseTransitionDuration: reverseTransitionDuration,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = animation.drive(tween);
+        return FadeTransition(opacity: fadeAnimation, child: child);
+        // return FadeTransition();
+      },
+    );
+  }
+
+  PageRouteBuilder slideTransition({
+    required Widget Function(
+      BuildContext ctx,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    )
+        screen,
+    SlidePosition slidePosition = SlidePosition.fromBottom,
+    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
+  }) {
+    var begin = Offset(0, 0);
+    var end = Offset(0, 0);
+
+    switch (slidePosition) {
+      case SlidePosition.fromBottom:
+        begin = Offset(0, 1);
+        break;
+      case SlidePosition.fromTop:
+        begin = Offset(0, -1);
+        break;
+      case SlidePosition.fromLeft:
+        begin = Offset(1, 0);
+        break;
+      case SlidePosition.fromRight:
+        begin = Offset(-1, 0);
+        break;
+      default:
+        begin = Offset(0, 0);
+        break;
+    }
+    var tween = Tween(begin: begin, end: end);
+    return PageRouteBuilder(
+      pageBuilder: screen,
+      transitionDuration: transitionDuration,
+      reverseTransitionDuration: reverseTransitionDuration,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var offsetAnimation = animation.drive(tween);
+        return SlideTransition(position: offsetAnimation, child: child);
+        // return FadeTransition();
+      },
+    );
   }
 }
