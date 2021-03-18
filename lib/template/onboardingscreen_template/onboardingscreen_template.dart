@@ -23,7 +23,8 @@ class OnboardingPage extends StatefulWidget {
     this.onClickFinish,
     this.backgroundOnboarding,
     this.iconSkip,
-  }) : super(key: key);
+  })  : assert(items.length > 1, 'OnboardingItem at least must have 2 item'),
+        super(key: key);
 
   /// Background color circle progress indicator
   final Color backgroundColorCircleIndicator;
@@ -77,7 +78,8 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController();
 
-  int indexPage = 0;
+  late int _currentIndex;
+  late int _lastIndex;
 
   double progressIndicator = 0.0;
   double fixedIncrease = 0.0;
@@ -87,7 +89,9 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    fixedIncrease = (100.0 / widget.items.length - indexPage) / 100.0;
+    _currentIndex = 0;
+    _lastIndex = widget.items.length - 1;
+    fixedIncrease = (100.0 / widget.items.length - _currentIndex) / 100.0;
     progressIndicator = fixedIncrease;
   }
 
@@ -97,34 +101,33 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
 
     Timer(const Duration(milliseconds: 500), () {
       setState(() {
-        indexPage++;
+        _currentIndex++;
         progressIndicator += fixedIncrease;
         disabledOnPageChanged = false;
       });
     });
-    widget.onClickNext(indexPage);
+    widget.onClickNext(_currentIndex);
   }
 
   void _onPageChanged(int index) {
     if (disabledOnPageChanged == false) {
       setState(() {
-        if (index < indexPage) {
+        if (index < _currentIndex) {
           progressIndicator -= fixedIncrease;
         } else {
           progressIndicator += fixedIncrease;
         }
-        indexPage = index;
+        _currentIndex = index;
       });
     }
-    widget.onPageChanged(indexPage);
+    widget.onPageChanged(_currentIndex);
   }
 
   void _onClickSkip() {
     setState(() => disabledOnPageChanged = true);
-    final lastIndexPage = widget.items.length - 1;
 
     _pageController.animateToPage(
-      lastIndexPage,
+      _lastIndex,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeOut,
     );
@@ -132,7 +135,7 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
     Timer(const Duration(milliseconds: 500), () {
       setState(() {
         progressIndicator = 1;
-        indexPage = widget.items.length - 1;
+        _currentIndex = _lastIndex;
         disabledOnPageChanged = false;
       });
     });
@@ -188,12 +191,13 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                               begin: progressIndicator,
                               end: progressIndicator,
                             ),
-                            builder: (context, double value, _) {
+                            builder: (_, double value, __) {
                               return Padding(
                                 padding: widget.paddingCircleIndicator,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      widget.valueColorCircleIndicator),
+                                    widget.valueColorCircleIndicator,
+                                  ),
                                   value: value,
                                   backgroundColor: widget.backgroundColorCircleIndicator,
                                   strokeWidth: widget.strokeCircleIndicator,
@@ -203,24 +207,22 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                           ),
                         ),
                       ),
-                      if (disabledOnPageChanged)
-                        Center(child: widget.loadingIndicator)
-                      else
-                        InkWell(
-                          /// If index onboarding == total screen onboarding
-                          /// use method [onClickFinish], otherwise [onClickNext]
-                          onTap: (indexPage == widget.items.length - 1)
-                              ? () => _onClickFinish()
-                              : () => _onClickNext(),
-                          child: Center(
-                            child: AnimatedSwitcher(
-                              duration: kThemeAnimationDuration,
-                              child: (indexPage == widget.items.length - 1)
-                                  ? widget.iconFinish
-                                  : widget.iconNext,
-                            ),
+                      InkWell(
+                        /// If index onboarding == total screen onboarding
+                        /// use method [onClickFinish], otherwise [onClickNext]
+                        onTap: (disabledOnPageChanged)
+                            ? null
+                            : (_currentIndex == _lastIndex)
+                                ? () => _onClickFinish()
+                                : () => _onClickNext(),
+                        child: Center(
+                          child: AnimatedSwitcher(
+                            duration: kThemeAnimationDuration,
+                            child:
+                                (_currentIndex == _lastIndex) ? widget.iconFinish : widget.iconNext,
                           ),
-                        )
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -228,7 +230,7 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
             ),
           ),
         ),
-        if (indexPage != widget.items.length - 1)
+        if (_currentIndex != _lastIndex)
           Positioned(
             top: sizes.statusBarHeight(context) * 1.5,
             right: sizes.width(context) / 20,
