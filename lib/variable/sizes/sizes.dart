@@ -8,6 +8,7 @@ class SizesDevice {
   MediaQueryData mediaQuery(BuildContext context) => MediaQuery.of(context);
 
   double width(BuildContext context) => MediaQuery.of(context).size.width;
+
   double height(BuildContext context) => MediaQuery.of(context).size.height;
 
   double statusBarHeight(BuildContext context) => MediaQuery.of(context).padding.top;
@@ -22,7 +23,6 @@ class SizesDevice {
 
   double keyboardHeight(BuildContext context) => MediaQuery.of(context).viewInsets.bottom;
 
-  // double smallestDimension(BuildContext context) => MediaQuery.of(context).size.shortestSide;
   MediaQueryData smallestDimension(BuildContext context) =>
       MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
 
