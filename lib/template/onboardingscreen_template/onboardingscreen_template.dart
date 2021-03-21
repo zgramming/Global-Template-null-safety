@@ -17,8 +17,16 @@ class OnboardingPage extends StatefulWidget {
     this.strokeCircleIndicator = 8.0,
     this.paddingCircleIndicator = const EdgeInsets.all(4.0),
     this.loadingIndicator = const CircularProgressIndicator(backgroundColor: Colors.blue),
-    this.iconNext = const Text('Next'),
-    this.iconFinish = const Text('Finish'),
+    this.iconNext = const Icon(
+      Icons.navigate_next_rounded,
+      size: 40,
+      color: Colors.white,
+    ),
+    this.iconFinish = const Icon(
+      Icons.done_rounded,
+      size: 40,
+      color: Colors.white,
+    ),
     this.onClickSkip,
     this.onClickFinish,
     this.backgroundOnboarding,
