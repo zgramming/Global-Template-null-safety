@@ -384,6 +384,27 @@ class GlobalFunction {
     return date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
   }
 
+  ///* Memunculkan dialog untuk membutuhkan akses
+  static showDialogNeedAccess(
+    BuildContext context, {
+    VoidCallback? onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Membutuhkan akses'),
+        content: Text(
+            "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses"),
+        actions: [
+          TextButton(
+            onPressed: onPressed ?? null,
+            child: Text('Buka Setting'),
+          ),
+        ],
+      ),
+    );
+  }
+
   ///* Memunculkan snackbar
 
   static showSnackBar(
