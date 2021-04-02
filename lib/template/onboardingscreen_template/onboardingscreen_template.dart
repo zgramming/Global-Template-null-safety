@@ -31,6 +31,7 @@ class OnboardingPage extends StatefulWidget {
     this.onClickFinish,
     this.backgroundOnboarding,
     this.iconSkip,
+    this.gradient,
   })  : assert(items.length > 1, 'OnboardingItem at least must have 2 item'),
         super(key: key);
 
@@ -42,6 +43,9 @@ class OnboardingPage extends StatefulWidget {
 
   /// Background Onboarding
   final Color? backgroundOnboarding;
+
+  /// Background Gradient
+  final Gradient? gradient;
 
   /// Setting size circle progress indicator
   final double sizeCircleIndicator;
@@ -165,7 +169,12 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
       children: [
         Container(
           padding: EdgeInsets.only(top: sizes.statusBarHeight(context)),
-          color: widget.backgroundOnboarding ?? colorPallete.accentColor,
+          decoration: BoxDecoration(
+            color: (widget.gradient == null)
+                ? widget.backgroundOnboarding ?? colorPallete.accentColor
+                : null,
+            gradient: widget.gradient,
+          ),
         ),
         SizedBox.expand(
           child: Padding(

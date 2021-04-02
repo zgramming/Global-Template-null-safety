@@ -8,16 +8,19 @@ class ActionCircleButton extends StatelessWidget {
   final Color? foregroundColor;
   final bool isVisible;
   final EdgeInsetsGeometry padding;
+  final Widget? child;
 
   const ActionCircleButton({
-    this.radius = 25.0,
+    Key? key,
+    this.onTap,
     this.icon = Icons.delete,
+    this.radius = 25.0,
     this.backgroundColor = Colors.grey,
     this.foregroundColor = Colors.black,
-    this.padding = const EdgeInsets.all(6.0),
-    this.onTap,
     this.isVisible = true,
-  });
+    this.padding = const EdgeInsets.all(6.0),
+    this.child,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -31,7 +34,7 @@ class ActionCircleButton extends StatelessWidget {
           child: FittedBox(
             child: Padding(
               padding: padding,
-              child: Icon(icon),
+              child: child ?? Icon(icon),
             ),
           ),
         ),
