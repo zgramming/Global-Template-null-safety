@@ -9,13 +9,15 @@ class SplashScreenTemplate extends StatefulWidget {
     required this.image,
     required this.navigateAfterSplashScreen,
     required this.copyRightVersion,
+    this.gradient,
   });
 
   final int duration;
-  final Widget image;
-  final WidgetBuilder navigateAfterSplashScreen;
   final Color? backgroundColor;
   final CopyRightVersion copyRightVersion;
+  final Gradient? gradient;
+  final Widget image;
+  final WidgetBuilder navigateAfterSplashScreen;
 
   @override
   _SplashScreenTemplateState createState() => _SplashScreenTemplateState();
@@ -50,7 +52,12 @@ class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.backgroundColor ?? Theme.of(context).primaryColor,
+      decoration: BoxDecoration(
+        color: (widget.gradient == null)
+            ? widget.backgroundColor ?? Theme.of(context).primaryColor
+            : null,
+        gradient: widget.gradient,
+      ),
       child: Padding(
         padding: EdgeInsets.only(top: sizes.statusBarHeight(context)),
         child: Column(
