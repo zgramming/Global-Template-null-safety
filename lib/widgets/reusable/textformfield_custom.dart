@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
-    required this.controller,
+    this.controller,
     this.prefixIcon = const Icon(Icons.supervised_user_circle),
     this.suffixIcon,
     this.initialValue,
@@ -56,7 +56,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   /// Icon sebelah kiri
-  final Widget prefixIcon;
+  final Widget? prefixIcon;
 
   /// Icon sebelah kanan
   final Widget? suffixIcon;
@@ -88,14 +88,14 @@ class TextFormFieldCustom extends StatefulWidget {
 
   final List<TextInputFormatter>? inputFormatter;
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   final TextStyle? hintStyle;
 
-  final String Function(String? value)? validator;
-  final Function(String value)? onFieldSubmitted;
-  final Function(String value)? onChanged;
-  final Function(String? value)? onSaved;
+  final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
+  final FormFieldSetter<String>? onSaved;
 
   @override
   _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
