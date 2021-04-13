@@ -578,10 +578,7 @@ class InputNumberFormat extends TextInputFormatter {
 class RouteAnimation {
   PageRouteBuilder rotationTransition({
     required Widget Function(
-      BuildContext ctx,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-    )
+            BuildContext ctx, Animation<double> animation, Animation<double> secondaryAnimation)
         screen,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
