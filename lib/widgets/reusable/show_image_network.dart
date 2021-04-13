@@ -58,8 +58,8 @@ class ShowImageNetwork extends StatelessWidget {
         child: CachedNetworkImage(
           colorBlendMode: BlendMode.saturation,
           imageUrl: imageUrl,
-          height: sizes.height(context) / (imageSize),
-          width: sizes.width(context) / (imageSize),
+          height: sizes.height(context) / imageSize,
+          width: sizes.width(context) / imageSize,
           errorWidget: onErrorImage ??
               (BuildContext context, String url, dynamic error) {
                 return Center(

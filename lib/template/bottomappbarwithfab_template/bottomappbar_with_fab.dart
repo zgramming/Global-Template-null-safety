@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:global_template/global_template.dart';
 
 class BottomAppBarWithFAB extends StatefulWidget {
-  final Key? key;
   final List<BottomAppBarItem> items;
   final NotchedShape? notchedShape;
   final double notchedMargin;
@@ -16,21 +15,19 @@ class BottomAppBarWithFAB extends StatefulWidget {
   final MainAxisAlignment alignment;
 
   const BottomAppBarWithFAB({
-    required this.onTap,
     required this.items,
-    this.key,
-    this.backgroundColor,
+    required this.onTap,
     this.notchedShape,
-    this.selectedColor,
-    this.unSelectedColor,
-    this.iconSize,
     this.notchedMargin = 4.0,
     this.elevation = 8.0,
+    this.iconSize,
     this.height = 56,
+    this.backgroundColor,
+    this.selectedColor,
+    this.unSelectedColor,
     this.alignment = MainAxisAlignment.spaceAround,
-  })  : assert(items.length % 2 == 0 && items.length <= 4,
-            "Items length must be divided by 2 & Maximum 4 Icon"),
-        super(key: key);
+  }) : assert(items.length % 2 == 0 && items.length <= 4,
+            "Items length must be divided by 2 & Maximum 4 Icon");
 
   @override
   _BottomAppBarWithFABState createState() => _BottomAppBarWithFABState();
@@ -48,7 +45,7 @@ class _BottomAppBarWithFABState extends State<BottomAppBarWithFAB> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> items = List.generate(
+    final List<Widget> items = List.generate(
       widget.items.length,
       (int index) => _buildItem(
         index: index,
@@ -75,7 +72,7 @@ class _BottomAppBarWithFABState extends State<BottomAppBarWithFAB> {
     required int index,
     required ValueChanged<int> onPressed,
   }) {
-    Color? color = (_selectedIndex == index) ? widget.selectedColor : widget.unSelectedColor;
+    final Color? color = (_selectedIndex == index) ? widget.selectedColor : widget.unSelectedColor;
     return SizedBox(
       height: widget.height,
       child: InkWell(

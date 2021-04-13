@@ -23,6 +23,9 @@ class AppConfig {
   /// https://homepages.cae.wisc.edu/~ece533/images/airplane.png
   String? defaultImageNetwork;
 
+  /// Full Url Asset Image
+  String fullPathImageAsset;
+
   /// {'Content-Type': 'application/x-www-form-urlencoded'}
   Map<String, String>? headersAPI;
 
@@ -35,6 +38,7 @@ class AppConfig {
     this.baseAPIURL = 'https://www.example.com',
     this.baseImageURL = 'https://www.example.com/images',
     this.tokenFirebase = 'exampletoken',
+    this.fullPathImageAsset = '',
     this.headersAPI = const {'Content-Type': 'application/x-www-form-urlencoded'},
   });
 
@@ -60,6 +64,9 @@ class AppConfig {
     /// https://homepages.cae.wisc.edu/~ece533/images/airplane.png
     String defaultImageNetwork = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
 
+    /// Full Url Asset Image
+    String fullPathImageAsset = '',
+
     /// {'Content-Type': 'application/x-www-form-urlencoded'}
     Map<String, String>? headersAPI,
   }) {
@@ -71,6 +78,7 @@ class AppConfig {
     this.baseImageURL = baseImageURL;
     this.tokenFirebase = tokenFirebase;
     this.headersAPI = headersAPI;
+    this.fullPathImageAsset = '$urlImageAsset/$nameLogoAsset';
   }
 }
 
