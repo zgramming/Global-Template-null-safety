@@ -187,7 +187,7 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                   child: PageView.builder(
                     controller: _pageController,
                     physics: const ClampingScrollPhysics(),
-                    itemCount: (widget.items.length),
+                    itemCount: widget.items.length,
                     onPageChanged: _onPageChanged,
                     itemBuilder: (context, index) {
                       return widget.items[index];
@@ -227,7 +227,7 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                       InkWell(
                         /// If index onboarding == total screen onboarding
                         /// use method [onClickFinish], otherwise [onClickNext]
-                        onTap: (disabledOnPageChanged)
+                        onTap: disabledOnPageChanged
                             ? null
                             : (_currentIndex == _lastIndex)
                                 ? () => _onClickFinish()
@@ -257,11 +257,11 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                   OutlinedButton(
                     onPressed: () => _onClickSkip(),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(
+                      side: const BorderSide(
                         color: Colors.white,
                       ),
                     ),
-                    child: Text('Skip'),
+                    child: const Text('Skip'),
                   ),
             ),
           ),

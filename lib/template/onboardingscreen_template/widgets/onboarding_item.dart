@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_template/global_template.dart';
 
+// ignore: constant_identifier_names
 enum OnboardingItemAnimationType { NONE, RTL, LTR }
 
 class OnboardingItem extends StatefulWidget {
@@ -44,25 +45,25 @@ class OnboardingItem extends StatefulWidget {
 }
 
 class _OnboardingItemState extends State<OnboardingItem> with SingleTickerProviderStateMixin {
-  /// Animation Initialize
+  /// Initialize Animation
   late final AnimationController animationController;
   late final Animation<Offset> translateAnimation;
   late final Animation<double> scaleAnimation;
   late final Animation<double> rotateAnimation;
 
-  Offset _offsetValue = Offset(0, 0);
+  Offset _offsetValue = const Offset(0, 0);
 
   @override
   void initState() {
     switch (widget.animationType) {
       case OnboardingItemAnimationType.NONE:
-        _offsetValue = Offset(0, 0);
+        _offsetValue = const Offset(0, 0);
         break;
       case OnboardingItemAnimationType.LTR:
-        _offsetValue = Offset(-200, 0);
+        _offsetValue = const Offset(-200, 0);
         break;
       case OnboardingItemAnimationType.RTL:
-        _offsetValue = Offset(200, 0);
+        _offsetValue = const Offset(200, 0);
         break;
     }
 

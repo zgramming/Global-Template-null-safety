@@ -239,7 +239,7 @@ class GlobalFunction {
 
   ///* Convert from 1000 to 1K || 1500 to 1.5K
   static String abbreviateNumber(int number) {
-    var formattedNumber = NumberFormat.compact().format(number);
+    final formattedNumber = NumberFormat.compact().format(number);
     return formattedNumber;
   }
 
@@ -391,20 +391,20 @@ class GlobalFunction {
   }
 
   ///* Memunculkan dialog untuk membutuhkan akses
-  static showDialogNeedAccess(
+  static void showDialogNeedAccess(
     BuildContext context, {
     VoidCallback? onPressed,
   }) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Membutuhkan akses'),
-        content: Text(
+        title: const Text('Membutuhkan akses'),
+        content: const Text(
             "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses"),
         actions: [
           TextButton(
-            onPressed: onPressed ?? null,
-            child: Text('Buka Setting'),
+            onPressed: onPressed,
+            child: const Text('Buka Setting'),
           ),
         ],
       ),
@@ -413,7 +413,7 @@ class GlobalFunction {
 
   ///* Memunculkan snackbar
 
-  static showSnackBar(
+  static void showSnackBar(
     BuildContext ctx, {
     required Widget content,
     bool hideWithAnimation = true,
@@ -432,7 +432,7 @@ class GlobalFunction {
     SnackBarType snackBarType = SnackBarType.normal,
     SnackBarShape snackBarShape = SnackBarShape.normal,
   }) {
-    var scaffoldMessager = ScaffoldMessenger.of(ctx);
+    final scaffoldMessager = ScaffoldMessenger.of(ctx);
 
     if (hideWithAnimation) {
       scaffoldMessager.hideCurrentSnackBar();
@@ -441,6 +441,7 @@ class GlobalFunction {
     }
 
     if (margin != null) {
+      // ignore: parameter_assignments
       behaviour = SnackBarBehavior.floating;
     }
 
@@ -462,6 +463,7 @@ class GlobalFunction {
         break;
 
       default:
+        // ignore: parameter_assignments
         backgroundColor = backgroundColor;
         break;
     }
@@ -471,6 +473,7 @@ class GlobalFunction {
         shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(15));
         break;
       default:
+        // ignore: parameter_assignments
         shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(0));
         break;
     }
@@ -499,7 +502,7 @@ class GlobalFunction {
     if (_currentBackPressTime == null ||
         now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
-      GlobalFunction.showSnackBar(ctx, content: Text('Tekan kembali untuk keluar aplikasi'));
+      GlobalFunction.showSnackBar(ctx, content: const Text('Tekan kembali untuk keluar aplikasi'));
       return Future.value(false);
     } else {
       return Future.value(true);
@@ -576,23 +579,20 @@ class InputNumberFormat extends TextInputFormatter {
 class RouteAnimation {
   PageRouteBuilder rotationTransition({
     required Widget Function(
-      BuildContext ctx,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-    )
+            BuildContext ctx, Animation<double> animation, Animation<double> secondaryAnimation)
         screen,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    var begin = 0.0;
-    var end = 1.0;
-    var tween = Tween(begin: begin, end: end);
+    const begin = 0.0;
+    const end = 1.0;
+    final tween = Tween(begin: begin, end: end);
     return PageRouteBuilder(
       pageBuilder: screen,
       transitionDuration: transitionDuration,
       reverseTransitionDuration: reverseTransitionDuration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var rotationAnimation = animation.drive(tween);
+        final rotationAnimation = animation.drive(tween);
         return RotationTransition(turns: rotationAnimation, child: child);
         // return FadeTransition();
       },
@@ -610,16 +610,16 @@ class RouteAnimation {
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    var begin = 0.0;
-    var end = 1.0;
-    var tween = Tween(begin: begin, end: end);
+    const begin = 0.0;
+    const end = 1.0;
+    final tween = Tween(begin: begin, end: end);
 
     return PageRouteBuilder(
       pageBuilder: screen,
       transitionDuration: transitionDuration,
       reverseTransitionDuration: reverseTransitionDuration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var scaleAnimation = animation.drive(tween);
+        final scaleAnimation = animation.drive(tween);
         return ScaleTransition(
           scale: scaleAnimation,
           alignment: alignment,
@@ -640,15 +640,15 @@ class RouteAnimation {
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    var begin = 0.0;
-    var end = 1.0;
-    var tween = Tween(begin: begin, end: end);
+    const begin = 0.0;
+    const end = 1.0;
+    final tween = Tween(begin: begin, end: end);
     return PageRouteBuilder(
       pageBuilder: screen,
       transitionDuration: transitionDuration,
       reverseTransitionDuration: reverseTransitionDuration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = animation.drive(tween);
+        final fadeAnimation = animation.drive(tween);
         return FadeTransition(opacity: fadeAnimation, child: child);
         // return FadeTransition();
       },
@@ -666,33 +666,33 @@ class RouteAnimation {
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    var begin = Offset(0, 0);
-    var end = Offset(0, 0);
+    var begin = const Offset(0, 0);
+    const end = Offset(0, 0);
 
     switch (slidePosition) {
       case SlidePosition.fromBottom:
-        begin = Offset(0, 1);
+        begin = const Offset(0, 1);
         break;
       case SlidePosition.fromTop:
-        begin = Offset(0, -1);
+        begin = const Offset(0, -1);
         break;
       case SlidePosition.fromLeft:
-        begin = Offset(1, 0);
+        begin = const Offset(1, 0);
         break;
       case SlidePosition.fromRight:
-        begin = Offset(-1, 0);
+        begin = const Offset(-1, 0);
         break;
       default:
-        begin = Offset(0, 0);
+        begin = const Offset(0, 0);
         break;
     }
-    var tween = Tween(begin: begin, end: end);
+    final tween = Tween(begin: begin, end: end);
     return PageRouteBuilder(
       pageBuilder: screen,
       transitionDuration: transitionDuration,
       reverseTransitionDuration: reverseTransitionDuration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var offsetAnimation = animation.drive(tween);
+        final offsetAnimation = animation.drive(tween);
         return SlideTransition(position: offsetAnimation, child: child);
         // return FadeTransition();
       },

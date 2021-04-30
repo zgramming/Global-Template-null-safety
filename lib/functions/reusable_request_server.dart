@@ -9,7 +9,7 @@ class ReusableRequestServer {
     try {
       return await requestServer();
     } on FormatException catch (error) {
-      throw error.source;
+      throw error.message;
     } on TimeoutException catch (_) {
       rethrow;
     } on SocketException catch (_) {

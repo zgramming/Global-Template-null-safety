@@ -5,12 +5,12 @@ export './extension/group_by.dart';
 export './functions/global_function.dart';
 export './functions/reusable_request_server.dart';
 
+export './template/bottomappbarwithfab_template/bottomappbar_with_fab.dart';
 export './template/loginscreen_template/loginscreen_template.dart';
 export './template/onboardingscreen_template/onboardingscreen_template.dart';
 export './template/onboardingscreen_template/widgets/onboarding_item.dart';
 export './template/splashscreen_template/initial_splash_template.dart';
 export './template/splashscreen_template/splashscreen_template.dart';
-export './template/bottomappbarwithfab_template/bottomappbar_with_fab.dart';
 export './template/unknownscreen_template/unknown_screen.dart';
 
 export './variable/colors/color_pallete.dart';
