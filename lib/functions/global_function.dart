@@ -237,6 +237,12 @@ class GlobalFunction {
     }
   }
 
+  ///* Convert from 1000 to 1K || 1500 to 1.5K
+  static String abbreviateNumber(int number) {
+    var formattedNumber = NumberFormat.compact().format(number);
+    return formattedNumber;
+  }
+
   ///* Get readable file size [https://github.com/synw/filesize]
   static dynamic getFileSize(
     String pathFile, {
@@ -440,19 +446,19 @@ class GlobalFunction {
 
     switch (snackBarType) {
       case SnackBarType.success:
-        backgroundColor = colorPallete.success;
+        backgroundColor = Colors.green;
         break;
 
       case SnackBarType.error:
-        backgroundColor = colorPallete.error;
+        backgroundColor = Colors.red;
         break;
 
       case SnackBarType.warning:
-        backgroundColor = colorPallete.warning;
+        backgroundColor = Colors.orange;
         break;
 
       case SnackBarType.info:
-        backgroundColor = colorPallete.info;
+        backgroundColor = Colors.lightBlue;
         break;
 
       default:
@@ -487,10 +493,7 @@ class GlobalFunction {
   }
 
   ///* Ketuk 2 Kali Untuk Keluar
-  static Future<bool> doubleTapToExit({
-    required BuildContext ctx,
-    required GlobalKey<ScaffoldState> scaffoldKey,
-  }) async {
+  static Future<bool> doubleTapToExit(BuildContext ctx) async {
     DateTime? _currentBackPressTime;
     final now = DateTime.now();
     if (_currentBackPressTime == null ||
