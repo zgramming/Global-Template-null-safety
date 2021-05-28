@@ -39,7 +39,7 @@ class SizesDevice {
       smallestDimension(context).size.shortestSide <= largeMobileBreakPoint;
 
   /// Check if devices reach Tablet breakpoint
-  bool isTableBreakPoint(BuildContext context) =>
+  bool isTabletBreakPoint(BuildContext context) =>
       smallestDimension(context).size.shortestSide <= tabletBreakPoint;
 
   /// Check if devices reach Laptop breakpoint
