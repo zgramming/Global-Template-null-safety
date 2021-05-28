@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 enum TypeLayout { mobile, largeMobile, tablet, laptop, desktop }
 
-const mobileSize = 600, largeMobileSize = 768, tabletSize = 992, laptopSize = 1200;
-
 class SizesDevice {
+  double get mobileBreakPoint => 576;
+  double get largeMobileBreakPoint => 768;
+  double get tabletBreakPoint => 992;
+  double get laptopBreakPoint => 1200;
+  double get pcBreakPoint => 1400;
+
   MediaQueryData mediaQuery(BuildContext context) => MediaQuery.of(context);
 
   double width(BuildContext context) => MediaQuery.of(context).size.width;
@@ -26,23 +30,25 @@ class SizesDevice {
   MediaQueryData smallestDimension(BuildContext context) =>
       MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
 
-  bool isMobileLayout(BuildContext context) => smallestDimension(context).size.shortestSide < 600;
+  /// Check if devices reach mobile breakpoint
+  bool isMobileBreakPoint(BuildContext context) =>
+      smallestDimension(context).size.shortestSide <= mobileBreakPoint;
 
-  TypeLayout? checkLayoutBuilder(double width) {
-    TypeLayout? typeLayout;
-    if (width < 600) {
-      typeLayout = TypeLayout.mobile;
-    } else if (width > 600 && width < 768) {
-      typeLayout = TypeLayout.largeMobile;
-    } else if (width > 768 && width < 992) {
-      typeLayout = TypeLayout.tablet;
-    } else if (width > 992 && width < 1200) {
-      typeLayout = TypeLayout.laptop;
-    } else if (width > 1200) {
-      typeLayout = TypeLayout.desktop;
-    }
-    return typeLayout;
-  }
+  /// Check if devices reach large mobile breakpoint
+  bool isLargeMobileBreakPoint(BuildContext context) =>
+      smallestDimension(context).size.shortestSide <= largeMobileBreakPoint;
+
+  /// Check if devices reach Tablet breakpoint
+  bool isTableBreakPoint(BuildContext context) =>
+      smallestDimension(context).size.shortestSide <= tabletBreakPoint;
+
+  /// Check if devices reach Laptop breakpoint
+  bool isLaptopBreakPoint(BuildContext context) =>
+      smallestDimension(context).size.shortestSide <= laptopBreakPoint;
+
+  /// Check if devices reach PC breakpoint
+  bool isPCBreakPoint(BuildContext context) =>
+      smallestDimension(context).size.shortestSide <= pcBreakPoint;
 
   double responsiveSize(BuildContext context) => width(context) / 100;
 
