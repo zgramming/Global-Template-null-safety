@@ -8,6 +8,7 @@ class ColorPallete {
   Color? onboardingColor1;
   Color? onboardingColor2;
   Color? onboardingColor3;
+  Color scaffoldBackgroundColor;
 
   /// Color For Success , identic with green
   Color? success;
@@ -29,6 +30,7 @@ class ColorPallete {
     this.onboardingColor1 = const Color(0xFF82B832),
     this.onboardingColor2 = const Color(0xFFB83282),
     this.onboardingColor3 = const Color(0xFF3282B8),
+    this.scaffoldBackgroundColor = const Color(0xFFF4E1DF),
     this.success = const Color(0xFF28df99),
     this.error = const Color(0xFFe40017),
     this.info = const Color(0xFF51c2d5),
@@ -59,6 +61,7 @@ class ColorPallete {
     Color? onboardingColor1,
     Color? onboardingColor2,
     Color? onboardingColor3,
+    Color scaffoldBackgroundColor = const Color(0xFFF4E1DF),
 
     /// Color For Success , identic with green
     Color? success,
@@ -79,6 +82,7 @@ class ColorPallete {
     this.onboardingColor1 = onboardingColor1;
     this.onboardingColor2 = onboardingColor2;
     this.onboardingColor3 = onboardingColor3;
+    this.scaffoldBackgroundColor = scaffoldBackgroundColor;
     this.success = success;
     this.error = error;
     this.info = info;

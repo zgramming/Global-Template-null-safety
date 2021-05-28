@@ -34,12 +34,12 @@ class BottomAppBarWithFAB extends StatefulWidget {
 }
 
 class _BottomAppBarWithFABState extends State<BottomAppBarWithFAB> {
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
 
   void _updateIndex(int index) {
     widget.onTap(index);
     setState(() {
-      _selectedIndex = index;
+      // _selectedIndex = index;
     });
   }
 
@@ -72,24 +72,19 @@ class _BottomAppBarWithFABState extends State<BottomAppBarWithFAB> {
     required int index,
     required ValueChanged<int> onPressed,
   }) {
-    final Color? color = (_selectedIndex == index) ? widget.selectedColor : widget.unSelectedColor;
-    return SizedBox(
-      height: widget.height,
-      child: InkWell(
-        onTap: () => onPressed(index),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                item.iconData,
-                size: widget.iconSize ?? sizes.width(context) / 14,
-              ),
-              color: color,
-              onPressed: () => onPressed(index),
-            )
-          ],
+    // final Color? color = (_selectedIndex == index) ? widget.selectedColor : widget.unSelectedColor;
+    return Expanded(
+      child: SizedBox(
+        height: widget.height,
+        child: InkWell(
+          onTap: () => onPressed(index),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              item.child,
+            ],
+          ),
         ),
       ),
     );
@@ -97,7 +92,7 @@ class _BottomAppBarWithFABState extends State<BottomAppBarWithFAB> {
 }
 
 class BottomAppBarItem {
-  BottomAppBarItem({required this.iconData, this.text = ''});
-  IconData iconData;
+  BottomAppBarItem({required this.child, this.text = ''});
+  Widget child;
   String text;
 }
