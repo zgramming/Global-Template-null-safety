@@ -2,7 +2,7 @@ name: global_template
 description: Global Template Support null-safety
 version: 2.0.0
 author: Zeffry Reynando
-homepage: https://zeffry.devatbase.com/
+homepage: https://zeffry.dev/
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   cached_network_image: ^3.0.0
   intl: ^0.17.0
-  package_info: ^2.0.0
+  package_info: ^2.0.2
 
 dev_dependencies:
   flutter_test:
