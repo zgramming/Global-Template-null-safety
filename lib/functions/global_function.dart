@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' as io;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -251,10 +251,11 @@ class GlobalFunction {
   }) {
     const divider = 1024;
     try {
-      if (!File(pathFile).existsSync()) {
+      if (!io.File(pathFile).existsSync()) {
         throw 'File not Exists !!!';
       }
-      final _file = File(pathFile);
+      final _file = io.File(pathFile);
+
       final _size = _file.lengthSync();
 
       if (_size < divider) {
@@ -549,6 +550,13 @@ class GlobalFunction {
     final result = isExist ? null : newValue;
     return result;
   }
+
+  /// JSON Converter
+  static int? jsonConverterIntegerFromString(String? value) =>
+      value == null ? null : int.parse(value);
+
+  static int? jsonStringToInteger(String? value) => value == null ? null : int.parse(value);
+  static String? jsonStringFromInteger(int? value) => value?.toString();
 }
 
 class InputNumberFormat extends TextInputFormatter {
