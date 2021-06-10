@@ -553,8 +553,7 @@ class GlobalFunction {
 
   /// JSON Converter
 
-  static int? fromJsonStringToInteger(int value) =>
-      (value is String) ? int.parse(value.toString()) : value;
+  static int? fromJsonStringToInteger(String value) => int.tryParse(value);
   static String? toJsonStringFromInteger(int? value) => value?.toString();
 }
 
