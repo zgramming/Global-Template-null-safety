@@ -552,11 +552,9 @@ class GlobalFunction {
   }
 
   /// JSON Converter
-  static int? jsonConverterIntegerFromString(String? value) =>
-      value == null ? null : int.parse(value);
 
-  static int? jsonStringToInteger(String? value) => value == null ? null : int.parse(value);
-  static String? jsonStringFromInteger(int? value) => value?.toString();
+  static int? fromJsonStringToInteger(String? value) => value == null ? null : int.parse(value);
+  static String? toJsonStringFromInteger(int? value) => value?.toString();
 }
 
 class InputNumberFormat extends TextInputFormatter {
