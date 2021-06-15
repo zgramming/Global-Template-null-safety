@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 enum TypeLayout { mobile, largeMobile, tablet, laptop, desktop }
 
 class SizesDevice {
-  double get mobileBreakPoint => 576;
-  double get largeMobileBreakPoint => 768;
-  double get tabletBreakPoint => 992;
-  double get laptopBreakPoint => 1200;
-  double get pcBreakPoint => 1400;
+  double get mobileBreakPoint => 480;
+  double get tabletBreakPoint => 768;
+  double get laptopBreakPoint => 992;
+  double get pcBreakPoint => 1200;
 
   MediaQueryData mediaQuery(BuildContext context) => MediaQuery.of(context);
 
@@ -33,10 +32,6 @@ class SizesDevice {
   /// Check if devices reach mobile breakpoint
   bool isMobileBreakPoint(BuildContext context) =>
       smallestDimension(context).size.shortestSide <= mobileBreakPoint;
-
-  /// Check if devices reach large mobile breakpoint
-  bool isLargeMobileBreakPoint(BuildContext context) =>
-      smallestDimension(context).size.shortestSide <= largeMobileBreakPoint;
 
   /// Check if devices reach Tablet breakpoint
   bool isTabletBreakPoint(BuildContext context) =>
