@@ -6,7 +6,6 @@ class ShowImageNetwork extends StatelessWidget {
   const ShowImageNetwork({
     Key? key,
     required this.imageUrl,
-    required this.imageSize,
     this.isCircle = false,
     this.imageCircleRadius = 35,
     this.imageCircleElevation = 0,
@@ -14,14 +13,20 @@ class ShowImageNetwork extends StatelessWidget {
     this.padding = const EdgeInsets.all(0),
     this.alignment = Alignment.center,
     this.fit,
+    this.blendMode,
     this.onErrorImage,
     this.loadingBuilder,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   final String imageUrl;
 
-  ///! Setting size image
-  final double imageSize;
+  ///! Setting height
+  final double? height;
+
+  ///! Setting width
+  final double? width;
 
   ///! Setting Jika Ingin Image Lingkaran
   final bool isCircle;
@@ -44,6 +49,9 @@ class ShowImageNetwork extends StatelessWidget {
   ///! Settings fit Image
   final BoxFit? fit;
 
+  ///! Blendmode
+  final BlendMode? blendMode;
+
   ///! Handle Error Image
   final Widget Function(BuildContext context, String url, dynamic error)? onErrorImage;
 
@@ -56,10 +64,10 @@ class ShowImageNetwork extends StatelessWidget {
       child: ClipRRect(
         borderRadius: imageBorderRadius ?? BorderRadius.zero,
         child: CachedNetworkImage(
-          colorBlendMode: BlendMode.saturation,
+          colorBlendMode: blendMode,
           imageUrl: imageUrl,
-          height: sizes.height(context) / imageSize,
-          width: sizes.width(context) / imageSize,
+          height: sizes.height(context) / (height ?? 5),
+          width: sizes.width(context) / (width ?? 5),
           errorWidget: onErrorImage ??
               (BuildContext context, String url, dynamic error) {
                 return Center(
