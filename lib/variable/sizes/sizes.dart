@@ -4,9 +4,9 @@ enum TypeLayout { mobile, largeMobile, tablet, laptop, desktop }
 
 class SizesDevice {
   double get mobileBreakPoint => 480;
-  double get tabletBreakPoint => 768;
-  double get laptopBreakPoint => 992;
-  double get pcBreakPoint => 1200;
+  double get tabletBreakPoint => 961;
+  double get laptopBreakPoint => 1025;
+  double get pcBreakPoint => 1281;
 
   MediaQueryData mediaQuery(BuildContext context) => MediaQuery.of(context);
 
