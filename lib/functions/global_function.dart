@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:global_template/global_template.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -20,8 +19,6 @@ enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
-  static final DefaultCacheManager _cacheManager = DefaultCacheManager();
-
   /// Fungsi untuk Meng-compare 2 Build versi dari server dan aplikasi.
   /// Akan return [TRUE] jika aplikasi sudah terbaru sebaliknya [FALSE]
   static bool isLatestVersion({
@@ -37,11 +34,6 @@ class GlobalFunction {
     return false;
   }
 
-  static void clearCacheApp() {
-    GlobalFunction._cacheManager.emptyCache();
-  }
-
-  ///*------------------------------------------------------------------------------------------------------------
   ///* Add Separator in String
   static String stringWithSeparator(
     String string, {
@@ -67,46 +59,51 @@ class GlobalFunction {
   }
 
   ///* Get First Character From Every Word
-  static String getFirstCharacter({required String string, int? limitTo}) {
+  static String getFirstCharacter(
+    String string, {
+    int limitTo = 1,
+  }) {
     if (string.isNotEmpty) {
-      return string.trim().split(' ').map((e) => e[0]).take(limitTo!).join();
-    } else {
-      return '';
+      return string.trim().split(' ').map((e) => e[0]).take(limitTo).join();
     }
+
+    return '';
   }
 
   ///* Fungsi Untuk Mem-format Angka . Dari 200000 => 200,000
-  static String formatNumber(int value, [String string = '']) {
+  static String formatNumber(int value) {
     final formatter = NumberFormat('#,###');
     final result = formatter.format(value);
     return result;
   }
 
-  /// Fungsi Untuk meng-unformat angka . Dari 200,000 => 200000
+  ///* Fungsi Untuk meng-unformat angka . Dari 200,000 => 200000
   static String unFormatNumber(String number) {
-    // print('Sebelum di Format $number');
     final result = number.replaceAll(',', '').trim();
     return result;
   }
 
-  /// Format Jam
+  ///* Format Jam
   static String formatH(DateTime date) {
     return DateFormat.H(appConfig.indonesiaLocale).format(date);
   }
 
-  /// Format : Jam:Menit
+  ///* Format : Jam:Menit
   static String formatHM(DateTime date) {
     return DateFormat.Hm(appConfig.indonesiaLocale).format(date);
   }
 
-  /// Format : Jam:Menit:Detik
+  ///* Format : Jam:Menit:Detik
   static String formatHMS(DateTime date) {
     final result = DateFormat.Hms(appConfig.indonesiaLocale).format(date);
     return result.replaceAll('.', ':');
   }
 
-  /// Format Hari
-  static String formatD(DateTime date, {int type = 2}) {
+  ///* Format Hari
+  static String formatD(
+    DateTime date, {
+    int type = 2,
+  }) {
     if (type == 1) {
       return DateFormat.E(appConfig.indonesiaLocale).format(date);
     } else {
@@ -114,8 +111,11 @@ class GlobalFunction {
     }
   }
 
-  /// Format Bulan
-  static String formatM(DateTime date, {int type = 1}) {
+  ///* Format Bulan
+  static String formatM(
+    DateTime date, {
+    int type = 1,
+  }) {
     switch (type) {
       case 1:
         return DateFormat.M(appConfig.indonesiaLocale).format(date);
@@ -128,8 +128,11 @@ class GlobalFunction {
     }
   }
 
-  /// Format Bulan Hari
-  static String formatMD(DateTime date, {int type = 1}) {
+  ///* Format Bulan Hari
+  static String formatMD(
+    DateTime date, {
+    int type = 1,
+  }) {
     switch (type) {
       case 1:
         return DateFormat.MMMd(appConfig.indonesiaLocale).format(date);
@@ -144,13 +147,16 @@ class GlobalFunction {
     }
   }
 
-  /// Format : Tahun
+  ///* Format : Tahun
   static String formatY(DateTime date) {
     return DateFormat.y(appConfig.indonesiaLocale).format(date);
   }
 
-  /// Format : Tahun:Bulan[type=?]
-  static String formatYM(DateTime date, {int type = 3}) {
+  ///* Format : Tahun:Bulan[type=?]
+  static String formatYM(
+    DateTime date, {
+    int type = 3,
+  }) {
     if (type == 1) {
       return DateFormat.yM(appConfig.indonesiaLocale).format(date);
     } else if (type == 2) {
@@ -162,8 +168,11 @@ class GlobalFunction {
     }
   }
 
-  /// Format : Tahun:Bulan:Hari[type=1/2/3]
-  static String formatYMD(DateTime date, {int type = 1}) {
+  ///* Format : Tahun:Bulan:Hari[type=1/2/3]
+  static String formatYMD(
+    DateTime date, {
+    int type = 1,
+  }) {
     if (type == 1) {
       return DateFormat.yMd(appConfig.indonesiaLocale).format(date);
     } else if (type == 2) {
@@ -175,8 +184,12 @@ class GlobalFunction {
     }
   }
 
-  /// Format : Tahun:Bulan:Hari[type=?] , Specific disini maksudnya Hari = Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu
-  static String formatYMDS(DateTime date, {int type = 3}) {
+  ///* Format : Tahun:Bulan:Hari[type=?]
+  ///* Specific disini maksudnya Hari = Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu
+  static String formatYMDS(
+    DateTime date, {
+    int type = 3,
+  }) {
     if (type == 1) {
       return DateFormat.yMEd(appConfig.indonesiaLocale).format(date);
     } else if (type == 2) {
@@ -188,7 +201,7 @@ class GlobalFunction {
     }
   }
 
-  /// Format : Time => Jam Menit
+  ///* Format : Time => Jam Menit
   static String formatTimeTo(
     String time, {
     TimeFormat? timeFormat,
@@ -309,17 +322,64 @@ class GlobalFunction {
     }
   }
 
-  ///* Mendapatkan Total Hari Pada bulan X
-  static int totalDaysOfMonth(int year, int month) {
+  ///* Mendapatkan total hari pada tahun dan bulan yang ditentukan
+  ///* @param       => year
+  ///* @param       => month
+  ///* @return      => integer
+  ///* @penggunaan
+  ///* final _totalDayOfMonth = totalDaysOfMonth(2020, 10)
+
+  static int totalDaysOfMonth({
+    required int year,
+    required int month,
+  }) {
     final result = (month < 12) ? DateTime(year, month + 1, 0) : DateTime(year + 1, 1, 0);
     return result.day;
   }
 
-  ///* Mendatkan Total Hari Pada Tahun X
-  static int totalDayOfYear(int year1, int year2) {
-    final date1 = DateTime(year1);
-    final date2 = DateTime(year2);
-    return date2.difference(date1).inDays;
+  ///* Mendatkan Total Hari Pada Tahun yang ditentukan
+  ///* @param      => year
+  ///* @return     => integer
+  ///* @penggunaan
+  ///* final total = totalDayInYear(2020) => menghasilkan total hari ditahun 2020 [366 Day]
+
+  static int totalDayInYear(int year) {
+    var tempTotalDayInYear = 0;
+    const totalMonthInYear = 12;
+    for (int i = 1; i <= totalMonthInYear; i++) {
+      final totalDay = totalDaysOfMonth(year: year, month: i);
+      tempTotalDayInYear += totalDay;
+    }
+
+    return tempTotalDayInYear;
+  }
+
+  ///* Mendapatkan total hari dari range year yang ditentukan
+  ///* @param   => from
+  ///* @param   => to
+  ///* @return  => integer
+  ///* @penggunaan
+  ///* case 1
+  ///* final total = totalDayInRangeYear(2020,2021) => menghasilkan total hari ditahun 2020 [366 Day]
+  ///* case 2
+  ///* final total = totalDayInRangeYear(2020,2022) => menghasilkan total hari dari tahun 2020-2022 [731 Day]
+
+  static int totalDayInRangeYear({
+    required int from,
+    required int to,
+  }) {
+    if (from > to) {
+      throw Exception("Year From can't be greather than Year To");
+    }
+
+    if (from == to) {
+      return totalDayInYear(from);
+    }
+
+    final yFrom = DateTime(from);
+    final yTo = DateTime(to);
+
+    return yTo.difference(yFrom).inDays;
   }
 
   ///* Mendapatkan total WeekDay / WeekEnd berdasarkan kriteria :
@@ -336,8 +396,8 @@ class GlobalFunction {
     TypeDateTotal typeDateTotal = TypeDateTotal.month,
   }) {
     final totalDay = (typeDateTotal == TypeDateTotal.month)
-        ? totalDaysOfMonth(year, month)
-        : totalDayOfYear(year - 1, year);
+        ? totalDaysOfMonth(year: year, month: month)
+        : totalDayInRangeYear(from: year - 1, to: year);
 
     var weekDay = 0;
     var weekEnd = 0;
@@ -358,7 +418,10 @@ class GlobalFunction {
     return result;
   }
 
-  static int getTotalLenghtWord(String string, {int? substract}) {
+  static int getTotalLenghtWord(
+    String string, {
+    int? substract,
+  }) {
     final length = string.split(' ').length;
     int result;
     if (substract != null) {
@@ -379,6 +442,8 @@ class GlobalFunction {
     return result;
   }
 
+  ///* Mendapatkan warna acak dari kumpulan warna yang sudah ditentukan
+  ///* @return    => Color
   static Color getRandomColor() {
     final _random = Random();
     final color = colorPallete.arrColor[_random.nextInt(colorPallete.arrColor.length)];
@@ -511,7 +576,10 @@ class GlobalFunction {
   }
 
   ///* Memunculkan loading modal dialog
-  static Future showDialogLoading(BuildContext context, {String title = 'Sedang Proses'}) async {
+  static Future showDialogLoading(
+    BuildContext context, {
+    String title = 'Sedang Proses',
+  }) async {
     await showDialog(
       context: context,
       barrierDismissible: false,
@@ -551,9 +619,18 @@ class GlobalFunction {
     return result;
   }
 
-  /// JSON Converter
+  ///* JSON Converter
+
+  ///* Mengubah hasil dari json ke [String => Integer]
+  ///* @param     => String
+  ///* @return    => Integer?
 
   static int? fromJsonStringToInteger(String value) => int.tryParse(value);
+
+  ///* Mengubah hasil ke json dari [Integer? => String]
+  ///* @param     => Integer?
+  ///* @return    => String?
+
   static String? toJsonStringFromInteger(int? value) => value?.toString();
 }
 
@@ -600,7 +677,6 @@ class RouteAnimation {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final rotationAnimation = animation.drive(tween);
         return RotationTransition(turns: rotationAnimation, child: child);
-        // return FadeTransition();
       },
     );
   }
@@ -631,7 +707,6 @@ class RouteAnimation {
           alignment: alignment,
           child: child,
         );
-        // return FadeTransition();
       },
     );
   }
@@ -656,7 +731,6 @@ class RouteAnimation {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final fadeAnimation = animation.drive(tween);
         return FadeTransition(opacity: fadeAnimation, child: child);
-        // return FadeTransition();
       },
     );
   }
@@ -700,7 +774,6 @@ class RouteAnimation {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final offsetAnimation = animation.drive(tween);
         return SlideTransition(position: offsetAnimation, child: child);
-        // return FadeTransition();
       },
     );
   }
