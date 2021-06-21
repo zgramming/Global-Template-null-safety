@@ -5,7 +5,11 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class LiveClock extends StatefulWidget {
   final TextStyle? textStyle;
-  const LiveClock({this.textStyle});
+  final Widget Function(BuildContext context, DateTime time)? builder;
+  const LiveClock({
+    this.textStyle,
+    this.builder,
+  });
   @override
   _LiveClockState createState() => _LiveClockState();
 }
@@ -35,6 +39,9 @@ class _LiveClockState extends State<LiveClock> {
         }
         if (snapshot.hasData) {
           final result = snapshot.data as DateTime;
+          if (widget.builder != null) {
+            return widget.builder!(context, result);
+          }
           return RichText(
             text: TextSpan(
               text: GlobalFunction.formatYMDS(DateTime.now()),
