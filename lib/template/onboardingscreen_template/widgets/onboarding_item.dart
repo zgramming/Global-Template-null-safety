@@ -18,9 +18,9 @@ class OnboardingItem extends StatefulWidget {
     this.titleStyle,
     this.subtitleStyle,
     this.subtitle,
-    this.flexLogo = 4,
-    this.flexTitle = 4,
-    this.flexSubtitle = 4,
+    this.flexLogo = 8,
+    this.flexTitle = 2,
+    this.flexSubtitle = 2,
     this.animationType = OnboardingItemAnimationType.RTL,
   }) : super(key: key);
 

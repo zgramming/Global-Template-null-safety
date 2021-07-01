@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:global_template/global_template.dart';
 
@@ -6,47 +7,53 @@ class SplashScreenTemplate extends StatefulWidget {
   const SplashScreenTemplate({
     this.duration = 4,
     this.backgroundColor,
-    required this.image,
-    required this.navigateAfterSplashScreen,
-    required this.copyRightVersion,
     this.gradient,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    required this.onDoneTimer,
+    required this.children,
   });
 
   final int duration;
   final Color? backgroundColor;
-  final CopyRightVersion copyRightVersion;
   final Gradient? gradient;
-  final Widget image;
-  final WidgetBuilder navigateAfterSplashScreen;
+  final dynamic Function(bool isTimerDone) onDoneTimer;
+  final List<Widget> children;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   _SplashScreenTemplateState createState() => _SplashScreenTemplateState();
 }
 
 class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
-  Future<void> navigationPage() async {
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () {
-        if (mounted) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: widget.navigateAfterSplashScreen),
-          );
-        }
-      },
-    );
-  }
-
+  bool _isTimerDone = false;
+  late Timer _timer;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      final durations = Duration(seconds: widget.duration);
-      Timer(
-        durations,
-        () => navigationPage(),
-      );
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (timer.tick >= widget.duration) {
+          log('done');
+          setState(() {
+            if (mounted) {
+              _isTimerDone = true;
+              Future.delayed(const Duration(milliseconds: 100), () {
+                widget.onDoneTimer(_isTimerDone);
+              });
+            }
+          });
+        } else {
+          log('tick ${timer.tick}');
+        }
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -61,14 +68,8 @@ class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
       child: Padding(
         padding: EdgeInsets.only(top: sizes.statusBarHeight(context)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: widget.image,
-            ),
-            // Spacer(),
-            widget.copyRightVersion,
-          ],
+          crossAxisAlignment: widget.crossAxisAlignment,
+          children: widget.children,
         ),
       ),
     );

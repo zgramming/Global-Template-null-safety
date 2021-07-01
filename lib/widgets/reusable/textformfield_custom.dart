@@ -18,6 +18,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.validator,
     this.hintText,
     this.labelText,
+    this.labelStyle,
     this.hintStyle,
     this.errorBorder,
     this.errorStyle,
@@ -26,6 +27,8 @@ class TextFormFieldCustom extends StatefulWidget {
     this.textStyle,
     this.prefixTextStyle,
     this.suffixTextStyle,
+    this.onObsecurePasswordIcon,
+    this.onObsecurePasswordColor,
     this.textCapitalization = TextCapitalization.none,
     this.errorMaxLines = 2,
     this.radius = 8,
@@ -38,6 +41,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.disableOutlineBorder = true,
     this.isEnabled = true,
     this.backgroundColor = Colors.white,
+    this.activeColor = Colors.green,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
   });
@@ -50,6 +54,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final bool readOnly;
 
   final Color backgroundColor;
+  final Color activeColor;
   final Color? borderColor;
   final Color? borderFocusColor;
 
@@ -61,6 +66,8 @@ class TextFormFieldCustom extends StatefulWidget {
   /// Icon sebelah kanan
   final Widget? suffixIcon;
 
+  final IconData Function(bool isObsecure)? onObsecurePasswordIcon;
+  final Color Function(bool isObsecure)? onObsecurePasswordColor;
   final String? hintText;
   final String? labelText;
   final String? initialValue;
@@ -79,6 +86,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final TextStyle? textStyle;
   final TextStyle? prefixTextStyle;
   final TextStyle? suffixTextStyle;
+  final TextStyle? labelStyle;
 
   final TextCapitalization textCapitalization;
 
@@ -112,75 +120,81 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
       _obsecureText = false;
     }
     return Stack(
-      alignment: Alignment.centerRight,
       children: [
-        TextFormField(
-          style: widget.textStyle,
-          readOnly: widget.readOnly,
-          textCapitalization: widget.textCapitalization,
-          autofocus: widget.autoFocus,
-          controller: widget.controller,
-          textAlign: widget.centerText ? TextAlign.center : TextAlign.left,
-          obscureText: _obsecureText,
-          enabled: widget.isEnabled,
-          initialValue: widget.initialValue,
-          minLines: widget.minLines,
-          maxLines: widget.isPassword ? 1 : widget.maxLines,
-          decoration: InputDecoration(
-            suffixStyle: widget.suffixTextStyle,
-            prefixStyle: widget.prefixTextStyle,
-            isDense: true,
-            fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
-            filled: true,
-            hintStyle: widget.hintStyle,
-            prefixIcon: widget.isPassword ? const Icon(Icons.lock) : widget.prefixIcon,
-            hintText: widget.hintText,
-            labelText: widget.labelText,
-            errorMaxLines: widget.errorMaxLines,
-            errorStyle: widget.errorStyle,
-            errorBorder: widget.errorBorder,
-            errorText: widget.errorMessage,
-            border: widget.disableOutlineBorder
-                ? null
-                : OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(widget.radius),
-                  ),
-            enabledBorder: widget.disableOutlineBorder
-                ? null
-                : OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(widget.radius),
-                    borderSide: BorderSide(
-                      color: widget.borderColor ?? Colors.grey[400]!,
-                    ),
-                  ),
-            focusedBorder: widget.disableOutlineBorder
-                ? null
-                : OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderFocusColor ?? Theme.of(context).primaryColor,
-                    ),
-                  ),
-            contentPadding: widget.padding,
+        Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ThemeData().colorScheme.copyWith(primary: widget.activeColor),
           ),
-          textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
-          keyboardType: widget.keyboardType,
-          inputFormatters: widget.inputFormatter,
-          focusNode: widget.focusNode,
-          onFieldSubmitted: widget.onFieldSubmitted,
-          onChanged: widget.onChanged,
-          validator: widget.validator,
-          onSaved: widget.onSaved,
-        ),
-        if (widget.isPassword)
-          IconButton(
-            icon: Icon(
-              _obsecurePassword ? Icons.visibility_off : Icons.visibility,
-              color: Colors.grey[600],
+          child: TextFormField(
+            style: widget.textStyle,
+            readOnly: widget.readOnly,
+            textCapitalization: widget.textCapitalization,
+            autofocus: widget.autoFocus,
+            controller: widget.controller,
+            textAlign: widget.centerText ? TextAlign.center : TextAlign.left,
+            obscureText: _obsecureText,
+            enabled: widget.isEnabled,
+            initialValue: widget.initialValue,
+            minLines: widget.minLines,
+            maxLines: widget.isPassword ? 1 : widget.maxLines,
+            decoration: InputDecoration(
+              suffixStyle: widget.suffixTextStyle,
+              prefixStyle: widget.prefixTextStyle,
+              isDense: true,
+              fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
+              filled: true,
+              hintStyle: widget.hintStyle,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(
+                        widget.onObsecurePasswordIcon != null
+                            ? widget.onObsecurePasswordIcon!(_obsecurePassword)
+                            : null,
+                        color: _obsecurePassword ? Colors.grey[600] : widget.activeColor,
+                      ),
+                      onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
+                    )
+                  : widget.suffixIcon,
+              hintText: widget.hintText,
+              labelText: widget.labelText,
+              labelStyle: widget.labelStyle,
+              errorMaxLines: widget.errorMaxLines,
+              errorStyle: widget.errorStyle,
+              errorBorder: widget.errorBorder,
+              errorText: widget.errorMessage,
+              border: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                    ),
+              enabledBorder: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                      borderSide: BorderSide(
+                        color: widget.borderColor ?? Colors.grey[400]!,
+                      ),
+                    ),
+              focusedBorder: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: widget.borderFocusColor ?? Theme.of(context).primaryColor,
+                      ),
+                    ),
+              contentPadding: widget.padding,
             ),
-            onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
-          )
-        else
-          widget.suffixIcon ?? const SizedBox()
+            textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            inputFormatters: widget.inputFormatter,
+            focusNode: widget.focusNode,
+            onFieldSubmitted: widget.onFieldSubmitted,
+            onChanged: widget.onChanged,
+            validator: widget.validator,
+            onSaved: widget.onSaved,
+          ),
+        ),
       ],
     );
   }
