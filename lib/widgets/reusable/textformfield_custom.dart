@@ -152,7 +152,9 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                       icon: Icon(
                         widget.onObsecurePasswordIcon != null
                             ? widget.onObsecurePasswordIcon!(_obsecurePassword)
-                            : null,
+                            : _obsecurePassword
+                                ? Icons.lock
+                                : Icons.lock_open,
                         color: _obsecurePassword ? Colors.grey[600] : widget.activeColor,
                       ),
                       onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
