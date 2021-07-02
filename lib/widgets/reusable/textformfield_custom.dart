@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
     this.controller,
-    this.prefixIcon = const Icon(Icons.supervised_user_circle),
+    this.prefixIcon,
     this.suffixIcon,
     this.initialValue,
     this.minLines,
@@ -41,7 +41,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.disableOutlineBorder = true,
     this.isEnabled = true,
     this.backgroundColor = Colors.white,
-    this.activeColor = Colors.green,
+    this.activeColor,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
   });
@@ -54,7 +54,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final bool readOnly;
 
   final Color backgroundColor;
-  final Color activeColor;
+  final Color? activeColor;
   final Color? borderColor;
   final Color? borderFocusColor;
 
@@ -123,7 +123,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
       children: [
         Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ThemeData().colorScheme.copyWith(primary: widget.activeColor),
+            colorScheme:
+                ThemeData().colorScheme.copyWith(primary: widget.activeColor ?? widget.borderColor),
           ),
           child: TextFormField(
             style: widget.textStyle,
@@ -144,7 +145,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
               filled: true,
               hintStyle: widget.hintStyle,
-              prefixIcon: widget.prefixIcon,
+              prefixIcon: widget.prefixIcon ??
+                  Icon(Icons.supervised_user_circle, color: widget.borderColor),
               suffixIcon: widget.isPassword
                   ? IconButton(
                       icon: Icon(
@@ -180,7 +182,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   ? null
                   : OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: widget.borderFocusColor ?? Theme.of(context).primaryColor,
+                        color: widget.borderFocusColor ?? (widget.borderColor ?? Colors.grey[400]!),
                       ),
                     ),
               contentPadding: widget.padding,
