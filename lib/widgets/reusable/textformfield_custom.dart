@@ -145,8 +145,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
               filled: true,
               hintStyle: widget.hintStyle,
-              prefixIcon: widget.prefixIcon ??
-                  Icon(Icons.supervised_user_circle, color: widget.borderColor),
+              prefixIcon: widget.prefixIcon,
               suffixIcon: widget.isPassword
                   ? IconButton(
                       icon: Icon(
@@ -187,7 +186,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                         color: widget.borderFocusColor ?? (widget.borderColor ?? Colors.grey[400]!),
                       ),
                     ),
-              contentPadding: widget.padding,
+              contentPadding:
+                  widget.prefixIcon == null ? const EdgeInsets.all(12.0) : widget.padding,
             ),
             textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
             keyboardType: widget.keyboardType,
