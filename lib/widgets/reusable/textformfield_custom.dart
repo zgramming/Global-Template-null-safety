@@ -187,7 +187,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                       ),
                     ),
               contentPadding:
-                  widget.prefixIcon == null ? const EdgeInsets.all(12.0) : widget.padding,
+                  widget.prefixIcon == null ? const EdgeInsets.all(14.0) : widget.padding,
             ),
             textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
             keyboardType: widget.keyboardType,
