@@ -651,7 +651,7 @@ class GlobalFunction {
   ///* @param     => String
   ///* @return    => Integer?
 
-  static int? fromJsonStringToInteger(String value) => int.tryParse(value);
+  static int? fromJsonStringToInteger(dynamic value) => int.tryParse(value.toString());
 
   ///* Mengubah hasil ke json dari [Integer? => String]
   ///* @param     => Integer?
