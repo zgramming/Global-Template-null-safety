@@ -53,20 +53,24 @@ class ActionModalBottomSheet extends StatelessWidget {
         spacing: spacing,
         textDirection: textDirection,
         children: [
-          ActionCircleButton(
-            isVisible: deleteIsVisible,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            onTap: onDelete,
-          ),
-          ActionCircleButton(
-            isVisible: editIsVisible,
-            backgroundColor: colorPallete.primaryColor,
-            foregroundColor: Colors.white,
-            icon: Icons.mode_edit,
-            onTap: onEdit,
-          ),
-          ...children
+          if (typeAction != TypeAction.none) ...[
+            ActionCircleButton(
+              isVisible: deleteIsVisible,
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              onTap: onDelete,
+            ),
+            ActionCircleButton(
+              isVisible: editIsVisible,
+              backgroundColor: colorPallete.primaryColor,
+              foregroundColor: Colors.white,
+              icon: Icons.mode_edit,
+              onTap: onEdit,
+            ),
+            ...children
+          ] else ...[
+            ...children
+          ]
         ],
       ),
     );
