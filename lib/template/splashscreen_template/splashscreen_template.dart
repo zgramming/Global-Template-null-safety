@@ -34,7 +34,6 @@ class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (timer.tick >= widget.duration) {
-          log('done');
           setState(() {
             if (mounted) {
               _isTimerDone = true;
@@ -42,6 +41,8 @@ class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
                 widget.onDoneTimer(_isTimerDone);
               });
             }
+            log('done');
+            timer.cancel();
           });
         } else {
           log('tick ${timer.tick}');
