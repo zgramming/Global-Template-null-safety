@@ -624,6 +624,31 @@ class GlobalFunction {
     };
   }
 
+  static String? validateIsEmpty(String? value, [String message = 'Input tidak boleh kosong']) {
+    if (value?.isEmpty ?? true) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? validateIsEqual(String? value1, String? value2,
+      [String message = 'input tidak matching']) {
+    if (value1 != value2) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? validateIsValidEmail(String? value, [String message = 'Email tidak valid']) {
+    final bool emailValid =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(value ?? 'zeffry.reynando@gmail.com');
+    if (!emailValid) {
+      return message;
+    }
+    return null;
+  }
+
   ///* Check if value in list already exist/not
   static T? isValueExistObject<T>(
     List<T> checkedList,
