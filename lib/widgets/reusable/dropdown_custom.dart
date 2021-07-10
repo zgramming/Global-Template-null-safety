@@ -13,7 +13,6 @@ class DropddownCustom<T> extends StatelessWidget {
   final Color? backgroundColor;
   final ValueChanged<T?>? onChanged;
   final Function(T? value)? onTapItem;
-  final T? Function(T? value) valueItem;
   final Widget Function(T? value) builder;
   final Widget? icon;
   final Widget? underline;
@@ -30,7 +29,6 @@ class DropddownCustom<T> extends StatelessWidget {
     this.backgroundColor,
     required this.onChanged,
     this.onTapItem,
-    required this.valueItem,
     required this.builder,
     this.icon,
     this.underline,
@@ -60,7 +58,7 @@ class DropddownCustom<T> extends StatelessWidget {
         items: items
             .map(
               (e) => DropdownMenuItem<T>(
-                value: valueItem(e),
+                value: e,
                 onTap: onTapItem != null ? () => onTapItem!(e) : null,
                 child: builder(e),
               ),
