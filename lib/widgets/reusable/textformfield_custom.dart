@@ -183,6 +183,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   ? null
                   : OutlineInputBorder(
                       borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(widget.radius),
                         color: widget.borderFocusColor ?? (widget.borderColor ?? Colors.grey[400]!),
                       ),
                     ),
