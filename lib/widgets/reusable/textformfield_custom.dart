@@ -32,7 +32,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     this.errorMaxLines = 2,
     this.radius = 8,
-    this.padding = EdgeInsets.zero,
+    this.padding = const EdgeInsets.only(bottom: 14.0, left: 14.0, right: 14.0, top: 14.0),
     this.readOnly = false,
     this.autoFocus = false,
     this.centerText = false,
@@ -187,8 +187,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                         color: widget.borderFocusColor ?? (widget.borderColor ?? Colors.grey[400]!),
                       ),
                     ),
-              contentPadding:
-                  widget.prefixIcon == null ? const EdgeInsets.all(14.0) : widget.padding,
+              contentPadding: widget.padding,
             ),
             textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
             keyboardType: widget.keyboardType,
