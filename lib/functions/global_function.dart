@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' as io;
 import 'dart:math';
 
@@ -827,5 +828,27 @@ class RouteAnimation {
         return SlideTransition(position: offsetAnimation, child: child);
       },
     );
+  }
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback? action;
+  Timer? _timer;
+
+  Debouncer({
+    this.milliseconds = 1000,
+  });
+
+  void run(VoidCallback action) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
+
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
+
+  void dispose() {
+    _timer?.cancel();
   }
 }
