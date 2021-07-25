@@ -44,6 +44,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.activeColor,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
+    this.onTap,
   });
   final bool isPassword;
   final bool isEnabled;
@@ -104,6 +105,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final ValueChanged<String>? onChanged;
   final FormFieldSetter<String>? onSaved;
+  final VoidCallback? onTap;
 
   @override
   _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
@@ -127,6 +129,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                 ThemeData().colorScheme.copyWith(primary: widget.activeColor ?? widget.borderColor),
           ),
           child: TextFormField(
+            onTap: widget.onTap,
             style: widget.textStyle,
             readOnly: widget.readOnly,
             textCapitalization: widget.textCapitalization,
