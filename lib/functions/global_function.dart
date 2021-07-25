@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math';
 
@@ -684,6 +685,21 @@ class GlobalFunction {
   ///* @return    => String?
 
   static String? toJsonStringFromInteger(int? value) => value?.toString();
+
+  ///* Mengubah hasil dari json dari [Integer? => DateTime]
+  ///* @param     => Integer?
+  ///* @return    => DateTime?
+
+  static DateTime? fromJsonMilisecondToDateTime(dynamic value) =>
+      DateTime.fromMillisecondsSinceEpoch(int.tryParse(value.toString()) ?? 0);
+
+  ///* Mengubah hasil ke json dari [DateTime? => Integer]
+  ///* @param     => DateTime?
+  ///* @return    => Integer?
+  static int? toJsonMilisecondFromDateTime(DateTime date) => date.millisecondsSinceEpoch;
+
+  static Map<String, dynamic> fromJsonMapObjectToMap(Map map) => Map<String, dynamic>.from(map);
+  static String toJsonStringFromMap(Map<String, dynamic> map) => json.encode(map);
 }
 
 class InputNumberFormat extends TextInputFormatter {
