@@ -690,13 +690,13 @@ class GlobalFunction {
   ///* @param     => Integer?
   ///* @return    => DateTime?
 
-  static DateTime? fromJsonMilisecondToDateTime(dynamic value) =>
-      DateTime.fromMillisecondsSinceEpoch(int.tryParse(value.toString()) ?? 0);
+  static DateTime? fromJsonMilisecondToDateTime(int value) =>
+      DateTime.fromMillisecondsSinceEpoch(value);
 
   ///* Mengubah hasil ke json dari [DateTime? => Integer]
   ///* @param     => DateTime?
   ///* @return    => Integer?
-  static int? toJsonMilisecondFromDateTime(DateTime date) => date.millisecondsSinceEpoch;
+  static int? toJsonMilisecondFromDateTime(DateTime? date) => date?.millisecondsSinceEpoch;
 
   static Map<String, dynamic> fromJsonMapObjectToMap(Map map) => Map<String, dynamic>.from(map);
   static String toJsonStringFromMap(Map<String, dynamic> map) => json.encode(map);
@@ -867,4 +867,13 @@ class Debouncer {
   void dispose() {
     _timer?.cancel();
   }
+}
+
+class CustomException {
+  final String message;
+
+  CustomException(this.message);
+
+  @override
+  String toString() => message;
 }
