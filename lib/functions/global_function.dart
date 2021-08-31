@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ enum TypeDateTotal { month, year }
 enum SnackBarType { success, error, warning, info, normal }
 enum SnackBarShape { rounded, normal }
 enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
+enum ImageViewType { network, file, asset }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
@@ -597,6 +599,61 @@ class GlobalFunction {
           ),
         ),
       ),
+    );
+  }
+
+  ///* Memunculkan modal bottom sheet yang dikhusukan untuk view detail image
+  static Future showDetailSingleImage(
+    BuildContext context, {
+    required String url,
+    ImageViewType imageViewType = ImageViewType.network,
+  }) async {
+    Widget image = const SizedBox();
+    switch (imageViewType) {
+      case ImageViewType.network:
+        image = CachedNetworkImage(imageUrl: url);
+        break;
+      case ImageViewType.asset:
+        image = Image.asset(url);
+        break;
+      case ImageViewType.file:
+        image = Image.file(io.File(url));
+        break;
+      default:
+        break;
+    }
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      enableDrag: false,
+      builder: (context) {
+        return Container(
+          color: Colors.black,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: InteractiveViewer(
+                  panEnabled: false,
+                  boundaryMargin: const EdgeInsets.all(100),
+                  minScale: 0.5,
+                  maxScale: 2,
+                  child: image,
+                ),
+              ),
+              Positioned(
+                top: 10,
+                left: 10,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: const CircleAvatar(
+                    child: Icon(Icons.arrow_back),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
