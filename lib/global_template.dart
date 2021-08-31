@@ -35,7 +35,6 @@ export './widgets/reusable/futurebuilder_loading.dart';
 export './widgets/reusable/keyboard_visibility_builder.dart';
 export './widgets/reusable/live_clock.dart';
 export './widgets/reusable/loading_widget.dart';
-export './widgets/reusable/notification_overlay.dart';
 export './widgets/reusable/show_image_asset.dart';
 export './widgets/reusable/show_image_file.dart';
 export './widgets/reusable/show_image_network.dart';

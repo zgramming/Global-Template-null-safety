@@ -5,7 +5,7 @@ class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
     this.controller,
     this.prefixIcon,
-    this.suffixIcon,
+    this.suffixIcon = const [],
     this.initialValue,
     this.minLines,
     this.maxLines,
@@ -29,6 +29,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.suffixTextStyle,
     this.onObsecurePasswordIcon,
     this.onObsecurePasswordColor,
+    this.suffixIconConfiguration = const SuffixIconConfiguration(),
     this.textCapitalization = TextCapitalization.none,
     this.errorMaxLines = 2,
     this.radius = 8,
@@ -65,7 +66,8 @@ class TextFormFieldCustom extends StatefulWidget {
   final Widget? prefixIcon;
 
   /// Icon sebelah kanan
-  final Widget? suffixIcon;
+  final List<Widget> suffixIcon;
+  final SuffixIconConfiguration suffixIconConfiguration;
 
   final IconData Function(bool isObsecure)? onObsecurePasswordIcon;
   final Color Function(bool isObsecure)? onObsecurePasswordColor;
@@ -122,6 +124,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
       _obsecureText = false;
     }
     return Stack(
+      alignment: Alignment.bottomRight,
       children: [
         Theme(
           data: Theme.of(context).copyWith(
@@ -161,7 +164,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                       ),
                       onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
                     )
-                  : widget.suffixIcon,
+                  : null,
               hintText: widget.hintText,
               labelText: widget.labelText,
               labelStyle: widget.labelStyle,
@@ -202,7 +205,41 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
             onSaved: widget.onSaved,
           ),
         ),
+        Positioned(
+          // right: widget.suffixIconConfiguration.rightPosition,
+          // bottom: widget.suffixIconConfiguration.bottomPosition,
+          // top: widget.suffixIconConfiguration.topPosition,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: widget.suffixIconConfiguration.topPosition,
+              bottom: widget.suffixIconConfiguration.bottomPosition,
+              right: widget.suffixIconConfiguration.rightPosition,
+            ),
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              runSpacing: widget.suffixIconConfiguration.runSpacing,
+              spacing: widget.suffixIconConfiguration.spacing,
+              children: widget.suffixIcon,
+            ),
+          ),
+        )
       ],
     );
   }
+}
+
+class SuffixIconConfiguration {
+  final double topPosition;
+  final double bottomPosition;
+  final double rightPosition;
+  final double spacing;
+  final double runSpacing;
+  const SuffixIconConfiguration({
+    this.topPosition = 0,
+    this.bottomPosition = 0,
+    this.rightPosition = 10,
+    this.spacing = 10,
+    this.runSpacing = 0,
+  });
 }
