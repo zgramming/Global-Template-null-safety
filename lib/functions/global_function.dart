@@ -690,8 +690,8 @@ class GlobalFunction {
   ///* @param     => Integer?
   ///* @return    => DateTime?
 
-  static DateTime? fromJsonMilisecondToDateTime(int value) =>
-      DateTime.fromMillisecondsSinceEpoch(value);
+  static DateTime? fromJsonMilisecondToDateTime(int? value) =>
+      DateTime.fromMillisecondsSinceEpoch(value ?? 0);
 
   ///* Mengubah hasil ke json dari [DateTime? => Integer]
   ///* @param     => DateTime?
@@ -867,13 +867,4 @@ class Debouncer {
   void dispose() {
     _timer?.cancel();
   }
-}
-
-class CustomException {
-  final String message;
-
-  CustomException(this.message);
-
-  @override
-  String toString() => message;
 }
