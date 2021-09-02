@@ -27,6 +27,7 @@ export './widgets/reusable/animation/slide_transition.dart';
 export './widgets/reusable/bottomnavigationbar_custom.dart';
 export './widgets/reusable/confirmation_delete_dialog.dart';
 export './widgets/reusable/copyright.dart';
+export './widgets/reusable/detail_single_image.dart';
 export './widgets/reusable/drawer_custom.dart';
 export './widgets/reusable/drawer_menu.dart';
 export './widgets/reusable/dropdown_custom.dart';

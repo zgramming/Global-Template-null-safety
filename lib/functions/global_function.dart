@@ -627,32 +627,7 @@ class GlobalFunction {
       isScrollControlled: true,
       enableDrag: false,
       builder: (context) {
-        return Container(
-          color: Colors.black,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: InteractiveViewer(
-                  panEnabled: false,
-                  boundaryMargin: const EdgeInsets.all(100),
-                  minScale: 0.5,
-                  maxScale: 2,
-                  child: image,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                left: 10,
-                child: GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: const CircleAvatar(
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
+        return DetailSingleImage(image: image);
       },
     );
   }
@@ -924,4 +899,13 @@ class Debouncer {
   void dispose() {
     _timer?.cancel();
   }
+}
+
+class CustomException {
+  final String message;
+
+  CustomException(this.message);
+
+  @override
+  String toString() => message;
 }
