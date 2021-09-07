@@ -4,17 +4,18 @@ import 'package:package_info/package_info.dart';
 
 class CopyRightVersion extends StatefulWidget {
   const CopyRightVersion({
+    Key? key,
     this.copyRight,
     this.colorText = Colors.white,
-    this.backgroundColor,
     this.showCopyRight = true,
+    this.decoration,
     this.padding = const EdgeInsets.all(16.0),
     this.builder,
-  });
+  }) : super(key: key);
   final String? copyRight;
   final Color colorText;
-  final Color? backgroundColor;
   final bool showCopyRight;
+  final Decoration? decoration;
   final EdgeInsetsGeometry padding;
   final Widget Function(PackageInfo info, DateTime dateNow)? builder;
   @override
@@ -42,7 +43,7 @@ class _CopyRightVersionState extends State<CopyRightVersion> {
     return DefaultTextStyle(
       style: TextStyle(color: widget.colorText),
       child: Container(
-        color: widget.backgroundColor,
+        decoration: widget.decoration,
         child: Padding(
           padding: widget.padding,
           child: widget.builder == null
