@@ -20,6 +20,15 @@ enum SnackBarType { success, error, warning, info, normal }
 enum SnackBarShape { rounded, normal }
 enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
 enum ImageViewType { network, file, asset }
+enum GenerateRandomStringRules {
+  onlyNumber,
+  onlyAlphabet,
+  onlyAlphabetLowercase,
+  onlyAlphabetUppercase,
+  combineNumberAlphabet,
+  combineNumberAlphabetLowercase,
+  combineNumberAlphabetUppercase,
+}
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
@@ -258,6 +267,51 @@ class GlobalFunction {
   static String abbreviateNumber(int number) {
     final formattedNumber = NumberFormat.compact().format(number);
     return formattedNumber;
+  }
+
+  static String generateRandomString(
+    int length, {
+    GenerateRandomStringRules rules = GenerateRandomStringRules.combineNumberAlphabet,
+    int minLength = 5,
+  }) {
+    if (length < minLength) {
+      throw Exception('Panjang karakter kurang dari batas minimum karakter');
+    }
+    var concate = '';
+
+    const lowerCaseCharacter = 'abcdefghijklmnopqrstuvwxyz';
+    const upperCaseCharacter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const number = '1234567890';
+    switch (rules) {
+      case GenerateRandomStringRules.onlyNumber:
+        concate = number;
+        break;
+      case GenerateRandomStringRules.onlyAlphabet:
+        concate = lowerCaseCharacter + upperCaseCharacter;
+        break;
+      case GenerateRandomStringRules.onlyAlphabetLowercase:
+        concate = lowerCaseCharacter;
+        break;
+      case GenerateRandomStringRules.onlyAlphabetUppercase:
+        concate = lowerCaseCharacter;
+        break;
+      case GenerateRandomStringRules.combineNumberAlphabet:
+        concate = number + lowerCaseCharacter + upperCaseCharacter;
+        break;
+      case GenerateRandomStringRules.combineNumberAlphabetLowercase:
+        concate = number + lowerCaseCharacter;
+        break;
+      case GenerateRandomStringRules.combineNumberAlphabetUppercase:
+        concate = number + upperCaseCharacter;
+        break;
+      default:
+    }
+
+    final Random _random = Random();
+
+    return String.fromCharCodes(
+      Iterable.generate(length, (_) => concate.codeUnitAt(_random.nextInt(concate.length))),
+    );
   }
 
   ///* Get readable file size [https://github.com/synw/filesize]
