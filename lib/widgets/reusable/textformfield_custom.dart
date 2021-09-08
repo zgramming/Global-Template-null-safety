@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+///TODO: Bug When textformfield show message error
+/// When message error show, position of SuffixIcon still same and make weird look.
+/// Planning : Check if textformfield has error validate, then position suffix icon should be increase
 class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
     this.controller,
@@ -152,19 +155,6 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               filled: true,
               hintStyle: widget.hintStyle,
               prefixIcon: widget.prefixIcon,
-              suffixIcon: widget.isPassword
-                  ? IconButton(
-                      icon: Icon(
-                        widget.onObsecurePasswordIcon != null
-                            ? widget.onObsecurePasswordIcon!(_obsecurePassword)
-                            : _obsecurePassword
-                                ? Icons.lock
-                                : Icons.lock_open,
-                        color: _obsecurePassword ? Colors.grey[600] : widget.activeColor,
-                      ),
-                      onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
-                    )
-                  : null,
               hintText: widget.hintText,
               labelText: widget.labelText,
               labelStyle: widget.labelStyle,
@@ -206,22 +196,31 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
           ),
         ),
         Positioned(
-          // right: widget.suffixIconConfiguration.rightPosition,
-          // bottom: widget.suffixIconConfiguration.bottomPosition,
-          // top: widget.suffixIconConfiguration.topPosition,
           child: Padding(
             padding: EdgeInsets.only(
               top: widget.suffixIconConfiguration.topPosition,
               bottom: widget.suffixIconConfiguration.bottomPosition,
               right: widget.suffixIconConfiguration.rightPosition,
             ),
-            child: Wrap(
-              alignment: WrapAlignment.end,
-              crossAxisAlignment: WrapCrossAlignment.end,
-              runSpacing: widget.suffixIconConfiguration.runSpacing,
-              spacing: widget.suffixIconConfiguration.spacing,
-              children: widget.suffixIcon,
-            ),
+            child: widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                      widget.onObsecurePasswordIcon != null
+                          ? widget.onObsecurePasswordIcon!(_obsecurePassword)
+                          : _obsecurePassword
+                              ? Icons.lock
+                              : Icons.lock_open,
+                      color: _obsecurePassword ? Colors.grey[600] : widget.activeColor,
+                    ),
+                    onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
+                  )
+                : Wrap(
+                    alignment: WrapAlignment.end,
+                    crossAxisAlignment: WrapCrossAlignment.end,
+                    runSpacing: widget.suffixIconConfiguration.runSpacing,
+                    spacing: widget.suffixIconConfiguration.spacing,
+                    children: widget.suffixIcon,
+                  ),
           ),
         )
       ],
@@ -238,7 +237,7 @@ class SuffixIconConfiguration {
   const SuffixIconConfiguration({
     this.topPosition = 0,
     this.bottomPosition = 0,
-    this.rightPosition = 10,
+    this.rightPosition = 0,
     this.spacing = 10,
     this.runSpacing = 0,
   });
