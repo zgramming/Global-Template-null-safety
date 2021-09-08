@@ -22,7 +22,7 @@ class SizesDevice {
       sizes.height(context) - statusBarHeight(context);
 
   double screenHeightMinusAppBarAndStatusBar(BuildContext context) =>
-      sizes.height(context) - kToolbarHeight - statusBarHeight(context);
+      sizes.height(context) - (kToolbarHeight + statusBarHeight(context));
 
   double keyboardHeight(BuildContext context) => MediaQuery.of(context).viewInsets.bottom;
 
