@@ -57,9 +57,10 @@ class GlobalFunction {
 
     if (string.isNotEmpty) {
       final value = string.replaceAllMapped(
-          // ignore: unnecessary_raw_strings
-          RegExp(r'.{' '${separateEvery.toString()}' '}'),
-          (match) => '${match.group(0)}$separator');
+        // ignore: unnecessary_raw_strings
+        RegExp(r'.{' '${separateEvery.toString()}' '}'),
+        (match) => '${match.group(0)}$separator',
+      );
 
       if (string.length % separateEvery == 0) {
         result = value.substring(0, value.length - 1);
@@ -222,7 +223,11 @@ class GlobalFunction {
     final hour = time.replaceAll(':', '').substring(0, 2);
     final minute = time.replaceAll(':', '').substring(2, 4);
     final second = time.replaceAll(':', '').substring(4, 6);
-    String resultHour, resultMinute, resultSecond;
+
+    String resultHour;
+    String resultMinute;
+    String resultSecond;
+
     if (hour.startsWith('0')) {
       resultHour = hour.substring(1);
     } else {
@@ -524,7 +529,8 @@ class GlobalFunction {
       builder: (ctx) => AlertDialog(
         title: const Text('Membutuhkan akses'),
         content: const Text(
-            "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses"),
+          "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses",
+        ),
         actions: [
           TextButton(
             onPressed: onPressed,
@@ -719,8 +725,11 @@ class GlobalFunction {
     return null;
   }
 
-  static String? validateIsEqual(String? value1, String? value2,
-      [String message = 'input tidak matching']) {
+  static String? validateIsEqual(
+    String? value1,
+    String? value2, [
+    String message = 'input tidak matching',
+  ]) {
     if (value1 != value2) {
       return message;
     }
@@ -816,7 +825,10 @@ class InputNumberFormat extends TextInputFormatter {
 class RouteAnimation {
   PageRouteBuilder rotationTransition({
     required Widget Function(
-            BuildContext ctx, Animation<double> animation, Animation<double> secondaryAnimation)
+      BuildContext ctx,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    )
         screen,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
@@ -900,8 +912,8 @@ class RouteAnimation {
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
-    var begin = const Offset(0, 0);
-    const end = Offset(0, 0);
+    var begin = Offset.zero;
+    const end = Offset.zero;
 
     switch (slidePosition) {
       case SlidePosition.fromBottom:
@@ -917,7 +929,7 @@ class RouteAnimation {
         begin = const Offset(-1, 0);
         break;
       default:
-        begin = const Offset(0, 0);
+        begin = Offset.zero;
         break;
     }
     final tween = Tween(begin: begin, end: end);

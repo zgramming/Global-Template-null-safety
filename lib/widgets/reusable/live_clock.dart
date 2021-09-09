@@ -54,7 +54,8 @@ class _LiveClockState extends State<LiveClock> {
           );
         }
         return Text(
-            '${GlobalFunction.formatYMDS(DateTime.now())} ${GlobalFunction.formatHM(DateTime.now())}');
+          '${GlobalFunction.formatYMDS(DateTime.now())} ${GlobalFunction.formatHM(DateTime.now())}',
+        );
       },
     );
   }

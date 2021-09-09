@@ -51,13 +51,13 @@ class _OnboardingItemState extends State<OnboardingItem> with SingleTickerProvid
   late final Animation<double> scaleAnimation;
   late final Animation<double> rotateAnimation;
 
-  Offset _offsetValue = const Offset(0, 0);
+  Offset _offsetValue = Offset.zero;
 
   @override
   void initState() {
     switch (widget.animationType) {
       case OnboardingItemAnimationType.NONE:
-        _offsetValue = const Offset(0, 0);
+        _offsetValue = Offset.zero;
         break;
       case OnboardingItemAnimationType.LTR:
         _offsetValue = const Offset(-200, 0);
@@ -69,7 +69,7 @@ class _OnboardingItemState extends State<OnboardingItem> with SingleTickerProvid
 
     animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
-    translateAnimation = Tween<Offset>(begin: _offsetValue, end: const Offset(0, 0))
+    translateAnimation = Tween<Offset>(begin: _offsetValue, end: Offset.zero)
         .animate(CurvedAnimation(parent: animationController, curve: const Interval(0.1, 1)));
 
     scaleAnimation = Tween<double>(begin: 1, end: 1.5)

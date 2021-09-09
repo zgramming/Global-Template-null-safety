@@ -11,7 +11,7 @@ class ShowImageFile extends StatelessWidget {
     this.fit,
     this.imageCircleRadius = 35,
     this.isCircle = false,
-    this.padding = const EdgeInsets.all(0),
+    this.padding = EdgeInsets.zero,
     this.alignment = Alignment.center,
     this.onErrorImage,
   });

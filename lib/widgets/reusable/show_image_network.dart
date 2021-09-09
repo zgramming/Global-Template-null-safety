@@ -10,7 +10,7 @@ class ShowImageNetwork extends StatelessWidget {
     this.imageCircleRadius = 35,
     this.imageCircleElevation = 0,
     this.imageBorderRadius,
-    this.padding = const EdgeInsets.all(0),
+    this.padding = EdgeInsets.zero,
     this.alignment = Alignment.center,
     this.fit,
     this.blendMode,
@@ -75,7 +75,7 @@ class ShowImageNetwork extends StatelessWidget {
                     icon: const Icon(Icons.error),
                     onPressed: () {
                       debugPrint('${error.runtimeType}');
-                      debugPrint(url.toString());
+                      debugPrint(url);
                     },
                   ),
                 );

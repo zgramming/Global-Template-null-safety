@@ -111,11 +111,13 @@ class DropdownFormFieldCustom<T> extends StatelessWidget {
         style: textStyle,
         itemHeight: itemHeight,
         items: items
-            .map((e) => DropdownMenuItem<T>(
-                  value: e,
-                  onTap: onTapItem,
-                  child: itemBuilder(e),
-                ))
+            .map(
+              (e) => DropdownMenuItem<T>(
+                value: e,
+                onTap: onTapItem,
+                child: itemBuilder(e),
+              ),
+            )
             .toList(),
       ),
     );

@@ -11,7 +11,7 @@ class ShowImageAsset extends StatelessWidget {
     this.circleBorderColor,
     this.circleBorderThick = 1.0,
     this.color,
-    this.padding = const EdgeInsets.all(0),
+    this.padding = EdgeInsets.zero,
     this.alignment = Alignment.center,
     this.fit,
     this.onErrorImage,
@@ -53,7 +53,8 @@ class ShowImageAsset extends StatelessWidget {
   final double? scale;
 
   ///! Handle Error Image
-  final Widget Function(BuildContext context, Object exception, StackTrace? stackTrace)? onErrorImage;
+  final Widget Function(BuildContext context, Object exception, StackTrace? stackTrace)?
+      onErrorImage;
   @override
   Widget build(BuildContext context) {
     final image = Container(
@@ -95,7 +96,8 @@ class ShowImageAsset extends StatelessWidget {
                     (context, error, stackTrace) {
                       debugPrint('Error $error || stackTrace $stackTrace');
                       return Center(
-                          child: IconButton(icon: const Icon(Icons.error), onPressed: () => ''));
+                        child: IconButton(icon: const Icon(Icons.error), onPressed: () => ''),
+                      );
                     },
               ),
             ),

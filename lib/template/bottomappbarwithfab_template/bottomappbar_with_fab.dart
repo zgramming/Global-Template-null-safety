@@ -26,8 +26,10 @@ class BottomAppBarWithFAB extends StatefulWidget {
     this.selectedColor,
     this.unSelectedColor,
     this.alignment = MainAxisAlignment.spaceAround,
-  }) : assert(items.length % 2 == 0 && items.length <= 4,
-            "Items length must be divided by 2 & Maximum 4 Icon");
+  }) : assert(
+          items.length % 2 == 0 && items.length <= 4,
+          "Items length must be divided by 2 & Maximum 4 Icon",
+        );
 
   @override
   _BottomAppBarWithFABState createState() => _BottomAppBarWithFABState();
