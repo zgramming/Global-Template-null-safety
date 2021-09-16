@@ -6,50 +6,54 @@ import 'package:flutter/services.dart';
 /// Planning : Check if textformfield has error validate, then position suffix icon should be increase
 class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
-    this.controller,
-    this.prefixIcon,
+    Key? key,
+    this.isPassword = false,
+    this.isEnabled = true,
+    this.isDone = false,
+    this.centerText = false,
+    this.disableOutlineBorder = true,
+    this.autoFocus = false,
+    this.readOnly = false,
+    this.backgroundColor = Colors.white,
+    this.padding = const EdgeInsets.only(bottom: 14.0, left: 14.0, right: 14.0, top: 14.0),
+    this.errorMaxLines = 2,
+    this.radius = 8,
+    this.keyboardType = TextInputType.text,
+    this.textInputAction = TextInputAction.done,
     this.suffixIcon = const [],
-    this.initialValue,
-    this.minLines,
-    this.maxLines,
-    this.focusNode,
-    this.borderColor,
-    this.borderFocusColor,
-    this.inputFormatter,
-    this.onFieldSubmitted,
-    this.onChanged,
-    this.validator,
+    this.suffixIconConfiguration = const SuffixIconConfiguration(),
+    this.textCapitalization = TextCapitalization.none,
+    this.activeColor,
+    this.prefixIcon,
+    this.focusedErrorBorderStyle,
+    this.focusedBorderStyle,
+    this.disabledBorderStyle,
+    this.enabledBorderStyle,
+    this.defaultBorderStyle,
+    this.errorBorderStyle,
+    this.onObsecurePasswordIcon,
+    this.onObsecurePasswordColor,
     this.hintText,
     this.labelText,
-    this.labelStyle,
-    this.hintStyle,
-    this.errorBorder,
-    this.errorStyle,
+    this.initialValue,
     this.errorMessage,
-    this.onSaved,
+    this.minLines,
+    this.maxLines,
+    this.errorStyle,
     this.textStyle,
     this.prefixTextStyle,
     this.suffixTextStyle,
-    this.onObsecurePasswordIcon,
-    this.onObsecurePasswordColor,
-    this.suffixIconConfiguration = const SuffixIconConfiguration(),
-    this.textCapitalization = TextCapitalization.none,
-    this.errorMaxLines = 2,
-    this.radius = 8,
-    this.padding = const EdgeInsets.only(bottom: 14.0, left: 14.0, right: 14.0, top: 14.0),
-    this.readOnly = false,
-    this.autoFocus = false,
-    this.centerText = false,
-    this.isDone = false,
-    this.isPassword = false,
-    this.disableOutlineBorder = true,
-    this.isEnabled = true,
-    this.backgroundColor = Colors.white,
-    this.activeColor,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction = TextInputAction.done,
+    this.labelStyle,
+    this.focusNode,
+    this.inputFormatter,
+    this.controller,
+    this.hintStyle,
+    this.validator,
+    this.onFieldSubmitted,
+    this.onChanged,
+    this.onSaved,
     this.onTap,
-  });
+  }) : super(key: key);
   final bool isPassword;
   final bool isEnabled;
   final bool isDone;
@@ -60,8 +64,6 @@ class TextFormFieldCustom extends StatefulWidget {
 
   final Color backgroundColor;
   final Color? activeColor;
-  final Color? borderColor;
-  final Color? borderFocusColor;
 
   final EdgeInsetsGeometry padding;
 
@@ -72,8 +74,16 @@ class TextFormFieldCustom extends StatefulWidget {
   final List<Widget> suffixIcon;
   final SuffixIconConfiguration suffixIconConfiguration;
 
+  final InputBorderStyle? focusedErrorBorderStyle;
+  final InputBorderStyle? focusedBorderStyle;
+  final InputBorderStyle? disabledBorderStyle;
+  final InputBorderStyle? enabledBorderStyle;
+  final InputBorderStyle? defaultBorderStyle;
+  final InputBorderStyle? errorBorderStyle;
+
   final IconData Function(bool isObsecure)? onObsecurePasswordIcon;
   final Color Function(bool isObsecure)? onObsecurePasswordColor;
+
   final String? hintText;
   final String? labelText;
   final String? initialValue;
@@ -95,8 +105,6 @@ class TextFormFieldCustom extends StatefulWidget {
   final TextStyle? labelStyle;
 
   final TextCapitalization textCapitalization;
-
-  final InputBorder? errorBorder;
 
   final FocusNode? focusNode;
 
@@ -131,8 +139,9 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
       children: [
         Theme(
           data: Theme.of(context).copyWith(
-            colorScheme:
-                ThemeData().colorScheme.copyWith(primary: widget.activeColor ?? widget.borderColor),
+            colorScheme: ThemeData().colorScheme.copyWith(
+                  primary: widget.activeColor,
+                ),
           ),
           child: TextFormField(
             onTap: widget.onTap,
@@ -160,27 +169,59 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               labelStyle: widget.labelStyle,
               errorMaxLines: widget.errorMaxLines,
               errorStyle: widget.errorStyle,
-              errorBorder: widget.errorBorder,
               errorText: widget.errorMessage,
-              border: widget.disableOutlineBorder
+              focusedBorder: widget.disableOutlineBorder
                   ? null
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
+                      borderSide: BorderSide(
+                        color: widget.focusedBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.focusedBorderStyle?.width ?? 1.0,
+                      ),
+                    ),
+              disabledBorder: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                      borderSide: BorderSide(
+                        color: widget.disabledBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.disabledBorderStyle?.width ?? 1.0,
+                      ),
                     ),
               enabledBorder: widget.disableOutlineBorder
                   ? null
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.borderColor ?? Colors.grey[400]!,
+                        color: widget.enabledBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.enabledBorderStyle?.width ?? 1.0,
                       ),
                     ),
-              focusedBorder: widget.disableOutlineBorder
+              border: widget.disableOutlineBorder
                   ? null
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.borderFocusColor ?? (widget.borderColor ?? Colors.grey[400]!),
+                        color: widget.defaultBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.defaultBorderStyle?.width ?? 1.0,
+                      ),
+                    ),
+              errorBorder: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                      borderSide: BorderSide(
+                        color: widget.errorBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.errorBorderStyle?.width ?? 1.0,
+                      ),
+                    ),
+              focusedErrorBorder: widget.disableOutlineBorder
+                  ? null
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                      borderSide: BorderSide(
+                        color: widget.focusedErrorBorderStyle?.color ?? Colors.grey[400]!,
+                        width: widget.focusedErrorBorderStyle?.width ?? 1.0,
                       ),
                     ),
               contentPadding: widget.padding,
@@ -226,6 +267,15 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
       ],
     );
   }
+}
+
+class InputBorderStyle {
+  final Color? color;
+  final double width;
+  InputBorderStyle({
+    this.color,
+    this.width = 1.0,
+  });
 }
 
 class SuffixIconConfiguration {
