@@ -785,9 +785,11 @@ class GlobalFunction {
   ///* @param     => Integer?
   ///* @return    => DateTime?
 
-  static DateTime? fromJsonMilisecondToDateTime(int? value) => DateTime.fromMillisecondsSinceEpoch(
-        value ?? 0,
-      );
+  static DateTime? fromJsonMilisecondToDateTime(int? value) => value == null
+      ? null
+      : DateTime.fromMillisecondsSinceEpoch(
+          value,
+        );
 
   ///* Mengubah hasil ke json dari [DateTime? => Integer]
   ///* @param     => DateTime?

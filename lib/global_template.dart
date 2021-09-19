@@ -22,6 +22,7 @@ export './variable/theme/app_theme.dart';
 export './widgets/reusable/action_circle_button.dart';
 export './widgets/reusable/action_modalbottomsheet.dart';
 export './widgets/reusable/action_rounded_button.dart';
+export './widgets/reusable/animation/jumping_dot.dart';
 export './widgets/reusable/animation/rotate_animation.dart';
 export './widgets/reusable/animation/slide_transition.dart';
 export './widgets/reusable/bottomnavigationbar_custom.dart';
