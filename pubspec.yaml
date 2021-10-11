@@ -1,6 +1,6 @@
 name: global_template
 description: Global Template Support null-safety
-version: 2.0.0
+version: 2.0.1
 homepage: https://zeffry.dev/
 
 environment:
