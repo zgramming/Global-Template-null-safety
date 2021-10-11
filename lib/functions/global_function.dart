@@ -47,6 +47,44 @@ class GlobalFunction {
     return false;
   }
 
+  /// Reference [https://stackoverflow.com/a/60904049/7360353]
+  String formatDuration(
+    Duration d, {
+    String separator = ' ',
+    String textForDays = 'Hari',
+    String textForHours = 'Jam',
+    String textForMinutes = 'Menit',
+    String textForSeconds = 'Detik',
+  }) {
+    var seconds = d.inSeconds;
+
+    final days = seconds ~/ Duration.secondsPerDay;
+    seconds -= days * Duration.secondsPerDay;
+
+    final hours = seconds ~/ Duration.secondsPerHour;
+    seconds -= hours * Duration.secondsPerHour;
+
+    final minutes = seconds ~/ Duration.secondsPerMinute;
+    seconds -= minutes * Duration.secondsPerMinute;
+
+    final List<String> tokens = [];
+    if (days != 0) {
+      tokens.add('$days $textForDays');
+    }
+
+    if (tokens.isNotEmpty || hours != 0) {
+      tokens.add('$hours $textForHours');
+    }
+
+    if (tokens.isNotEmpty || minutes != 0) {
+      tokens.add('$minutes $textForMinutes');
+    }
+
+    tokens.add('$seconds $textForSeconds');
+
+    return tokens.join(separator);
+  }
+
   ///* Add Separator in String
   static String stringWithSeparator(
     String string, {
