@@ -48,7 +48,7 @@ class GlobalFunction {
   }
 
   /// Reference [https://stackoverflow.com/a/60904049/7360353]
-  String formatDuration(
+  static String formatDuration(
     Duration d, {
     String separator = ' ',
     String textForDays = 'Hari',
