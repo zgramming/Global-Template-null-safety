@@ -110,6 +110,37 @@ class GlobalFunction {
     return result;
   }
 
+  /// String = Zeffry Reynando (Ganteng Sekali), it's 100% (valid)
+  ///
+  /// we want to get "Ganteng Sekali" & "valid"
+  ///
+  /// we should defined start & end separator we want to get
+  ///
+  /// above example we sehould define [startSeparator = "("] & [endSeparator = ")"]
+  ///
+  /// ready to go
+  static List<String>? getAllStringBetweenCharacter(
+    String string, {
+    String startSeparator = "(",
+    String endSeparator = ")",
+  }) {
+    // ignore: prefer_interpolation_to_compose_strings
+    final regex = RegExp(r'\' + startSeparator + '(.*?)\\' + endSeparator + '');
+    final result = regex.allMatches(string);
+
+    if (result.isEmpty) {
+      return null;
+    }
+
+    final list = result.map((m) => m.group(0)!).toList().map((e) {
+      final startIndex = e.indexOf(startSeparator);
+      final endIndex = e.indexOf(endSeparator);
+      return e.substring(startIndex + 1, endIndex);
+    }).toList();
+
+    return list;
+  }
+
   ///* Get First Character From Every Word
   static String getFirstCharacter(
     String string, {
