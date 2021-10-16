@@ -126,7 +126,7 @@ class GlobalFunction {
   ///
   /// [startSeparator = "[start]"] & [endSeparator = "[end]"]
   /// return Handsome
-  List<String>? getStringBetweenCharacter(
+  static List<String>? getStringBetweenCharacter(
     String string, {
     String startSeparator = "(",
     String endSeparator = ")",
