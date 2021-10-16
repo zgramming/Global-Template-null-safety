@@ -30,6 +30,14 @@ enum GenerateRandomStringRules {
   combineNumberAlphabetUppercase,
 }
 
+/// Like in python
+/// use it : for(final i in range(95,105)) { }
+Iterable<int> range(int low, int high) sync* {
+  for (int i = low; i < high; ++i) {
+    yield i;
+  }
+}
+
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
   /// Fungsi untuk Meng-compare 2 Build versi dari server dan aplikasi.
