@@ -116,10 +116,17 @@ class GlobalFunction {
   ///
   /// we should defined start & end separator we want to get
   ///
-  /// above example we sehould define [startSeparator = "("] & [endSeparator = ")"]
+  /// above example we should define [startSeparator = "("] & [endSeparator = ")"]
   ///
   /// ready to go
-  static List<String>? getAllStringBetweenCharacter(
+  ///
+  /// Another Variant
+  ///
+  /// String = "He very very very [start]Handsome[end]"
+  ///
+  /// [startSeparator = "[start]"] & [endSeparator = "[end]"]
+  /// return Handsome
+  List<String>? getStringBetweenCharacter(
     String string, {
     String startSeparator = "(",
     String endSeparator = ")",
@@ -133,7 +140,7 @@ class GlobalFunction {
     }
 
     final list = result.map((m) => m.group(0)!).toList().map((e) {
-      final startIndex = e.indexOf(startSeparator);
+      final startIndex = startSeparator.length - 1;
       final endIndex = e.indexOf(endSeparator);
       return e.substring(startIndex + 1, endIndex);
     }).toList();
