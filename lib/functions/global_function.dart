@@ -140,9 +140,9 @@ class GlobalFunction {
     }
 
     final list = result.map((m) => m.group(0)!).toList().map((e) {
-      final startIndex = startSeparator.length - 1;
+      final startIndex = startSeparator.length;
       final endIndex = e.indexOf(endSeparator);
-      return e.substring(startIndex + 1, endIndex);
+      return e.substring(startIndex, endIndex);
     }).toList();
 
     return list;
