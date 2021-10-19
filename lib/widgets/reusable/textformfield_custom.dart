@@ -15,7 +15,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.autoFocus = false,
     this.readOnly = false,
     this.backgroundColor = Colors.white,
-    this.padding = const EdgeInsets.only(bottom: 14.0, left: 14.0, right: 14.0, top: 14.0),
+    this.padding = const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0, top: 16.0),
     this.errorMaxLines = 2,
     this.radius = 8,
     this.keyboardType = TextInputType.text,
