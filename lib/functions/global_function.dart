@@ -382,7 +382,7 @@ class GlobalFunction {
         concate = lowerCaseCharacter;
         break;
       case GenerateRandomStringRules.onlyAlphabetUppercase:
-        concate = lowerCaseCharacter;
+        concate = upperCaseCharacter;
         break;
       case GenerateRandomStringRules.combineNumberAlphabet:
         concate = number + lowerCaseCharacter + upperCaseCharacter;
@@ -399,7 +399,12 @@ class GlobalFunction {
     final Random _random = Random();
 
     return String.fromCharCodes(
-      Iterable.generate(length, (_) => concate.codeUnitAt(_random.nextInt(concate.length))),
+      Iterable.generate(
+        length,
+        (_) => concate.codeUnitAt(
+          _random.nextInt(concate.length),
+        ),
+      ),
     );
   }
 
