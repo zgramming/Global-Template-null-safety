@@ -358,6 +358,16 @@ class GlobalFunction {
     return formattedNumber;
   }
 
+  /// Generate random string take [length] parameter to determine number of letter
+  /// Rules Available :
+  /// [GenerateRandomStringRules.onlyNumber] => 0123456789
+  /// [GenerateRandomStringRules.onlyAlphabet] => ABCDEFGHIJabcdefghij
+  /// [GenerateRandomStringRules.onlyAlphabetLowercase] => abcdefghij
+  /// [GenerateRandomStringRules.onlyAlphabetUppercase] => ABCDEFGHIJ
+  /// [GenerateRandomStringRules.combineNumberAlphabet] => ABCDE12345abcde
+  /// [GenerateRandomStringRules.combineNumberAlphabetLowercase] => 12345abcde
+  /// [GenerateRandomStringRules.combineNumberAlphabetUppercase] => 12345ABCDE
+  ///
   static String generateRandomString(
     int length, {
     GenerateRandomStringRules rules = GenerateRandomStringRules.combineNumberAlphabet,
@@ -570,6 +580,8 @@ class GlobalFunction {
     return result;
   }
 
+  /// Get total length word
+  /// With the separator i.e space
   static int getTotalLenghtWord(
     String string, {
     int? substract,
@@ -633,7 +645,7 @@ class GlobalFunction {
   ///* Memunculkan snackbar
 
   static void showSnackBar(
-    BuildContext ctx, {
+    BuildContext context, {
     required Widget content,
     bool hideWithAnimation = true,
     SnackBarAction? action,
@@ -651,7 +663,7 @@ class GlobalFunction {
     SnackBarType snackBarType = SnackBarType.normal,
     SnackBarShape snackBarShape = SnackBarShape.normal,
   }) {
-    final scaffoldMessager = ScaffoldMessenger.of(ctx);
+    final scaffoldMessager = ScaffoldMessenger.of(context);
 
     if (hideWithAnimation) {
       scaffoldMessager.hideCurrentSnackBar();
