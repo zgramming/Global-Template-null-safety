@@ -601,6 +601,20 @@ class GlobalFunction {
     return result;
   }
 
+  /// randomNumber(10 ,100)
+  /// will output : 10,55,95,99 ..etc..
+  static int randomNumber(int min, int max) {
+    if (min > max) {
+      throw Exception("Min can't be greather than max");
+    }
+
+    if (max < min) {
+      throw Exception("Max can't be less than min");
+    }
+    final rn = Random();
+    return min + rn.nextInt(max - min);
+  }
+
   static Future<PackageInfo> packageInfo() async {
     final result = await PackageInfo.fromPlatform();
     return result;
