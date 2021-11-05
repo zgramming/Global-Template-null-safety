@@ -603,7 +603,10 @@ class GlobalFunction {
 
   /// randomNumber(10 ,100)
   /// will output : 10,55,95,99 ..etc..
-  static int randomNumber(int min, int max) {
+  static int randomNumber({
+    int min = 0,
+    int max = 100,
+  }) {
     if (min > max) {
       throw Exception("Min can't be greather than max");
     }
