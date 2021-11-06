@@ -62,32 +62,14 @@ void main() {
       });
 
       test('should be get 089-111-222-333 when function called', () {
+        /// arrange
         const numberString = '089111222333';
 
-        const separateEvery = 3;
-        const separator = "-";
-        final List<String> tempList = [];
+        /// act
+        final result = GlobalFunction.stringWithSeparator(numberString, separateEvery: 3);
 
-        var count = 0;
-        while (count < numberString.length) {
-          int endSubstring = 0;
-
-          /// Check if current count + separateEvery offset of total length
-          /// if offset, take the rest of the available strings
-          /// otherwise take string with [rumus] separateEvery + count
-          if (separateEvery + count > numberString.length) {
-            // 12 + (13-12)
-            endSubstring = count + (numberString.length - count);
-          } else {
-            endSubstring = separateEvery + count;
-          }
-
-          final substring = numberString.substring(count, endSubstring);
-          tempList.add(substring);
-          count += separateEvery;
-        }
-        final join = tempList.join(separator);
-        expect(join, '089-111-222-333');
+        /// assert
+        expect(result, '089-111-222-333');
       });
       //? END String
     },
