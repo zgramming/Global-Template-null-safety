@@ -7,19 +7,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:global_template/global_template.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
-enum TimeFormat { jam, jamMenit, jamMenitDetik, menit, menitDetik, detik }
-enum ToastPositioned { bottom, center, top }
-enum ToastType { success, error, normal }
-enum TypeWeek { isWeekend, isWeekday }
-enum TypeDateTotal { month, year }
-enum SnackBarType { success, error, warning, info, normal }
-enum SnackBarShape { rounded, normal }
-enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
-enum ImageViewType { network, file, asset }
+import '../variable/colors/color_pallete.dart';
+import '../variable/config/app_config.dart';
+import '../widgets/reusable/detail_single_image.dart';
+
 enum GenerateRandomStringRules {
   onlyNumber,
   onlyAlphabet,
@@ -30,41 +24,113 @@ enum GenerateRandomStringRules {
   combineNumberAlphabetUppercase,
 }
 
-/// Like in python
-/// use it : for(final i in range(95,105)) { }
-Iterable<int> range(int low, int high) sync* {
-  for (int i = low; i < high; ++i) {
-    yield i;
-  }
-}
+enum ImageViewType { network, file, asset }
+
+enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
+enum SnackBarShape { rounded, normal }
+enum SnackBarType { success, error, warning, info, normal }
+
+enum TimeFormat { jam, jamMenit, jamMenitDetik, menit, menitDetik, detik }
+enum ToastPositioned { bottom, center, top }
+enum ToastType { success, error, normal }
+enum TypeDateTotal { month, year }
+enum TypeWeek { isWeekend, isWeekday }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
-  /// Fungsi untuk Meng-compare 2 Build versi dari server dan aplikasi.
-  /// Akan return [TRUE] jika aplikasi sudah terbaru sebaliknya [FALSE]
-  static bool isLatestVersion({
-    /// Versi Aplikasi di Mobile
-    required int currentBuildNumber,
+  //? START Iterable<T>
 
-    /// Versi Aplikasi Dari Server
-    required int newestBuildNumber,
-  }) {
-    if (currentBuildNumber >= newestBuildNumber) {
-      return true;
+  ///
+  /// Get range of number based on the range you specify
+  ///
+  /// final numberRange = GlobalFunction.range(10,100);
+  ///
+  /// print(numberRange) // 10,11,12,13,14,15,...,100
+  static Iterable<int> range({
+    required int min,
+    required int max,
+  }) sync* {
+    for (int i = min; i <= max; i++) {
+      yield i;
     }
-    return false;
   }
 
+  //? END Iterable<T>
+
+  //? START List<T>
+
+  /// String = Zeffry Reynando (Ganteng Sekali), it's 100% (valid)
+  ///
+  /// we want to get "Ganteng Sekali" & "valid"
+  ///
+  /// we should defined start & end separator we want to get
+  ///
+  /// above example we should define [startSeparator = "("] & [endSeparator = ")"]
+  ///
+  /// ready to go
+  ///
+  /// Another Variant
+  ///
+  /// String = "He very very very [start]Handsome[end]"
+  ///
+  /// [startSeparator = "[start]"] & [endSeparator = "[end]"]
+  /// return Handsome
+  static List<String>? getStringBetweenCharacter(
+    String word, {
+    String startSeparator = "(",
+    String endSeparator = ")",
+  }) {
+    // ignore: prefer_interpolation_to_compose_strings
+    final regex = RegExp(r'\' + startSeparator + '(.*?)\\' + endSeparator + '');
+    final result = regex.allMatches(word);
+
+    if (result.isEmpty) {
+      return null;
+    }
+
+    final list = result.map((m) => m.group(0)!).toList().map((e) {
+      final startIndex = startSeparator.length;
+      final endIndex = e.indexOf(endSeparator);
+      return e.substring(startIndex, endIndex);
+    }).toList();
+
+    return list;
+  }
+
+  //? END List<T>
+
+  //? START boolean
+
+  /// return true if today is weekend
+  static bool isWeekend(DateTime date) {
+    return date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
+  }
+
+  //? END boolean
+
+  //? START String
+
+  /// Get readable [Duration]
+  ///
+  /// For now is support only [Days, Hours, Minutes, Seconds]
+  ///
+  /// final duration = Duration(days: 1,hours: 10,minutes: 59,seconds: 10);
+  ///
+  /// final result = GlobalFunction.formatDuration(duration);
+  ///
+  /// print(result) // 1 Hari 10 Jam 59 Menit 10 Detik
+  ///
   /// Reference [https://stackoverflow.com/a/60904049/7360353]
+
   static String formatDuration(
-    Duration d, {
+    Duration duration, {
     String separator = ' ',
     String textForDays = 'Hari',
     String textForHours = 'Jam',
     String textForMinutes = 'Menit',
     String textForSeconds = 'Detik',
   }) {
-    var seconds = d.inSeconds;
+    var seconds = duration.inSeconds;
 
     final days = seconds ~/ Duration.secondsPerDay;
     seconds -= days * Duration.secondsPerDay;
@@ -93,89 +159,76 @@ class GlobalFunction {
     return tokens.join(separator);
   }
 
-  ///* Add Separator in String
+  /// Separate string with separator you specify
+  ///
+  /// const number = 089111222333;
+  ///
+  /// final result = GlobalFunction.stringWithSeparator('$number', separateEvery: 3);
+  ///
+  /// print(result); // 089-111-222-333
+
   static String stringWithSeparator(
     String string, {
     int separateEvery = 4,
     String separator = '-',
   }) {
-    var result = 'Invalid String';
+    final List<String> tempList = [];
 
-    if (string.isNotEmpty) {
-      final value = string.replaceAllMapped(
-        // ignore: unnecessary_raw_strings
-        RegExp(r'.{' '${separateEvery.toString()}' '}'),
-        (match) => '${match.group(0)}$separator',
-      );
+    var count = 0;
+    while (count < string.length) {
+      int endSubstring = 0;
 
-      if (string.length % separateEvery == 0) {
-        result = value.substring(0, value.length - 1);
+      /// Check if current count + separateEvery offset of total length
+      /// if offset, take the rest of the available strings
+      /// otherwise take string with [rumus] separateEvery + count
+      if (separateEvery + count > string.length) {
+        // 12 + (13-12)
+        endSubstring = count + (string.length - count);
       } else {
-        result = value;
+        endSubstring = separateEvery + count;
       }
-    }
 
-    return result;
+      final substring = string.substring(count, endSubstring);
+      tempList.add(substring);
+      count += separateEvery;
+    }
+    final join = tempList.join(separator);
+
+    return join;
   }
 
-  /// String = Zeffry Reynando (Ganteng Sekali), it's 100% (valid)
+  /// Get First Character From Every Word
   ///
-  /// we want to get "Ganteng Sekali" & "valid"
+  /// You can specify limit character you want
   ///
-  /// we should defined start & end separator we want to get
+  /// final word = "Zeffry Reynando Ganteng Sekali";
   ///
-  /// above example we should define [startSeparator = "("] & [endSeparator = ")"]
+  /// final separate4 = GlobalFunction.getFirstCharacterEveryWord(word,limitTo : 4);
   ///
-  /// ready to go
+  /// final separate2 = GlobalFunction.getFirstCharacterEveryWord(word,limitTo : 2);
   ///
-  /// Another Variant
+  /// print(separate4) // ZRGS
   ///
-  /// String = "He very very very [start]Handsome[end]"
-  ///
-  /// [startSeparator = "[start]"] & [endSeparator = "[end]"]
-  /// return Handsome
-  static List<String>? getStringBetweenCharacter(
+  /// print(separate2) // ZR
+  static String getFirstCharacterEveryWord(
     String string, {
-    String startSeparator = "(",
-    String endSeparator = ")",
+    int limitTo = 5,
   }) {
-    // ignore: prefer_interpolation_to_compose_strings
-    final regex = RegExp(r'\' + startSeparator + '(.*?)\\' + endSeparator + '');
-    final result = regex.allMatches(string);
-
-    if (result.isEmpty) {
-      return null;
+    if (string.isEmpty) {
+      return '';
     }
 
-    final list = result.map((m) => m.group(0)!).toList().map((e) {
-      final startIndex = startSeparator.length;
-      final endIndex = e.indexOf(endSeparator);
-      return e.substring(startIndex, endIndex);
-    }).toList();
-
-    return list;
+    return string.trim().split(' ').map((e) => e[0]).take(limitTo).join();
   }
 
-  ///* Get First Character From Every Word
-  static String getFirstCharacter(
-    String string, {
-    int limitTo = 1,
-  }) {
-    if (string.isNotEmpty) {
-      return string.trim().split(' ').map((e) => e[0]).take(limitTo).join();
-    }
-
-    return '';
-  }
-
-  ///* Fungsi Untuk Mem-format Angka . Dari 200000 => 200,000
+  /// Formatted Number from 200000 to 200,000
   static String formatNumber(int value) {
     final formatter = NumberFormat('#,###');
     final result = formatter.format(value);
     return result;
   }
 
-  ///* Fungsi Untuk meng-unformat angka . Dari 200,000 => 200000
+  /// Unformatted number from 200,000 to 200000
   static String unFormatNumber(String number) {
     final result = number.replaceAll(',', '').trim();
     return result;
@@ -419,10 +472,9 @@ class GlobalFunction {
   }
 
   ///* Get readable file size [https://github.com/synw/filesize]
-  static dynamic getFileSize(
+  static String readableFileSize(
     String pathFile, {
     int round = 2,
-    bool isReadable = true,
   }) {
     const divider = 1024;
     try {
@@ -483,6 +535,8 @@ class GlobalFunction {
       throw Exception(e);
     }
   }
+
+  //? END String
 
   ///* Mendapatkan total hari pada tahun dan bulan yang ditentukan
   ///* @param       => year
@@ -629,12 +683,6 @@ class GlobalFunction {
     final _random = Random();
     final color = colorPallete.arrColor[_random.nextInt(colorPallete.arrColor.length)];
     return color;
-  }
-
-  /// * Mendapatkan apakah hari ini weekend / tidak
-  static bool isWeekend(int year, int month, int day) {
-    final date = DateTime(year, month, day);
-    return date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
   }
 
   ///* Memunculkan dialog untuk membutuhkan akses
