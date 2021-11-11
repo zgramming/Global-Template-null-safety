@@ -38,6 +38,131 @@ enum TypeWeek { isWeekend, isWeekday }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
+  //? START Future<T>
+
+  /// Detect if user double tap
+  static Future<bool> doubleTapToExit(VoidCallback onDoubleTap) async {
+    DateTime? _currentBackPressTime;
+    final now = DateTime.now();
+    if (_currentBackPressTime == null ||
+        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
+      _currentBackPressTime = now;
+      onDoubleTap();
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
+  /// Get metadata from handphone
+  static Future<PackageInfo> packageInfo() async {
+    final result = await PackageInfo.fromPlatform();
+    return result;
+  }
+
+  /// Show [Date] and [Time] picker
+  ///
+  /// it will return [DateTime?] of selection dateTime picker
+  ///
+  /// you can choose to only show [date] picker with parameter [withTimePicker]
+  static Future<DateTime?> showDateTimePicker(
+    BuildContext context, {
+    bool withTimePicker = true,
+  }) async {
+    DateTime? _date;
+    TimeOfDay? _time;
+
+    final _datePicker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (_datePicker != null) {
+      _date = _datePicker;
+
+      if (withTimePicker) {
+        final _timePicker = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+        );
+
+        if (_timePicker != null) {
+          _time = _timePicker;
+        }
+      }
+    }
+
+    if (withTimePicker) {
+      if (_date != null && _time != null) {
+        return _date.add(Duration(hours: _time.hour, minutes: _time.minute));
+      }
+    } else {
+      if (_date != null) {
+        return _date;
+      }
+    }
+
+    return null;
+  }
+
+  /// Show [ModalBottomSheet] and display detail iamge you defined
+  /// Page Detail Single Image will [FullScreen]
+  static Future showDetailSingleImage(
+    BuildContext context, {
+    required String url,
+    ImageViewType imageViewType = ImageViewType.network,
+  }) async {
+    Widget image = const SizedBox();
+    switch (imageViewType) {
+      case ImageViewType.network:
+        image = CachedNetworkImage(imageUrl: url);
+        break;
+      case ImageViewType.asset:
+        image = Image.asset(url);
+        break;
+      case ImageViewType.file:
+        image = Image.file(io.File(url));
+        break;
+      default:
+        break;
+    }
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      enableDrag: false,
+      builder: (context) {
+        return DetailSingleImage(image: image);
+      },
+    );
+  }
+
+  /// Show [Dialog] loading
+  static Future showDialogLoading(
+    BuildContext context, {
+    String title = 'Sedang Proses',
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Text(title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //? END Future<T>
+
   //? START Iterable<T>
 
   ///
@@ -98,52 +223,6 @@ class GlobalFunction {
   }
 
   //? END List<T>
-
-  //? START DateTime
-
-  Future<DateTime?> showDateTimePicker(
-    BuildContext context, {
-    bool withTimePicker = true,
-  }) async {
-    DateTime? _date;
-    TimeOfDay? _time;
-
-    final _datePicker = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (_datePicker != null) {
-      _date = _datePicker;
-
-      if (withTimePicker) {
-        final _timePicker = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.now(),
-        );
-
-        if (_timePicker != null) {
-          _time = _timePicker;
-        }
-      }
-    }
-
-    if (withTimePicker) {
-      if (_date != null && _time != null) {
-        return _date.add(Duration(hours: _time.hour, minutes: _time.minute));
-      }
-    } else {
-      if (_date != null) {
-        return _date;
-      }
-    }
-
-    return null;
-  }
-
-  //? END DateTime
 
   //? START boolean
 
@@ -718,11 +797,6 @@ class GlobalFunction {
     return min + rn.nextInt(max - min);
   }
 
-  static Future<PackageInfo> packageInfo() async {
-    final result = await PackageInfo.fromPlatform();
-    return result;
-  }
-
   ///* Mendapatkan warna acak dari kumpulan warna yang sudah ditentukan
   ///* @return    => Color
   static Color getRandomColor() {
@@ -834,73 +908,6 @@ class GlobalFunction {
         shape: shape,
         width: width,
       ),
-    );
-  }
-
-  ///* Ketuk 2 Kali Untuk Keluar
-  static Future<bool> doubleTapToExit(BuildContext ctx) async {
-    DateTime? _currentBackPressTime;
-    final now = DateTime.now();
-    if (_currentBackPressTime == null ||
-        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
-      _currentBackPressTime = now;
-      GlobalFunction.showSnackBar(ctx, content: const Text('Tekan kembali untuk keluar aplikasi'));
-      return Future.value(false);
-    } else {
-      return Future.value(true);
-    }
-  }
-
-  ///* Memunculkan loading modal dialog
-  static Future showDialogLoading(
-    BuildContext context, {
-    String title = 'Sedang Proses',
-  }) async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
-        child: AlertDialog(
-          title: Text(title),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              CircularProgressIndicator(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  ///* Memunculkan modal bottom sheet yang dikhusukan untuk view detail image
-  static Future showDetailSingleImage(
-    BuildContext context, {
-    required String url,
-    ImageViewType imageViewType = ImageViewType.network,
-  }) async {
-    Widget image = const SizedBox();
-    switch (imageViewType) {
-      case ImageViewType.network:
-        image = CachedNetworkImage(imageUrl: url);
-        break;
-      case ImageViewType.asset:
-        image = Image.asset(url);
-        break;
-      case ImageViewType.file:
-        image = Image.file(io.File(url));
-        break;
-      default:
-        break;
-    }
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      enableDrag: false,
-      builder: (context) {
-        return DetailSingleImage(image: image);
-      },
     );
   }
 
