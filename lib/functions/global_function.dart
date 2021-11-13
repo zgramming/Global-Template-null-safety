@@ -365,14 +365,20 @@ class GlobalFunction {
   }
 
   ///* Format : Jam:Menit
-  static String formatHM(DateTime date) {
-    return DateFormat.Hm(appConfig.indonesiaLocale).format(date);
+  static String formatHM(
+    DateTime date, {
+    String separator = ":",
+  }) {
+    return DateFormat.Hm(appConfig.indonesiaLocale).format(date).replaceAll('.', separator);
   }
 
   ///* Format : Jam:Menit:Detik
-  static String formatHMS(DateTime date) {
+  static String formatHMS(
+    DateTime date, {
+    String separator = ":",
+  }) {
     final result = DateFormat.Hms(appConfig.indonesiaLocale).format(date);
-    return result.replaceAll('.', ':');
+    return result.replaceAll('.', separator);
   }
 
   ///* Format Hari
