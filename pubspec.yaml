@@ -1,13 +1,13 @@
 name: global_template
 description: Global Template Support null-safety
-version: 2.0.1
+version: 2.0.2
 homepage: https://zeffry.dev/
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
-  cached_network_image: ^3.1.0
+  cached_network_image: ^3.1.0+1
   flutter:
     sdk: flutter
   intl: ^0.17.0
