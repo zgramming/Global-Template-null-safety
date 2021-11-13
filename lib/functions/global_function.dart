@@ -14,6 +14,78 @@ import '../variable/colors/color_pallete.dart';
 import '../variable/config/app_config.dart';
 import '../widgets/reusable/detail_single_image.dart';
 
+enum FormatD {
+  /// Sen, Sel, Rab, Kam, Jum, Sab, Minggu
+  partially,
+
+  /// Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu
+  completed,
+}
+
+enum FormatM {
+  /// 1, 2, 3, 4, 5...
+  number,
+
+  /// Jan, Feb, Mar, Apr ...
+  partially,
+
+  /// January, February, Maret, April ...
+  completed,
+}
+
+enum FormatMD {
+  /// DateFormat.Md || 11/10 => day/month
+  number,
+
+  /// DateFormat.MEd || Sen, 11/10 => DAY, day/month
+  numberWithReadableDay,
+
+  /// DateFormat.MMMd || 11 Okt
+  partially,
+
+  /// DateFormat.MMMEd || Sen, 11 Okt
+  partiallyWithReadableDay,
+
+  /// DateFormat.MMMMd || 11 Oktober
+  partiallyWithReadableMonth,
+
+  /// DateFormat.MMMMEEEEd || Senin, 11 Oktober
+  completed,
+}
+
+enum FormatYM {
+  /// DateFormat.yM || 10/2021 => Month/Year
+  number,
+
+  /// DateFormat.yMMM || Okt 2021
+  partially,
+
+  /// DateFormat.yMMMM || Oktober 2021
+  completed
+}
+
+enum FormatYMD {
+  /// DateFormat.yMd || 11/10/2021 => Day/Month/Year
+  number,
+
+  /// DateFormat.yMMMd || 11 Okt 2021
+  partially,
+
+  /// DateFormat.yMMMMd || 11 Oktober 2021
+  completed,
+}
+
+enum FormatYMDSpecific {
+  /// DateFormat.yMEd || Sen, 11/10/2021 => Day, Day/Month/Year
+  number,
+
+  /// DateFormat.yMMMEd || Sen, 11 Okt 2021
+  partially,
+
+  /// DateFormat.yMMMMEEEEd || Senin, 11 Oktober 2021
+  completed,
+}
+
 enum GenerateRandomStringRules {
   onlyNumber,
   onlyAlphabet,
@@ -384,48 +456,62 @@ class GlobalFunction {
   ///* Format Hari
   static String formatD(
     DateTime date, {
-    int type = 2,
+    FormatD format = FormatD.completed,
   }) {
-    if (type == 1) {
-      return DateFormat.E(appConfig.indonesiaLocale).format(date);
-    } else {
-      return DateFormat.EEEE(appConfig.indonesiaLocale).format(date);
+    switch (format) {
+      case FormatD.partially:
+        return DateFormat.E(appConfig.indonesiaLocale).format(date);
+
+      case FormatD.completed:
+        return DateFormat.EEEE(appConfig.indonesiaLocale).format(date);
+      default:
+        return 'Format Not Valid';
     }
   }
 
   ///* Format Bulan
   static String formatM(
     DateTime date, {
-    int type = 1,
+    FormatM format = FormatM.completed,
   }) {
-    switch (type) {
-      case 1:
+    switch (format) {
+      case FormatM.number:
         return DateFormat.M(appConfig.indonesiaLocale).format(date);
-      case 2:
+      case FormatM.partially:
         return DateFormat.MMM(appConfig.indonesiaLocale).format(date);
-      case 3:
+      case FormatM.completed:
         return DateFormat.MMMM(appConfig.indonesiaLocale).format(date);
       default:
-        return DateFormat.MMMM(appConfig.indonesiaLocale).format(date);
+        return 'Format Not Valid';
     }
   }
 
   ///* Format Bulan Hari
   static String formatMD(
     DateTime date, {
-    int type = 1,
+    FormatMD format = FormatMD.completed,
   }) {
-    switch (type) {
-      case 1:
+    switch (format) {
+      case FormatMD.number:
+        return DateFormat.Md(appConfig.indonesiaLocale).format(date);
+
+      case FormatMD.numberWithReadableDay:
+        return DateFormat.MEd(appConfig.indonesiaLocale).format(date);
+
+      case FormatMD.partially:
         return DateFormat.MMMd(appConfig.indonesiaLocale).format(date);
-      case 2:
+
+      case FormatMD.partiallyWithReadableDay:
         return DateFormat.MMMEd(appConfig.indonesiaLocale).format(date);
-      case 3:
+
+      case FormatMD.partiallyWithReadableMonth:
         return DateFormat.MMMMd(appConfig.indonesiaLocale).format(date);
-      case 4:
+
+      case FormatMD.completed:
         return DateFormat.MMMMEEEEd(appConfig.indonesiaLocale).format(date);
+
       default:
-        return DateFormat.MMMMEEEEd(appConfig.indonesiaLocale).format(date);
+        return 'Format Not Valid';
     }
   }
 
@@ -437,49 +523,57 @@ class GlobalFunction {
   ///* Format : Tahun:Bulan[type=?]
   static String formatYM(
     DateTime date, {
-    int type = 3,
+    FormatYM format = FormatYM.completed,
   }) {
-    if (type == 1) {
-      return DateFormat.yM(appConfig.indonesiaLocale).format(date);
-    } else if (type == 2) {
-      return DateFormat.yMMM(appConfig.indonesiaLocale).format(date);
-    } else if (type == 3) {
-      return DateFormat.yMMMM(appConfig.indonesiaLocale).format(date);
-    } else {
-      return DateFormat.yMMMM(appConfig.indonesiaLocale).format(date);
+    switch (format) {
+      case FormatYM.number:
+        return DateFormat.yM(appConfig.indonesiaLocale).format(date);
+      case FormatYM.partially:
+        return DateFormat.yMMM(appConfig.indonesiaLocale).format(date);
+      case FormatYM.completed:
+        return DateFormat.yMMMM(appConfig.indonesiaLocale).format(date);
+
+      default:
+        return 'Format Not Valid';
     }
   }
 
   ///* Format : Tahun:Bulan:Hari[type=1/2/3]
   static String formatYMD(
     DateTime date, {
-    int type = 1,
+    FormatYMD format = FormatYMD.number,
   }) {
-    if (type == 1) {
-      return DateFormat.yMd(appConfig.indonesiaLocale).format(date);
-    } else if (type == 2) {
-      return DateFormat.yMMMd(appConfig.indonesiaLocale).format(date);
-    } else if (type == 3) {
-      return DateFormat.yMMMMd(appConfig.indonesiaLocale).format(date);
-    } else {
-      return DateFormat.yMMMMd(appConfig.indonesiaLocale).format(date);
+    switch (format) {
+      case FormatYMD.number:
+        return DateFormat.yMd(appConfig.indonesiaLocale).format(date);
+
+      case FormatYMD.partially:
+        return DateFormat.yMMMd(appConfig.indonesiaLocale).format(date);
+
+      case FormatYMD.completed:
+        return DateFormat.yMMMMd(appConfig.indonesiaLocale).format(date);
+
+      default:
+        return 'Format Not Valid';
     }
   }
 
   ///* Format : Tahun:Bulan:Hari[type=?]
   ///* Specific disini maksudnya Hari = Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu
-  static String formatYMDS(
+  static String formatYMDSpecific(
     DateTime date, {
-    int type = 3,
+    FormatYMDSpecific format = FormatYMDSpecific.completed,
   }) {
-    if (type == 1) {
-      return DateFormat.yMEd(appConfig.indonesiaLocale).format(date);
-    } else if (type == 2) {
-      return DateFormat.yMMMEd(appConfig.indonesiaLocale).format(date);
-    } else if (type == 3) {
-      return DateFormat.yMMMMEEEEd(appConfig.indonesiaLocale).format(date);
-    } else {
-      return DateFormat.yMMMMEEEEd(appConfig.indonesiaLocale).format(date);
+    switch (format) {
+      case FormatYMDSpecific.number:
+        return DateFormat.yMEd(appConfig.indonesiaLocale).format(date);
+      case FormatYMDSpecific.partially:
+        return DateFormat.yMMMEd(appConfig.indonesiaLocale).format(date);
+      case FormatYMDSpecific.completed:
+        return DateFormat.yMMMMEEEEd(appConfig.indonesiaLocale).format(date);
+
+      default:
+        return 'Format Not Valid';
     }
   }
 

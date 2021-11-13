@@ -44,7 +44,7 @@ class _LiveClockState extends State<LiveClock> {
           }
           return RichText(
             text: TextSpan(
-              text: GlobalFunction.formatYMDS(DateTime.now()),
+              text: GlobalFunction.formatYMDSpecific(DateTime.now()),
               style: widget.textStyle ?? const TextStyle(color: Colors.black),
               children: [
                 TextSpan(text: ' ${GlobalFunction.formatHMS(result)}'),
@@ -54,7 +54,7 @@ class _LiveClockState extends State<LiveClock> {
           );
         }
         return Text(
-          '${GlobalFunction.formatYMDS(DateTime.now())} ${GlobalFunction.formatHM(DateTime.now())}',
+          '${GlobalFunction.formatYMDSpecific(DateTime.now())} ${GlobalFunction.formatHM(DateTime.now())}',
         );
       },
     );
