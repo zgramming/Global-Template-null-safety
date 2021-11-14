@@ -105,11 +105,126 @@ enum SnackBarType { success, error, warning, info, normal }
 enum TimeFormat { jam, jamMenit, jamMenitDetik, menit, menitDetik, detik }
 enum ToastPositioned { bottom, center, top }
 enum ToastType { success, error, normal }
-enum TypeDateTotal { month, year }
+enum TypeDateTotal {
+  /// Get total [WeekDay] / [WeekEnd] with specific month
+  month,
+
+  /// Get total [WeekDay] / [WeekEnd] with specific year
+  year,
+}
 enum TypeWeek { isWeekend, isWeekday }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
+  //? START Void
+
+  /// Memunculkan dialog untuk membutuhkan akses
+  static void showDialogNeedAccess(
+    BuildContext context, {
+    VoidCallback? onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Membutuhkan akses'),
+        content: const Text(
+          "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses",
+        ),
+        actions: [
+          TextButton(
+            onPressed: onPressed,
+            child: const Text('Buka Setting'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Memunculkan snackbar
+
+  static void showSnackBar(
+    BuildContext context, {
+    required Widget content,
+    bool hideWithAnimation = true,
+    SnackBarAction? action,
+    Animation<double>? animation,
+    Color? backgroundColor,
+    SnackBarBehavior? behaviour,
+    Duration duration = const Duration(seconds: 4),
+    double? elevation,
+
+    /// If margin not null , set default behaviour = SnackBarBehaviour.floating
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    ShapeBorder? shape,
+    double? width,
+    SnackBarType snackBarType = SnackBarType.normal,
+    SnackBarShape snackBarShape = SnackBarShape.normal,
+  }) {
+    final scaffoldMessager = ScaffoldMessenger.of(context);
+
+    if (hideWithAnimation) {
+      scaffoldMessager.hideCurrentSnackBar();
+    } else {
+      scaffoldMessager.removeCurrentSnackBar();
+    }
+
+    if (margin != null) {
+      // ignore: parameter_assignments
+      behaviour = SnackBarBehavior.floating;
+    }
+
+    switch (snackBarType) {
+      case SnackBarType.success:
+        backgroundColor = Colors.green;
+        break;
+
+      case SnackBarType.error:
+        backgroundColor = Colors.red;
+        break;
+
+      case SnackBarType.warning:
+        backgroundColor = Colors.orange;
+        break;
+
+      case SnackBarType.info:
+        backgroundColor = Colors.lightBlue;
+        break;
+
+      default:
+        // ignore: parameter_assignments
+        backgroundColor = backgroundColor;
+        break;
+    }
+
+    switch (snackBarShape) {
+      case SnackBarShape.rounded:
+        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(15));
+        break;
+      default:
+        // ignore: parameter_assignments
+        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(0));
+        break;
+    }
+
+    scaffoldMessager.showSnackBar(
+      SnackBar(
+        content: content,
+        action: action,
+        animation: animation,
+        backgroundColor: backgroundColor,
+        behavior: behaviour,
+        duration: duration,
+        elevation: elevation,
+        margin: margin,
+        padding: padding,
+        shape: shape,
+        width: width,
+      ),
+    );
+  }
+  //? END Void
+
   //? START Future<T>
 
   /// Detect if user double tap
@@ -490,12 +605,12 @@ class GlobalFunction {
     return result;
   }
 
-  ///* Format Jam
+  /// Format Jam
   static String formatH(DateTime date) {
     return DateFormat.H(appConfig.indonesiaLocale).format(date);
   }
 
-  ///* Format : Jam:Menit
+  /// Format : Jam:Menit
   static String formatHM(
     DateTime date, {
     String separator = ":",
@@ -503,7 +618,7 @@ class GlobalFunction {
     return DateFormat.Hm(appConfig.indonesiaLocale).format(date).replaceAll('.', separator);
   }
 
-  ///* Format : Jam:Menit:Detik
+  /// Format : Jam:Menit:Detik
   static String formatHMS(
     DateTime date, {
     String separator = ":",
@@ -512,7 +627,7 @@ class GlobalFunction {
     return result.replaceAll('.', separator);
   }
 
-  ///* Format Hari
+  /// Format Hari
   static String formatD(
     DateTime date, {
     FormatD format = FormatD.completed,
@@ -528,7 +643,7 @@ class GlobalFunction {
     }
   }
 
-  ///* Format Bulan
+  /// Format Bulan
   static String formatM(
     DateTime date, {
     FormatM format = FormatM.completed,
@@ -545,7 +660,7 @@ class GlobalFunction {
     }
   }
 
-  ///* Format Bulan Hari
+  /// Format Bulan Hari
   static String formatMD(
     DateTime date, {
     FormatMD format = FormatMD.completed,
@@ -574,12 +689,12 @@ class GlobalFunction {
     }
   }
 
-  ///* Format : Tahun
+  /// Format : Tahun
   static String formatY(DateTime date) {
     return DateFormat.y(appConfig.indonesiaLocale).format(date);
   }
 
-  ///* Format : Tahun:Bulan[type=?]
+  /// Format : Tahun:Bulan[type=?]
   static String formatYM(
     DateTime date, {
     FormatYM format = FormatYM.completed,
@@ -597,7 +712,7 @@ class GlobalFunction {
     }
   }
 
-  ///* Format : Tahun:Bulan:Hari[type=1/2/3]
+  /// Format : Tahun:Bulan:Hari[type=1/2/3]
   static String formatYMD(
     DateTime date, {
     FormatYMD format = FormatYMD.number,
@@ -617,8 +732,8 @@ class GlobalFunction {
     }
   }
 
-  ///* Format : Tahun:Bulan:Hari[type=?]
-  ///* Specific disini maksudnya Hari = Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu
+  /// Format : Tahun:Bulan:Hari[type=?]
+  /// Specific disini maksudnya Hari = Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu
   static String formatYMDSpecific(
     DateTime date, {
     FormatYMDSpecific format = FormatYMDSpecific.completed,
@@ -636,7 +751,7 @@ class GlobalFunction {
     }
   }
 
-  ///* Convert from 1000 to 1K || 1500 to 1.5K
+  /// Convert from 1000 to 1K || 1500 to 1.5K
   static String abbreviateNumber(int number) {
     final formattedNumber = NumberFormat.compact().format(number);
     return formattedNumber;
@@ -660,6 +775,9 @@ class GlobalFunction {
     if (length < minLength) {
       throw Exception('Panjang karakter kurang dari batas minimum karakter');
     }
+
+    final Random _random = Random();
+
     var concate = '';
 
     const lowerCaseCharacter = 'abcdefghijklmnopqrstuvwxyz';
@@ -690,20 +808,16 @@ class GlobalFunction {
       default:
     }
 
-    final Random _random = Random();
-
-    return String.fromCharCodes(
-      Iterable.generate(
-        length,
-        (_) => concate.codeUnitAt(
-          _random.nextInt(concate.length),
-        ),
-      ),
+    final charCodes = Iterable.generate(
+      length,
+      (_) => concate.codeUnitAt(_random.nextInt(concate.length)),
     );
+
+    return String.fromCharCodes(charCodes);
   }
 
-  ///* Get readable file size [https://github.com/synw/filesize]
-  static String readableFileSize(
+  /// Get readable file size [https://github.com/synw/filesize]
+  static String fileSizeReadable(
     String pathFile, {
     int round = 2,
   }) {
@@ -768,14 +882,13 @@ class GlobalFunction {
   }
 
   //? END String
+  //? START Integer
 
-  ///* Mendapatkan total hari pada tahun dan bulan yang ditentukan
-  ///* @param       => year
-  ///* @param       => month
-  ///* @return      => integer
-  ///* @penggunaan
-  ///* final _totalDayOfMonth = totalDaysOfMonth(2020, 10)
-
+  /// Get total day of month
+  ///
+  /// final totalDay = totalDaysOfMonth(year:2021, month:11);
+  ///
+  /// print(totalDay) // 30
   static int totalDaysOfMonth({
     required int year,
     required int month,
@@ -784,11 +897,13 @@ class GlobalFunction {
     return result.day;
   }
 
-  ///* Mendatkan Total Hari Pada Tahun yang ditentukan
-  ///* @param      => year
-  ///* @return     => integer
-  ///* @penggunaan
-  ///* final total = totalDayInYear(2020) => menghasilkan total hari ditahun 2020 [366 Day]
+  /// Get total day of year
+  ///
+  /// final result = GlobalFunction.totalDayInYear(2020)
+  ///
+  /// print(result) // 366
+  ///
+  /// [https://www.epochconverter.com/days/2020]
 
   static int totalDayInYear(int year) {
     var tempTotalDayInYear = 0;
@@ -801,39 +916,54 @@ class GlobalFunction {
     return tempTotalDayInYear;
   }
 
-  ///* Mendapatkan total hari dari range year yang ditentukan
-  ///* @param   => from
-  ///* @param   => to
-  ///* @return  => integer
-  ///* @penggunaan
-  ///* case 1
-  ///* final total = totalDayInRangeYear(2020,2021) => menghasilkan total hari ditahun 2020 [366 Day]
-  ///* case 2
-  ///* final total = totalDayInRangeYear(2020,2022) => menghasilkan total hari dari tahun 2020-2022 [731 Day]
+  /// Get total day depend of [from] & [to] year defined
+  ///
+  /// final total = GlobalFunction.totalDayInRangeYear(from: 2020, to:2021)
+  ///
+  /// print(total) // 731
 
   static int totalDayInRangeYear({
-    required int from,
-    required int to,
+    required int fromYear,
+    int? toYear,
   }) {
-    if (from > to) {
-      throw Exception("Year From can't be greather than Year To");
+    /// If not defined [toYear], give default value from [fromYear]
+    toYear ??= fromYear;
+
+    if (fromYear > toYear) {
+      throw Exception("[Year From] can't be greather than [Year To]");
     }
 
-    if (from == to) {
-      return totalDayInYear(from);
+    if (fromYear == toYear) {
+      return totalDayInYear(fromYear);
     }
 
-    final yFrom = DateTime(from);
-    final yTo = DateTime(to);
+    int totalDay = 0;
+    for (int i = fromYear; i <= toYear; i++) {
+      totalDay += totalDayInYear(i);
+    }
 
-    return yTo.difference(yFrom).inDays;
+    return totalDay;
   }
 
-  ///* Mendapatkan total WeekDay / WeekEnd berdasarkan kriteria :
-  ///* Tipenya [WeekDay / WeekEnd]
-  ///* Tipe perhitungan [Bulan / Tahun]
-  ///* @Penggunaan
-  ///* final totalWeekDayOrWeekEnd = GlobalTemplate.totalWeekDayOrWeekEnd(2021,month: 1,day: 1,typeWeek: TypeWeek.isWeekend,typeDateTotal: TypeDateTotal.Year);
+  /// Get total [WeekDay] or [WeekEnd] depend of type.
+  ///
+  /// const year = 2021;
+  ///
+  /// const month = 1;
+  ///
+  /// const day = 1;
+  ///
+  /// final totalWeekend2021 = GlobalFunction.totalWeekDayOrWeekEnd(
+  ///   year,
+  ///   month:month,
+  ///   day:day,
+  ///   typeDateTotal: TypeDateTotal.year
+  ///   typeWeek: TypeWeek.isWeekend
+  /// );
+  ///
+  /// print(totalWeekend2021) // 104
+  ///
+  /// [https://coda.io/@hales/simple-online-calculator-for-dates-and-times/how-many-weekends-in-a-year-31]
 
   static int totalWeekDayOrWeekEnd(
     int year, {
@@ -844,20 +974,20 @@ class GlobalFunction {
   }) {
     final totalDay = (typeDateTotal == TypeDateTotal.month)
         ? totalDaysOfMonth(year: year, month: month)
-        : totalDayInRangeYear(from: year - 1, to: year);
+        : totalDayInRangeYear(fromYear: year, toYear: year);
 
     var weekDay = 0;
     var weekEnd = 0;
 
-    var tempDateTime = DateTime(year, month, day);
+    final tempDateTime = DateTime(year, month, day);
     for (var i = day; i <= totalDay; i++) {
-      tempDateTime = DateTime(tempDateTime.year, tempDateTime.month, i);
-      if (tempDateTime.weekday == DateTime.saturday || tempDateTime.weekday == DateTime.sunday) {
+      final date = DateTime(tempDateTime.year, tempDateTime.month, i);
+      if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
         weekEnd++;
-//         print('weekEnd || $i');
+        // print('weekEnd || $date');
       } else {
         weekDay++;
-//         print('weekDay || $i');
+        // print('weekDay || $date');
       }
     }
 
@@ -866,12 +996,18 @@ class GlobalFunction {
   }
 
   /// Get total length word
-  /// With the separator i.e space
+  ///
+  /// final string = 'zeffry reynando tampan sekali';
+  ///
+  /// final result = GlobalFunction.getTotalLenghtWord(string);
+  ///
+  /// print(result) // 4
   static int getTotalLenghtWord(
     String string, {
+    String separator = ' ',
     int? substract,
   }) {
-    final length = string.split(' ').length;
+    final length = string.split(separator).length;
     int result;
     if (substract != null) {
       if (length - substract <= 0) {
@@ -903,119 +1039,20 @@ class GlobalFunction {
     return min + rn.nextInt(max - min);
   }
 
-  ///* Mendapatkan warna acak dari kumpulan warna yang sudah ditentukan
-  ///* @return    => Color
-  static Color getRandomColor() {
+  //? END Integer
+
+  //? START Color
+  /// Mendapatkan warna acak dari kumpulan warna yang sudah ditentukan
+  ///
+  /// @return    => Color
+  static Color randomColor(List<Color> colors) {
     final _random = Random();
-    final color = colorPallete.arrColor[_random.nextInt(colorPallete.arrColor.length)];
+    final color = colors[_random.nextInt(colorPallete.arrColor.length)];
     return color;
   }
+  //? END Color
 
-  ///* Memunculkan dialog untuk membutuhkan akses
-  static void showDialogNeedAccess(
-    BuildContext context, {
-    VoidCallback? onPressed,
-  }) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Membutuhkan akses'),
-        content: const Text(
-          "Sepertinya kamu sebelumnya menolak untuk memberikan akses, untuk menggunakan aplikasi silahkan berikan akses",
-        ),
-        actions: [
-          TextButton(
-            onPressed: onPressed,
-            child: const Text('Buka Setting'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  ///* Memunculkan snackbar
-
-  static void showSnackBar(
-    BuildContext context, {
-    required Widget content,
-    bool hideWithAnimation = true,
-    SnackBarAction? action,
-    Animation<double>? animation,
-    Color? backgroundColor,
-    SnackBarBehavior? behaviour,
-    Duration duration = const Duration(seconds: 4),
-    double? elevation,
-
-    /// If margin not null , set default behaviour = SnackBarBehaviour.floating
-    EdgeInsetsGeometry? margin,
-    EdgeInsetsGeometry? padding,
-    ShapeBorder? shape,
-    double? width,
-    SnackBarType snackBarType = SnackBarType.normal,
-    SnackBarShape snackBarShape = SnackBarShape.normal,
-  }) {
-    final scaffoldMessager = ScaffoldMessenger.of(context);
-
-    if (hideWithAnimation) {
-      scaffoldMessager.hideCurrentSnackBar();
-    } else {
-      scaffoldMessager.removeCurrentSnackBar();
-    }
-
-    if (margin != null) {
-      // ignore: parameter_assignments
-      behaviour = SnackBarBehavior.floating;
-    }
-
-    switch (snackBarType) {
-      case SnackBarType.success:
-        backgroundColor = Colors.green;
-        break;
-
-      case SnackBarType.error:
-        backgroundColor = Colors.red;
-        break;
-
-      case SnackBarType.warning:
-        backgroundColor = Colors.orange;
-        break;
-
-      case SnackBarType.info:
-        backgroundColor = Colors.lightBlue;
-        break;
-
-      default:
-        // ignore: parameter_assignments
-        backgroundColor = backgroundColor;
-        break;
-    }
-
-    switch (snackBarShape) {
-      case SnackBarShape.rounded:
-        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(15));
-        break;
-      default:
-        // ignore: parameter_assignments
-        shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(0));
-        break;
-    }
-
-    scaffoldMessager.showSnackBar(
-      SnackBar(
-        content: content,
-        action: action,
-        animation: animation,
-        backgroundColor: backgroundColor,
-        behavior: behaviour,
-        duration: duration,
-        elevation: elevation,
-        margin: margin,
-        padding: padding,
-        shape: shape,
-        width: width,
-      ),
-    );
-  }
+  //? START Map
 
   static Map<int, String> listOfMonth() {
     return {
@@ -1042,6 +1079,10 @@ class GlobalFunction {
       for (var i = from; i <= to; i++) i: i,
     };
   }
+
+  //? END Map
+
+  //? START Validation
 
   static String? validateIsEmpty(String? value, [String message = 'Input tidak boleh kosong']) {
     if (value?.isEmpty ?? true) {
@@ -1071,7 +1112,9 @@ class GlobalFunction {
     return null;
   }
 
-  ///* Check if value in list already exist/not
+  //? END Validation
+
+  /// Check if value in list already exist/not
   static T? isValueExistObject<T>(
     List<T> checkedList,
     T newValue, {
@@ -1092,23 +1135,23 @@ class GlobalFunction {
     return result;
   }
 
-  ///* JSON Converter
+  /// JSON Converter
 
-  ///* Mengubah hasil dari json ke [String => Integer]
-  ///* @param     => String
-  ///* @return    => Integer?
+  /// Mengubah hasil dari json ke [String => Integer]
+  /// @param     => String
+  /// @return    => Integer?
 
   static int? fromJsonStringToInteger(dynamic value) => int.tryParse(value.toString());
 
-  ///* Mengubah hasil ke json dari [Integer? => String]
-  ///* @param     => Integer?
-  ///* @return    => String?
+  /// Mengubah hasil ke json dari [Integer? => String]
+  /// @param     => Integer?
+  /// @return    => String?
 
   static String? toJsonStringFromInteger(int? value) => value?.toString();
 
-  ///* Mengubah hasil dari json dari [Integer? => DateTime]
-  ///* @param     => Integer?
-  ///* @return    => DateTime?
+  /// Mengubah hasil dari json dari [Integer? => DateTime]
+  /// @param     => Integer?
+  /// @return    => DateTime?
 
   static DateTime? fromJsonMilisecondToDateTime(int? value) => value == null
       ? null
@@ -1116,9 +1159,9 @@ class GlobalFunction {
           value,
         );
 
-  ///* Mengubah hasil ke json dari [DateTime? => Integer]
-  ///* @param     => DateTime?
-  ///* @return    => Integer?
+  /// Mengubah hasil ke json dari [DateTime? => Integer]
+  /// @param     => DateTime?
+  /// @return    => Integer?
   static int? toJsonMilisecondFromDateTime(DateTime? date) => date?.millisecondsSinceEpoch;
 
   static Map<String, dynamic> fromJsonMapObjectToMap(Map map) => Map<String, dynamic>.from(map);

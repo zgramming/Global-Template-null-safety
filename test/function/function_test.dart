@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:global_template/functions/global_function.dart';
 import 'package:global_template/global_template.dart';
@@ -29,7 +31,7 @@ void main() {
       });
 
       group('List Function', () {
-//? START List<T>
+        //? START List<T>
         test(
             '[GlobalFunction.getStringBetweenCharacter] Should be get [zeffry, ubur-ubur] from word',
             () {
@@ -61,14 +63,27 @@ void main() {
       });
       group('String Function', () {
         //? START String
+
         test(
-            '[GlobalFunction.formatDuration] should be get 1 Hari 10 Jam 59 Menit 10 Detik when function called',
+            '[GlobalFunction.formatTimeReadable] Should be get [1 Jam 2 Menit 3 Detik] when call function',
+            () {
+          /// arrange
+          const time = '01:02:03';
+
+          /// act
+          final result = GlobalFunction.formatTimeReadable(time);
+
+          /// assert
+          expect(result, '1 Jam 2 Menit 3 Detik');
+        });
+        test(
+            '[GlobalFunction.formatDurationReadable] should be get 1 Hari 10 Jam 59 Menit 10 Detik when function called',
             () {
           /// arrange
           const duration = Duration(days: 1, hours: 10, minutes: 59, seconds: 10);
 
           /// action
-          final result = GlobalFunction.formatDuration(duration);
+          final result = GlobalFunction.formatDurationReadable(duration);
 
           /// assert
           expect(result, '1 Hari 10 Jam 59 Menit 10 Detik');
@@ -155,7 +170,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatD] Should be get Minggu when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 10, 10, 10, 10);
 
@@ -170,7 +184,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatM] Should be get Oktober when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 20, 10, 10, 10);
 
@@ -187,7 +200,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatMD] Should be get [Senin, 11 Oktober] when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 11, 12, 13, 14);
 
@@ -217,7 +229,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatY] Should be get [2021] when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 11, 12, 13, 14);
 
@@ -230,7 +241,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatYM] Should be get [Oktober 2021] when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 11, 12, 13, 14);
 
@@ -247,7 +257,6 @@ void main() {
         });
 
         test('[GlobalFunction.formatYMD] Should be get [11/10/2021] when call function', () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 11, 12, 13, 14);
 
@@ -263,9 +272,9 @@ void main() {
           expect(result3, '11 Oktober 2021');
         });
 
-        test('[GlobalFunction.formatYMDSpecific] Should be get [Oktober 2021] when call function',
+        test(
+            '[GlobalFunction.formatYMDSpecific] Should be get [Senin, 11 Oktober 2021] when call function',
             () {
-          /// Minggu, Min
           /// arrange
           final date = DateTime(2021, 10, 11, 12, 13, 14);
 
@@ -283,7 +292,250 @@ void main() {
           expect(result3, 'Sen, 11/10/2021');
         });
 
+        test('[GlobalFunction.abbreviateNumber] Should be get [1.5K] when call function', () {
+          /// arrange
+          const number = 1500;
+
+          /// act
+          final result = GlobalFunction.abbreviateNumber(number);
+
+          /// assert
+          expect(result, '1.5K');
+        });
+
+        test('[GlobalFunction.generateRandomString] Should be get [1.5K] when call function', () {
+          /// arrange
+          const length = 5;
+
+          /// act
+          final generateOnlyNumber1 = GlobalFunction.generateRandomString(
+            length,
+            rules: GenerateRandomStringRules.onlyNumber,
+          );
+          final generateOnlyNumber2 = GlobalFunction.generateRandomString(
+            length,
+            rules: GenerateRandomStringRules.onlyNumber,
+          );
+
+          final isEqual = generateOnlyNumber1 == generateOnlyNumber2;
+
+          /// assert
+          expect(isEqual, false);
+        });
+
+        test('[GlobalFunction.fileSizeReadable] Should be get [60 KB] when call function', () {
+          /// arrange
+          final file = File('assets/logo.png');
+
+          /// act
+          final result = GlobalFunction.fileSizeReadable(file.path);
+
+          /// assert
+          expect(result, '60.09 KB');
+        });
+
         //? END String
+
+        group('Integer Function', () {
+          //? START Integer
+          test('[GlobalFunction.totalDaysOfMonth] Should be get [30] when call function', () {
+            /// arrange
+            const year = 2021;
+            const month = 11;
+
+            /// act
+            final result = GlobalFunction.totalDaysOfMonth(year: year, month: month);
+
+            /// assert
+            expect(result, 30);
+          });
+
+          test('[GlobalFunction.totalDayInYear] Should be get [366] when call function', () {
+            /// [https://www.epochconverter.com/days/2020]
+            /// arrange
+            const year = 2020;
+
+            /// act
+            final result = GlobalFunction.totalDayInYear(year);
+
+            /// assert
+            expect(result, 366);
+          });
+
+          test('[GlobalFunction.totalDayInRangeYear] Should be get [731] when call function', () {
+            /// [https://www.epochconverter.com/days/2020]
+            /// arrange
+            const fromYear = 2020;
+            const toYear = 2021;
+
+            /// act
+            final result = GlobalFunction.totalDayInRangeYear(fromYear: fromYear, toYear: toYear);
+
+            /// assert
+            expect(result, 731);
+          });
+
+          test(
+              '[GlobalFunction.totalWeekDayOrWeekEnd] Should be get [8, 22, 104, 261] when call function',
+              () {
+            /// [https://www.epochconverter.com/days/2020]
+            /// arrange
+            const year = 2021;
+            const month = 11;
+            const day = 1;
+
+            /// act
+            // Get total [Weekend] from day 1 November 2021
+            final totalWeekendFrom1November = GlobalFunction.totalWeekDayOrWeekEnd(
+              year,
+              // ignore: avoid_redundant_argument_values
+              month: month,
+              // ignore: avoid_redundant_argument_values
+              day: day,
+              // ignore: avoid_redundant_argument_values
+              typeDateTotal: TypeDateTotal.month,
+              // ignore: avoid_redundant_argument_values
+              typeWeek: TypeWeek.isWeekend,
+            );
+
+            // Get total [Weekday] from day 1 November 2021
+            final totalWeekdayFrom1November = GlobalFunction.totalWeekDayOrWeekEnd(
+              year,
+              month: month,
+              // ignore: avoid_redundant_argument_values
+              day: day,
+              // ignore: avoid_redundant_argument_values
+              typeDateTotal: TypeDateTotal.month,
+              // ignore: avoid_redundant_argument_values
+              typeWeek: TypeWeek.isWeekday,
+            );
+
+            // Get total [Weekend] from day 1 Januari 2021
+            final totalWeekend2021 = GlobalFunction.totalWeekDayOrWeekEnd(
+              year,
+              // ignore: avoid_redundant_argument_values
+              month: 1,
+              // ignore: avoid_redundant_argument_values
+              day: 1,
+              // ignore: avoid_redundant_argument_values
+              typeDateTotal: TypeDateTotal.year,
+              // ignore: avoid_redundant_argument_values
+              typeWeek: TypeWeek.isWeekend,
+            );
+
+            // Get total [Weekend] from day 1 Januari 2021
+            final totalWeekday2021 = GlobalFunction.totalWeekDayOrWeekEnd(
+              year,
+              // ignore: avoid_redundant_argument_values
+              month: 1,
+              // ignore: avoid_redundant_argument_values
+              day: 1,
+              // ignore: avoid_redundant_argument_values
+              typeDateTotal: TypeDateTotal.year,
+              // ignore: avoid_redundant_argument_values
+              typeWeek: TypeWeek.isWeekday,
+            );
+
+            /// assert
+            expect(totalWeekendFrom1November, 8);
+            expect(totalWeekdayFrom1November, 22);
+
+            expect(totalWeekend2021, 104);
+            expect(totalWeekday2021, 261);
+          });
+
+          test('[GlobalFunction.getTotalLenghtWord] Should be get 4 when call function', () {
+            /// arrange
+            const string = 'Zeffry Reynando Tampan Sekali';
+
+            /// act
+            final result = GlobalFunction.getTotalLenghtWord(string);
+
+            /// assert
+            expect(result, 4);
+          });
+
+          test(
+              '[GlobalFunction.randomNumber] Should be get number between [0-10] when call function',
+              () {
+            /// arrange
+            const min = 0;
+            const max = 10;
+
+            /// act
+            // ignore: avoid_redundant_argument_values
+            final result = GlobalFunction.randomNumber(min: min, max: max);
+            final isBetween = result >= min && result <= max;
+
+            /// assert
+            expect(isBetween, true);
+          });
+
+          //? END Integer
+        });
+
+        group('Map Function', () {
+          test('[GlobalFunction.listOfMonth] Should be get [April] when call function', () {
+            /// arrange
+            const month = 4;
+
+            /// act
+            final result = GlobalFunction.listOfMonth();
+            final monthName = result[month];
+
+            /// assert
+            expect(monthName, 'April');
+          });
+
+          test('[GlobalFunction.listOfYear] Should be get [2021] when call function', () {
+            /// arrange
+            const year = 2021;
+
+            /// act
+            final result = GlobalFunction.listOfYear(from: 2000, to: 2021);
+            final yearName = result[year];
+
+            /// assert
+            expect(yearName, 2021);
+          });
+        });
+
+        group('Validation Function', () {
+          test('[GlobalFunction.validateIsEmpty] Should be return null when call function', () {
+            /// arrange
+            const isSucess = true;
+
+            /// act
+            final result = GlobalFunction.validateIsEmpty('not empty');
+
+            /// assert
+            expect(result == null, isSucess);
+          });
+
+          test('[GlobalFunction.validateIsEqual] Should be return null when call function', () {
+            /// arrange
+            const isSucess = true;
+
+            /// act
+            final result = GlobalFunction.validateIsEqual('zeffry', 'zeffry');
+
+            /// assert
+            expect(result == null, isSucess);
+          });
+
+          test('[GlobalFunction.validateIsValidEmail] Should be return null when call function',
+              () {
+            /// arrange
+            const isSucess = true;
+
+            /// act
+            final result = GlobalFunction.validateIsValidEmail('zeffry.reynando@gmail.com');
+
+            /// assert
+            expect(result == null, isSucess);
+          });
+        });
+
         /// arrange
 
         /// act
