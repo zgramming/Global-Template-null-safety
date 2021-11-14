@@ -307,6 +307,65 @@ class GlobalFunction {
 
   //? START String
 
+  /// Convert type [TIME] database to [String]
+  ///
+  /// const string = "10:10:10"
+  ///
+  /// final result = GlobalFunction.formatTimeReadable(string);
+  ///
+  /// print(result) // 10 Jam 10 Menit 10 Detik
+  static String formatTimeReadable(
+    String time, {
+    TimeFormat? timeFormat,
+  }) {
+    final hour = time.replaceAll(':', '').substring(0, 2);
+    final minute = time.replaceAll(':', '').substring(2, 4);
+    final second = time.replaceAll(':', '').substring(4, 6);
+
+    String resultHour;
+    String resultMinute;
+    String resultSecond;
+
+    if (hour.startsWith('0')) {
+      resultHour = hour.substring(1);
+    } else {
+      resultHour = hour;
+    }
+    if (minute.startsWith('0')) {
+      resultMinute = minute.substring(1);
+    } else {
+      resultMinute = minute;
+    }
+    if (second.startsWith('0')) {
+      resultSecond = second.substring(1);
+    } else {
+      resultSecond = second;
+    }
+
+    switch (timeFormat) {
+      case TimeFormat.jam:
+        return '$resultHour Jam ';
+
+      case TimeFormat.jamMenit:
+        return '$resultHour Jam $resultMinute Menit';
+
+      case TimeFormat.jamMenitDetik:
+        return '$resultHour Jam $resultMinute Menit $resultSecond Detik';
+
+      case TimeFormat.menit:
+        return '$resultMinute Menit';
+
+      case TimeFormat.menitDetik:
+        return '$resultMinute Menit $resultSecond Detik';
+
+      case TimeFormat.detik:
+        return '$resultSecond Detik';
+
+      default:
+        return '$resultHour Jam $resultMinute Menit $resultSecond Detik';
+    }
+  }
+
   /// Get readable [Duration]
   ///
   /// For now is support only [Days, Hours, Minutes, Seconds]
@@ -319,7 +378,7 @@ class GlobalFunction {
   ///
   /// Reference [https://stackoverflow.com/a/60904049/7360353]
 
-  static String formatDuration(
+  static String formatDurationReadable(
     Duration duration, {
     String separator = ' ',
     String textForDays = 'Hari',
@@ -574,59 +633,6 @@ class GlobalFunction {
 
       default:
         return 'Format Not Valid';
-    }
-  }
-
-  ///* Format : Time => Jam Menit
-  static String formatTimeTo(
-    String time, {
-    TimeFormat? timeFormat,
-  }) {
-    final hour = time.replaceAll(':', '').substring(0, 2);
-    final minute = time.replaceAll(':', '').substring(2, 4);
-    final second = time.replaceAll(':', '').substring(4, 6);
-
-    String resultHour;
-    String resultMinute;
-    String resultSecond;
-
-    if (hour.startsWith('0')) {
-      resultHour = hour.substring(1);
-    } else {
-      resultHour = hour;
-    }
-    if (minute.startsWith('0')) {
-      resultMinute = minute.substring(1);
-    } else {
-      resultMinute = minute;
-    }
-    if (second.startsWith('0')) {
-      resultSecond = second.substring(1);
-    } else {
-      resultSecond = second;
-    }
-
-    switch (timeFormat) {
-      case TimeFormat.jam:
-        return '$resultHour Jam ';
-
-      case TimeFormat.jamMenit:
-        return '$resultHour Jam $resultMinute Menit';
-
-      case TimeFormat.jamMenitDetik:
-        return '$resultHour Jam $resultMinute Menit $resultSecond Detik';
-
-      case TimeFormat.menit:
-        return '$resultMinute Menit';
-
-      case TimeFormat.menitDetik:
-        return '$resultMinute Menit $resultSecond Detik';
-
-      case TimeFormat.detik:
-        return '$resultSecond Detik';
-
-      default:
-        return '$resultHour Jam $resultMinute Menit $resultSecond Detik';
     }
   }
 
