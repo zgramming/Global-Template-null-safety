@@ -613,18 +613,21 @@ class GlobalFunction {
   /// Format : Jam:Menit
   static String formatHM(
     DateTime date, {
-    String separator = ":",
+    String? separator,
   }) {
-    return DateFormat.Hm(appConfig.indonesiaLocale).format(date).replaceAll('.', separator);
+    return DateFormat.Hm(appConfig.indonesiaLocale).format(date).replaceAll(
+          '.',
+          separator ?? ':',
+        );
   }
 
   /// Format : Jam:Menit:Detik
   static String formatHMS(
     DateTime date, {
-    String separator = ":",
+    String? separator,
   }) {
     final result = DateFormat.Hms(appConfig.indonesiaLocale).format(date);
-    return result.replaceAll('.', separator);
+    return result.replaceAll('.', separator ?? ':');
   }
 
   /// Format Hari
@@ -749,6 +752,38 @@ class GlobalFunction {
       default:
         return 'Format Not Valid';
     }
+  }
+
+  static String formatYMDH(
+    DateTime date, {
+    FormatYMD formatYmd = FormatYMD.completed,
+  }) {
+    final _date = formatYMD(date, format: formatYmd);
+    final _time = formatH(date);
+
+    return "$_date $_time";
+  }
+
+  static String formatYMDHM(
+    DateTime date, {
+    FormatYMD formatYmd = FormatYMD.completed,
+    String? timeSeparator,
+  }) {
+    final _date = formatYMD(date, format: formatYmd);
+    final _time = formatHM(date, separator: timeSeparator);
+
+    return "$_date $_time";
+  }
+
+  static String formatYMDHMS(
+    DateTime date, {
+    FormatYMD formatYmd = FormatYMD.completed,
+    String? timeSeparator,
+  }) {
+    final _date = formatYMD(date, format: formatYmd);
+    final _time = formatHMS(date, separator: timeSeparator);
+
+    return "$_date $_time";
   }
 
   /// Convert from 1000 to 1K || 1500 to 1.5K

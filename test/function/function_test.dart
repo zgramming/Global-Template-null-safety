@@ -292,6 +292,41 @@ void main() {
           expect(result3, 'Sen, 11/10/2021');
         });
 
+        test('[GlobalFunction.formatYMDH] Should be get [11/10/2021 12] when call function', () {
+          /// arrange
+          final date = DateTime(2021, 10, 11, 12, 13, 14);
+
+          /// act
+          final result = GlobalFunction.formatYMDH(date, formatYmd: FormatYMD.number);
+
+          /// assert
+          expect(result, '11/10/2021 12');
+        });
+
+        test('[GlobalFunction.formatYMDHM] Should be get [11/10/2021 12:13] when call function',
+            () {
+          /// arrange
+          final date = DateTime(2021, 10, 11, 12, 13, 14);
+
+          /// act
+          final result = GlobalFunction.formatYMDHM(date, formatYmd: FormatYMD.number);
+
+          /// assert
+          expect(result, '11/10/2021 12:13');
+        });
+
+        test('[GlobalFunction.formatYMDHMS] Should be get [11/10/2021 12:13:14] when call function',
+            () {
+          /// arrange
+          final date = DateTime(2021, 10, 11, 12, 13, 14);
+
+          /// act
+          final result = GlobalFunction.formatYMDHMS(date, formatYmd: FormatYMD.number);
+
+          /// assert
+          expect(result, '11/10/2021 12:13:14');
+        });
+
         test('[GlobalFunction.abbreviateNumber] Should be get [1.5K] when call function', () {
           /// arrange
           const number = 1500;
