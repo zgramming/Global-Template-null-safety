@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+const _darkGrey400 = Color(0xFFD1D4DB);
+
 ///TODO: Bug When textformfield show message error
 /// When message error show, position of SuffixIcon still same and make weird look.
 /// Planning : Check if textformfield has error validate, then position suffix icon should be increase
@@ -162,7 +164,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               isDense: true,
               fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
               filled: true,
-              hintStyle: widget.hintStyle,
+              hintStyle: widget.hintStyle ?? const TextStyle(color: _darkGrey400, fontSize: 12.0),
               prefixIcon: widget.prefixIcon,
               hintText: widget.hintText,
               labelText: widget.labelText,
