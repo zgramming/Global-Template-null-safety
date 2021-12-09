@@ -1329,10 +1329,10 @@ class RouteAnimation {
         begin = const Offset(0, -1);
         break;
       case SlidePosition.fromLeft:
-        begin = const Offset(1, 0);
+        begin = const Offset(-1, 0);
         break;
       case SlidePosition.fromRight:
-        begin = const Offset(-1, 0);
+        begin = const Offset(1, 0);
         break;
       default:
         begin = Offset.zero;
