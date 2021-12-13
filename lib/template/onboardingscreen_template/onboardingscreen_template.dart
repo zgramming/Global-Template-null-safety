@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:global_template/global_template.dart';
 
-import './widgets/onboarding_item.dart';
-
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({
     required this.items,

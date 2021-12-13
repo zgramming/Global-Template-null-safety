@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:global_template/functions/global_function.dart';
 import 'package:global_template/global_template.dart';
 import 'package:intl/date_symbol_data_local.dart';
 

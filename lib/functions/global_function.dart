@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -1171,6 +1170,18 @@ class GlobalFunction {
   }
 
   /// JSON Converter
+
+  /// Convert from integer to boolean
+  ///
+  ///  1 == true || 0 == false
+  static bool fromJsonIntegerToBoolean(int value) => value == 1;
+
+  /// Convert from boolean to integer
+  ///
+  /// true == 1 || false == 0
+
+  // ignore: avoid_positional_boolean_parameters
+  static int toJsonIntegerFromBoolean(bool value) => value ? 1 : 0;
 
   /// Mengubah hasil dari json ke [String => Integer]
   /// @param     => String
