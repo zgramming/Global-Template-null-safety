@@ -6,7 +6,9 @@ enum TypeAction { deleteAndEdit, delete, edit, none }
 class ActionModalBottomSheet extends StatelessWidget {
   final WrapAlignment align;
   final double spacing;
-  final List<ActionCircleButton> children;
+
+  /// Consider using [ActionCircleButton] for better experience
+  final List<Widget> children;
   final TypeAction typeAction;
   final TextDirection textDirection;
   final VoidCallback? onEdit;
@@ -16,7 +18,7 @@ class ActionModalBottomSheet extends StatelessWidget {
     required this.typeAction,
     this.align = WrapAlignment.end,
     this.spacing = 20.0,
-    this.children = const <ActionCircleButton>[],
+    this.children = const <Widget>[],
     this.textDirection = TextDirection.ltr,
     this.onDelete,
     this.onEdit,
