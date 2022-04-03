@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:global_template/global_template.dart';
+import '../../global_template.dart';
 
 class BottomAppBarWithFAB extends StatefulWidget {
   final List<BottomAppBarItem> items;
@@ -27,6 +27,7 @@ class BottomAppBarWithFAB extends StatefulWidget {
     this.unSelectedColor,
     this.alignment = MainAxisAlignment.spaceAround,
   }) : assert(
+          // ignore: use_is_even_rather_than_modulo
           items.length % 2 == 0 && items.length <= 4,
           "Items length must be divided by 2 & Maximum 4 Icon",
         );

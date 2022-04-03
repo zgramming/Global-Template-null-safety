@@ -7,7 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../variable/colors/color_pallete.dart';
 import '../variable/config/app_config.dart';
@@ -115,7 +115,13 @@ enum TypeWeek { isWeekend, isWeekday }
 
 // ignore: avoid_classes_with_only_static_members
 class GlobalFunction {
+  GlobalFunction._();
+  static final instance = GlobalFunction._();
   //? START Void
+
+  static Future<void> initializeDateFormatting() async {
+    await initializeDateFormatting();
+  }
 
   /// Memunculkan dialog untuk membutuhkan akses
   static void showDialogNeedAccess(

@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:global_template/global_template.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import '../../global_template.dart';
 
 class LiveClock extends StatefulWidget {
   final TextStyle? textStyle;

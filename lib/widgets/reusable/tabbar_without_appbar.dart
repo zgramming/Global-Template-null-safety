@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:global_template/global_template.dart';
+import '../../global_template.dart';
 
 class TabBarWithoutAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TabBarWithoutAppBar({this.colorTabBar, this.tabBar});

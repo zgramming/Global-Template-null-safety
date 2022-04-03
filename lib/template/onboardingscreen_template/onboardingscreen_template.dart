@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:global_template/global_template.dart';
+import '../../global_template.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:global_template/global_template.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../global_template.dart';
 
 class CopyRightVersion extends StatefulWidget {
   const CopyRightVersion({
