@@ -17,7 +17,7 @@ class _InitialSplashTemplateState extends State<InitialSplashTemplate> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.scheduleFrameCallback((timeStamp) {
+    WidgetsBinding.instance.scheduleFrameCallback((timeStamp) {
       PackageInfo.fromPlatform().then((packageInfo) => setState(() => _packageInfo = packageInfo));
     });
   }

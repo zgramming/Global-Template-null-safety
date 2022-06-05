@@ -27,7 +27,7 @@ class SizesDevice {
   double keyboardHeight(BuildContext context) => MediaQuery.of(context).viewInsets.bottom;
 
   MediaQueryData smallestDimension(BuildContext context) =>
-      MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
 
   /// Check if devices reach mobile breakpoint
   bool isMobileBreakPoint(BuildContext context) =>

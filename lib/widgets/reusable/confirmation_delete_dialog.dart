@@ -35,7 +35,7 @@ class ConfirmationDeleteDialog extends StatelessWidget {
             onDelete!();
             // Navigator.of(context).pop();
             var totalPop = 0;
-            SchedulerBinding.instance!.addPostFrameCallback((_) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
               Navigator.popUntil(context, (route) => totalPop++ == totalNavigatorPop);
             });
           },

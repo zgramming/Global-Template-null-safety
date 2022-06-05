@@ -31,7 +31,7 @@ class _SplashScreenTemplateState extends State<SplashScreenTemplate> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (timer.tick >= widget.duration) {
           setState(() {
