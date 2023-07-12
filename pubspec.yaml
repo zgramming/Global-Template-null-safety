@@ -12,7 +12,7 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter:
     sdk: flutter
-  intl: ^0.18.1
+  intl: ^0.18.0
   package_info_plus: ^4.0.2
 
 dev_dependencies:
