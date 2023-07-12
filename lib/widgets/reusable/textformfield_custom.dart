@@ -17,7 +17,8 @@ class TextFormFieldCustom extends StatefulWidget {
     this.autoFocus = false,
     this.readOnly = false,
     this.backgroundColor = Colors.white,
-    this.padding = const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0, top: 16.0),
+    this.padding =
+        const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0, top: 16.0),
     this.errorMaxLines = 2,
     this.radius = 8,
     this.keyboardType = TextInputType.text,
@@ -83,7 +84,9 @@ class TextFormFieldCustom extends StatefulWidget {
   final InputBorderStyle? defaultBorderStyle;
   final InputBorderStyle? errorBorderStyle;
 
+  // ignore: avoid_positional_boolean_parameters
   final IconData Function(bool isObsecure)? onObsecurePasswordIcon;
+  // ignore: avoid_positional_boolean_parameters
   final Color Function(bool isObsecure)? onObsecurePasswordColor;
 
   final String? hintText;
@@ -162,9 +165,12 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               suffixStyle: widget.suffixTextStyle,
               prefixStyle: widget.prefixTextStyle,
               isDense: true,
-              fillColor: widget.disableOutlineBorder ? Colors.transparent : widget.backgroundColor,
+              fillColor: widget.disableOutlineBorder
+                  ? Colors.transparent
+                  : widget.backgroundColor,
               filled: true,
-              hintStyle: widget.hintStyle ?? const TextStyle(color: _darkGrey400, fontSize: 12.0),
+              hintStyle: widget.hintStyle ??
+                  const TextStyle(color: _darkGrey400, fontSize: 12.0),
               prefixIcon: widget.prefixIcon,
               hintText: widget.hintText,
               labelText: widget.labelText,
@@ -177,7 +183,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.focusedBorderStyle?.color ?? Colors.grey[400]!,
+                        color: widget.focusedBorderStyle?.color ??
+                            Colors.grey[400]!,
                         width: widget.focusedBorderStyle?.width ?? 1.0,
                       ),
                     ),
@@ -186,7 +193,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.disabledBorderStyle?.color ?? Colors.grey[400]!,
+                        color: widget.disabledBorderStyle?.color ??
+                            Colors.grey[400]!,
                         width: widget.disabledBorderStyle?.width ?? 1.0,
                       ),
                     ),
@@ -195,7 +203,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.enabledBorderStyle?.color ?? Colors.grey[400]!,
+                        color: widget.enabledBorderStyle?.color ??
+                            Colors.grey[400]!,
                         width: widget.enabledBorderStyle?.width ?? 1.0,
                       ),
                     ),
@@ -204,7 +213,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.defaultBorderStyle?.color ?? Colors.grey[400]!,
+                        color: widget.defaultBorderStyle?.color ??
+                            Colors.grey[400]!,
                         width: widget.defaultBorderStyle?.width ?? 1.0,
                       ),
                     ),
@@ -213,7 +223,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.errorBorderStyle?.color ?? Colors.grey[400]!,
+                        color:
+                            widget.errorBorderStyle?.color ?? Colors.grey[400]!,
                         width: widget.errorBorderStyle?.width ?? 1.0,
                       ),
                     ),
@@ -222,13 +233,15 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                   : OutlineInputBorder(
                       borderRadius: BorderRadius.circular(widget.radius),
                       borderSide: BorderSide(
-                        color: widget.focusedErrorBorderStyle?.color ?? Colors.grey[400]!,
+                        color: widget.focusedErrorBorderStyle?.color ??
+                            Colors.grey[400]!,
                         width: widget.focusedErrorBorderStyle?.width ?? 1.0,
                       ),
                     ),
               contentPadding: widget.padding,
             ),
-            textInputAction: widget.isDone ? TextInputAction.done : widget.textInputAction,
+            textInputAction:
+                widget.isDone ? TextInputAction.done : widget.textInputAction,
             keyboardType: widget.keyboardType,
             inputFormatters: widget.inputFormatter,
             focusNode: widget.focusNode,
@@ -253,9 +266,12 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                           : _obsecurePassword
                               ? Icons.lock
                               : Icons.lock_open,
-                      color: _obsecurePassword ? Colors.grey[600] : widget.activeColor,
+                      color: _obsecurePassword
+                          ? Colors.grey[600]
+                          : widget.activeColor,
                     ),
-                    onPressed: () => setState(() => _obsecurePassword = !_obsecurePassword),
+                    onPressed: () =>
+                        setState(() => _obsecurePassword = !_obsecurePassword),
                   )
                 : Wrap(
                     alignment: WrapAlignment.end,

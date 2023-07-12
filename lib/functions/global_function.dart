@@ -98,12 +98,17 @@ enum GenerateRandomStringRules {
 enum ImageViewType { network, file, asset }
 
 enum SlidePosition { fromLeft, fromRight, fromBottom, fromTop }
+
 enum SnackBarShape { rounded, normal }
+
 enum SnackBarType { success, error, warning, info, normal }
 
 enum TimeFormat { jam, jamMenit, jamMenitDetik, menit, menitDetik, detik }
+
 enum ToastPositioned { bottom, center, top }
+
 enum ToastType { success, error, normal }
+
 enum TypeDateTotal {
   /// Get total [WeekDay] / [WeekEnd] with specific month
   month,
@@ -111,6 +116,7 @@ enum TypeDateTotal {
   /// Get total [WeekDay] / [WeekEnd] with specific year
   year,
 }
+
 enum TypeWeek { isWeekend, isWeekday }
 
 // ignore: avoid_classes_with_only_static_members
@@ -168,6 +174,8 @@ class GlobalFunction {
   }) {
     final scaffoldMessager = ScaffoldMessenger.of(context);
 
+    Color? _backgroundColor = backgroundColor;
+
     if (hideWithAnimation) {
       scaffoldMessager.hideCurrentSnackBar();
     } else {
@@ -181,24 +189,24 @@ class GlobalFunction {
 
     switch (snackBarType) {
       case SnackBarType.success:
-        backgroundColor = Colors.green;
+        _backgroundColor = Colors.green;
         break;
 
       case SnackBarType.error:
-        backgroundColor = Colors.red;
+        _backgroundColor = Colors.red;
         break;
 
       case SnackBarType.warning:
-        backgroundColor = Colors.orange;
+        _backgroundColor = Colors.orange;
         break;
 
       case SnackBarType.info:
-        backgroundColor = Colors.lightBlue;
+        _backgroundColor = Colors.lightBlue;
         break;
 
       default:
         // ignore: parameter_assignments
-        backgroundColor = backgroundColor;
+        _backgroundColor = backgroundColor;
         break;
     }
 
@@ -217,7 +225,7 @@ class GlobalFunction {
         content: content,
         action: action,
         animation: animation,
-        backgroundColor: backgroundColor,
+        backgroundColor: _backgroundColor,
         behavior: behaviour,
         duration: duration,
         elevation: elevation,
@@ -231,20 +239,6 @@ class GlobalFunction {
   //? END Void
 
   //? START Future<T>
-
-  /// Detect if user double tap
-  static Future<bool> doubleTapToExit(VoidCallback onDoubleTap) async {
-    DateTime? _currentBackPressTime;
-    final now = DateTime.now();
-    if (_currentBackPressTime == null ||
-        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
-      _currentBackPressTime = now;
-      onDoubleTap();
-      return Future.value(false);
-    } else {
-      return Future.value(true);
-    }
-  }
 
   /// Get metadata from handphone
   static Future<PackageInfo> packageInfo() async {
@@ -274,7 +268,7 @@ class GlobalFunction {
     if (_datePicker != null) {
       _date = _datePicker;
 
-      if (withTimePicker) {
+      if (withTimePicker && context.mounted) {
         final _timePicker = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.now(),
@@ -342,9 +336,9 @@ class GlobalFunction {
         onWillPop: () async => false,
         child: AlertDialog(
           title: Text(title),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               CircularProgressIndicator(),
             ],
           ),
@@ -809,7 +803,8 @@ class GlobalFunction {
   ///
   static String generateRandomString(
     int length, {
-    GenerateRandomStringRules rules = GenerateRandomStringRules.combineNumberAlphabet,
+    GenerateRandomStringRules rules =
+        GenerateRandomStringRules.combineNumberAlphabet,
     int minLength = 5,
   }) {
     if (length < minLength) {
@@ -890,7 +885,8 @@ class GlobalFunction {
         return '${(_size / divider / divider).toStringAsFixed(round)} MB';
       }
 
-      if (_size < divider * divider * divider * divider && _size % divider == 0) {
+      if (_size < divider * divider * divider * divider &&
+          _size % divider == 0) {
         return '${(_size / (divider * divider * divider)).toStringAsFixed(0)} GB';
       }
 
@@ -898,7 +894,8 @@ class GlobalFunction {
         return '${(_size / divider / divider / divider).toStringAsFixed(round)} GB';
       }
 
-      if (_size < divider * divider * divider * divider * divider && _size % divider == 0) {
+      if (_size < divider * divider * divider * divider * divider &&
+          _size % divider == 0) {
         final num r = _size / divider / divider / divider / divider;
         return '${r.toStringAsFixed(0)} TB';
       }
@@ -933,7 +930,8 @@ class GlobalFunction {
     required int year,
     required int month,
   }) {
-    final result = (month < 12) ? DateTime(year, month + 1, 0) : DateTime(year + 1, 1, 0);
+    final result =
+        (month < 12) ? DateTime(year, month + 1, 0) : DateTime(year + 1, 1, 0);
     return result.day;
   }
 
@@ -1022,7 +1020,8 @@ class GlobalFunction {
     final tempDateTime = DateTime(year, month, day);
     for (var i = day; i <= totalDay; i++) {
       final date = DateTime(tempDateTime.year, tempDateTime.month, i);
-      if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      if (date.weekday == DateTime.saturday ||
+          date.weekday == DateTime.sunday) {
         weekEnd++;
         // print('weekEnd || $date');
       } else {
@@ -1124,7 +1123,10 @@ class GlobalFunction {
 
   //? START Validation
 
-  static String? validateIsEmpty(String? value, [String message = 'Input tidak boleh kosong']) {
+  static String? validateIsEmpty(
+    String? value, [
+    String message = 'Input tidak boleh kosong',
+  ]) {
     if (value?.isEmpty ?? true) {
       return message;
     }
@@ -1142,10 +1144,13 @@ class GlobalFunction {
     return null;
   }
 
-  static String? validateIsValidEmail(String? value, [String message = 'Email tidak valid']) {
-    final bool emailValid =
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value ?? 'zeffry.reynando@gmail.com');
+  static String? validateIsValidEmail(
+    String? value, [
+    String message = 'Email tidak valid',
+  ]) {
+    final bool emailValid = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(value ?? 'zeffry.reynando@gmail.com');
     if (!emailValid) {
       return message;
     }
@@ -1193,7 +1198,8 @@ class GlobalFunction {
   /// @param     => String
   /// @return    => Integer?
 
-  static int? fromJsonStringToInteger(dynamic value) => int.tryParse(value.toString());
+  static int? fromJsonStringToInteger(dynamic value) =>
+      int.tryParse(value.toString());
 
   /// Mengubah hasil ke json dari [Integer? => String]
   /// @param     => Integer?
@@ -1214,10 +1220,13 @@ class GlobalFunction {
   /// Mengubah hasil ke json dari [DateTime? => Integer]
   /// @param     => DateTime?
   /// @return    => Integer?
-  static int? toJsonMilisecondFromDateTime(DateTime? date) => date?.millisecondsSinceEpoch;
+  static int? toJsonMilisecondFromDateTime(DateTime? date) =>
+      date?.millisecondsSinceEpoch;
 
-  static Map<String, dynamic> fromJsonMapObjectToMap(Map map) => Map<String, dynamic>.from(map);
-  static String toJsonStringFromMap(Map<String, dynamic> map) => json.encode(map);
+  static Map<String, dynamic> fromJsonMapObjectToMap(Map map) =>
+      Map<String, dynamic>.from(map);
+  static String toJsonStringFromMap(Map<String, dynamic> map) =>
+      json.encode(map);
 }
 
 class InputNumberFormat extends TextInputFormatter {
@@ -1229,7 +1238,8 @@ class InputNumberFormat extends TextInputFormatter {
     if (newValue.text.isEmpty) {
       return newValue.copyWith(text: '');
     } else if (newValue.text.compareTo(oldValue.text) != 0) {
-      final selectionIndexFromTheRight = newValue.text.length - newValue.selection.end;
+      final selectionIndexFromTheRight =
+          newValue.text.length - newValue.selection.end;
       final f = NumberFormat('#,###');
       final num = int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
       final newString = f.format(num);
@@ -1251,8 +1261,7 @@ class RouteAnimation {
       BuildContext ctx,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
-    )
-        screen,
+    ) screen,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
@@ -1275,8 +1284,7 @@ class RouteAnimation {
       BuildContext ctx,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
-    )
-        screen,
+    ) screen,
     Alignment alignment = Alignment.bottomLeft,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
@@ -1305,8 +1313,7 @@ class RouteAnimation {
       BuildContext ctx,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
-    )
-        screen,
+    ) screen,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),
   }) {
@@ -1329,8 +1336,7 @@ class RouteAnimation {
       BuildContext ctx,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
-    )
-        screen,
+    ) screen,
     SlidePosition slidePosition = SlidePosition.fromBottom,
     Duration transitionDuration = const Duration(milliseconds: 300),
     Duration reverseTransitionDuration = const Duration(milliseconds: 300),

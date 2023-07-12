@@ -36,10 +36,13 @@ class ConfirmationDeleteDialog extends StatelessWidget {
             // Navigator.of(context).pop();
             var totalPop = 0;
             SchedulerBinding.instance.addPostFrameCallback((_) {
-              Navigator.popUntil(context, (route) => totalPop++ == totalNavigatorPop);
+              Navigator.popUntil(
+                context,
+                (route) => totalPop++ == totalNavigatorPop,
+              );
             });
           },
-          style: ElevatedButton.styleFrom(primary: Colors.red),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           child: Text(deleteText ?? 'Hapus'),
         )
       ],

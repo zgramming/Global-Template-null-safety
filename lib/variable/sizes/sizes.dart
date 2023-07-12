@@ -14,9 +14,11 @@ class SizesDevice {
 
   double height(BuildContext context) => MediaQuery.of(context).size.height;
 
-  double statusBarHeight(BuildContext context) => MediaQuery.of(context).padding.top;
+  double statusBarHeight(BuildContext context) =>
+      MediaQuery.of(context).padding.top;
 
-  double screenHeightMinusAppBar(BuildContext context) => sizes.height(context) - kToolbarHeight;
+  double screenHeightMinusAppBar(BuildContext context) =>
+      sizes.height(context) - kToolbarHeight;
 
   double screenHeightMinusStatusBar(BuildContext context) =>
       sizes.height(context) - statusBarHeight(context);
@@ -24,26 +26,8 @@ class SizesDevice {
   double screenHeightMinusAppBarAndStatusBar(BuildContext context) =>
       sizes.height(context) - (kToolbarHeight + statusBarHeight(context));
 
-  double keyboardHeight(BuildContext context) => MediaQuery.of(context).viewInsets.bottom;
-
-  MediaQueryData smallestDimension(BuildContext context) =>
-      MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-
-  /// Check if devices reach mobile breakpoint
-  bool isMobileBreakPoint(BuildContext context) =>
-      smallestDimension(context).size.shortestSide <= mobileBreakPoint;
-
-  /// Check if devices reach Tablet breakpoint
-  bool isTabletBreakPoint(BuildContext context) =>
-      smallestDimension(context).size.shortestSide <= tabletBreakPoint;
-
-  /// Check if devices reach Laptop breakpoint
-  bool isLaptopBreakPoint(BuildContext context) =>
-      smallestDimension(context).size.shortestSide <= laptopBreakPoint;
-
-  /// Check if devices reach PC breakpoint
-  bool isPCBreakPoint(BuildContext context) =>
-      smallestDimension(context).size.shortestSide <= pcBreakPoint;
+  double keyboardHeight(BuildContext context) =>
+      MediaQuery.of(context).viewInsets.bottom;
 
   double responsiveSize(BuildContext context) => width(context) / 100;
 

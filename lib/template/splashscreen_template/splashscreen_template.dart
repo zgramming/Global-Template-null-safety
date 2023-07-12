@@ -16,6 +16,7 @@ class SplashScreenTemplate extends StatefulWidget {
   final int duration;
   final Color? backgroundColor;
   final Gradient? gradient;
+  // ignore: avoid_positional_boolean_parameters
   final dynamic Function(bool isTimerDone) onDoneTimer;
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;

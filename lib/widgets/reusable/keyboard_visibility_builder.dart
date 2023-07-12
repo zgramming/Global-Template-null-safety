@@ -5,6 +5,7 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     Widget? child,
+    // ignore: avoid_positional_boolean_parameters
     bool isKeyboardVisible,
   ) builder;
 
@@ -15,7 +16,8 @@ class KeyboardVisibilityBuilder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _KeyboardVisibilityBuilderState createState() => _KeyboardVisibilityBuilderState();
+  _KeyboardVisibilityBuilderState createState() =>
+      _KeyboardVisibilityBuilderState();
 }
 
 class _KeyboardVisibilityBuilderState extends State<KeyboardVisibilityBuilder>
@@ -36,7 +38,7 @@ class _KeyboardVisibilityBuilderState extends State<KeyboardVisibilityBuilder>
 
   @override
   void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    final bottomInset = View.of(context).viewInsets.bottom;
     final newValue = bottomInset > 0.0;
     if (newValue != _isKeyboardVisible) {
       setState(() {

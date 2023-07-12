@@ -14,7 +14,8 @@ class OnboardingPage extends StatefulWidget {
     this.sizeCircleIndicator = 80.0,
     this.strokeCircleIndicator = 8.0,
     this.paddingCircleIndicator = const EdgeInsets.all(4.0),
-    this.loadingIndicator = const CircularProgressIndicator(backgroundColor: Colors.blue),
+    this.loadingIndicator =
+        const CircularProgressIndicator(backgroundColor: Colors.blue),
     this.iconNext,
     this.iconFinish,
     this.backgroundOnboarding,
@@ -83,7 +84,8 @@ class OnboardingPage extends StatefulWidget {
   _OnboardingPageState createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProviderStateMixin {
+class _OnboardingPageState extends State<OnboardingPage>
+    with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController();
 
   late int _currentIndex;
@@ -105,7 +107,10 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
 
   void _onClickNext() {
     setState(() => disabledOnPageChanged = true);
-    _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+    );
 
     Timer(const Duration(milliseconds: 500), () {
       setState(() {
@@ -151,11 +156,6 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
 
   void _onClickFinish() {
     widget.onClickFinish!();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -214,7 +214,8 @@ class _OnboardingPageState extends State<OnboardingPage> with SingleTickerProvid
                                     widget.backgroundColorCircleIndicator,
                                   ),
                                   value: value,
-                                  backgroundColor: widget.foregroundColorCircleIndicator,
+                                  backgroundColor:
+                                      widget.foregroundColorCircleIndicator,
                                   strokeWidth: widget.strokeCircleIndicator,
                                 ),
                               );
