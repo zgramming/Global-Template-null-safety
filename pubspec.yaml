@@ -1,6 +1,6 @@
 name: global_template
 description: Global Template Support null-safety
-version: 2.1.0
+version: 2.2.0
 # homepage: https://zeffry.dev/
 repository: https://github.com/zgramming/Global-Template-null-safety
 issue_tracker: https://github.com/zgramming/Global-Template-null-safety/issues
@@ -9,11 +9,11 @@ environment:
   sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.2.3
   flutter:
     sdk: flutter
-  intl: ^0.17.0
-  package_info_plus: ^1.4.2
+  intl: ^0.18.1
+  package_info_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:
