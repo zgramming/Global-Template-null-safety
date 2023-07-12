@@ -9,7 +9,6 @@ export './template/bottomappbarwithfab_template/bottomappbar_with_fab.dart';
 export './template/loginscreen_template/loginscreen_template.dart';
 export './template/onboardingscreen_template/onboardingscreen_template.dart';
 export './template/onboardingscreen_template/widgets/onboarding_item.dart';
-export './template/splashscreen_template/initial_splash_template.dart';
 export './template/splashscreen_template/splashscreen_template.dart';
 export './template/unknownscreen_template/unknown_screen.dart';
 
@@ -27,7 +26,6 @@ export './widgets/reusable/animation/rotate_animation.dart';
 export './widgets/reusable/animation/slide_transition.dart';
 export './widgets/reusable/bottomnavigationbar_custom.dart';
 export './widgets/reusable/confirmation_delete_dialog.dart';
-export './widgets/reusable/copyright.dart';
 export './widgets/reusable/detail_single_image.dart';
 export './widgets/reusable/drawer_custom.dart';
 export './widgets/reusable/drawer_menu.dart';

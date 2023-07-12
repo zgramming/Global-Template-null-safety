@@ -7,7 +7,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import '../variable/colors/color_pallete.dart';
 import '../variable/config/app_config.dart';
@@ -239,12 +238,6 @@ class GlobalFunction {
   //? END Void
 
   //? START Future<T>
-
-  /// Get metadata from handphone
-  static Future<PackageInfo> packageInfo() async {
-    final result = await PackageInfo.fromPlatform();
-    return result;
-  }
 
   /// Show [Date] and [Time] picker
   ///
